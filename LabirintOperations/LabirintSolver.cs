@@ -32,7 +32,7 @@ namespace LabirintOperations
             }
         }
 
-        public LabirintSolver(char[,] labirintMap)//обход направлений в MoveDirect
+        public LabirintSolver(char[,] labirintMap)//обход направлений в GetLabirintSolution
         {
             this._labirintMap = labirintMap;
             _width = labirintMap.GetLength(0);
@@ -42,18 +42,18 @@ namespace LabirintOperations
                 new Chain(-1, 0, "4"), new Chain(1, 0, "6"), new Chain(0, -1, "8"), new Chain(0, 1, "2")
             };
         }
-        public string MoveDirect(InLabirintPlace source, InLabirintPlace destination)
+        public string GetLabirintSolution(InLabirintPlace source, InLabirintPlace destination)
         {
             if (source.X==destination.X && source.Y==destination.Y)
             {
                 return "";
             }
 
-            Queue<Chain> queueChains = new Queue<Chain>();//очередь для поиска в ширину
-            List<InLabirintPlace> visitedInLabirintPlaces = new List<InLabirintPlace>();//уже посещённые вершины (ячейки)
+            var queueChains = new Queue<Chain>();//очередь для поиска в ширину
+            var visitedInLabirintPlaces = new List<InLabirintPlace>();//уже посещённые вершины (ячейки)
 
-            queueChains.Clear();
-            visitedInLabirintPlaces.Clear();
+            //queueChains.Clear();
+            //visitedInLabirintPlaces.Clear();
 
             //начальная позиция игрока
             Chain chain;
@@ -71,7 +71,7 @@ namespace LabirintOperations
                 {
                     place.X = chain.X + side.X;
                     place.Y = chain.Y + side.Y;
-                    if (!InRange(place))
+                    if (!InRange(place,ref _labirintMap))
                         continue;
                     if (visitedInLabirintPlaces.Contains(place))
                         continue;
@@ -87,13 +87,13 @@ namespace LabirintOperations
             return "-";
         }
 
-        private bool InRange(InLabirintPlace place)//проверка позиций
+        private bool InRange(InLabirintPlace place, ref char[,] map)//проверка позиций
         {
             if (place.X < 0 || place.X >= _width)
                 return false;
             if (place.Y < 0 || place.Y >= _height)
                 return false;
-            if (_labirintMap[place.X, place.Y] != ' ')
+            if (map[place.X, place.Y] != ' ')
                 return false;
             return true;
         }
