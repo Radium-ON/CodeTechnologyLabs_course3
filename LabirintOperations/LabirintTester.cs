@@ -7,15 +7,15 @@ namespace LabirintOperations
 {
     public class LabirintTester
     {
-        InLabirintPlace _startInLabirintPlace;
-        InLabirintPlace _exitInLabirintPlace;
+        private InLabirintPlace _startInLabirintPlace;
+        private InLabirintPlace _exitInLabirintPlace;
 
-        char[,] _labirintMap;
-        int _mapWidth, _mapHeight;
-        int _startX, _startY;//координаты A
-        int _finishX, _finishY;//финишные координаты
-        string _solution;
-        int _currentPosSolution;//текущих ход решения
+        private char[,] _labirintMap;
+        private int _mapWidth, _mapHeight;
+        private int _startX, _startY;//координаты A
+        private int _finishX, _finishY;//финишные координаты
+        private string _solution;
+        private int _currentPosSolution;//текущих ход решения
 
         public bool RunTest(string labirintFilePath)
         {
@@ -90,26 +90,28 @@ namespace LabirintOperations
             {
                 throw new Exception("Не удалось считать файл исходных данных!");
             }
-            string[] wh = lines[0].Split();
+            var wh = lines[0].Split();
             height = int.Parse(wh[0]);
             width = int.Parse(wh[1]);
-            var map = new char[width, height];
-            for (int y = 0; y < height; y++)
+            var map = new char[height, width];
+            for (var y = 0; y < height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (var x = 0; x < width; x++)
                 {
-                    map[x, y] = lines[y + 1][x];
-                    if (map[x, y] == 'A')//если A - находим координаты
+                    map[y, x] = lines[y + 1][x];
+                    switch (map[y, x])
                     {
-                        _startX = x;
-                        _startY = y;
-                        map[x, y] = ' ';//не рисуем A
-                    }
-                    else if (map[x, y] == '.')
-                    {
-                        _finishX = x;
-                        _finishY = y;
-                        map[x, y] = ' ';
+                        //если A - находим координаты
+                        case 'A':
+                            _startX = x;
+                            _startY = y;
+                            map[y, x] = ' ';//не рисуем A
+                            break;
+                        case '.':
+                            _finishX = x;
+                            _finishY = y;
+                            map[x, y] = ' ';
+                            break;
                     }
                 }
             }

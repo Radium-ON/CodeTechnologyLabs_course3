@@ -43,12 +43,11 @@ namespace LabirintOperations.Tests
 
             var expectedMap = new char[,]
             {
-                {'#', '#', '#'},
-                {'#', ' ', '#'},
-                {'#', ' ', '#'},
-                {'#', '#', '#'},
+                {'#', '#', '#','#'},
+                {'#', ' ', ' ','#'},
+                {'#', '#', '#','#'},
             };
-            //var expectedMap = new char[,]
+            //var expectedMap = new char[,] //транспонированная (нелогично)
             //{
             //    {'#', '#', '#'},
             //    {'#', ' ', '#'},
