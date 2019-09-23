@@ -120,7 +120,7 @@ namespace LabirintOperations
             return map;
         }
 
-        private void PrintSolutionPath(char direction, char next, int startX, int startY)
+        public void PrintSolutionPath(char direction, char next, int startX, int startY)
         {
             //выводим A, меняем цвет
             Console.SetCursorPosition(startX, startY);
@@ -173,7 +173,7 @@ namespace LabirintOperations
             Console.WriteLine(solution);
         }
 
-        private int CountMapItems(char c, char[,] map)
+        public int CountMapItems(char c, char[,] map)
         {
             var counter = 0;
             foreach (var _ in map)
