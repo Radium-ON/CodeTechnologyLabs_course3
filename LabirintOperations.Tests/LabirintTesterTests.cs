@@ -124,7 +124,36 @@ namespace LabirintOperations.Tests
             var tester = new LabirintTester();
             var actualCountA = tester.CountMapItems(c, map);
             //assert
-            Assert.AreEqual(expectedCountA,actualCountA);
+            Assert.AreEqual(expectedCountA, actualCountA);
+        }
+
+        [TestMethod]
+        public void MoveDirectBySolutionTest()
+        {
+            //arrange
+            var solX = new int[] { 0, 0, 1, -1 };
+            var solY = new int[] { -1, 1, 0, 0 };
+            int startX = 1, startY = 1;
+            int mapHeight = 3, mapWidth = 4;
+            var map = new char[,]
+            {
+                {'#','#','#','#'},
+                {'#','A','.','#'},
+                {'#','#','#','#'},
+            };
+            var expectedBool = new bool[] { false, true, false, false }; //двигаться влево, вверх, вниз нельзя, вправо можно
+            //act
+            var tester = new LabirintTester();
+            var actualBool = new bool[4];
+            for (var i = 0; i < solX.Length; i++)
+            {
+                actualBool[i] = tester.MoveDirectBySolution(solX[i], solY[i], ref startX, ref startY, ref mapHeight,
+                    ref mapWidth, ref map);// можно ли двигаться
+
+            }
+            //assert
+            CollectionAssert.AreEqual(expectedBool, actualBool);
+
         }
     }
 }

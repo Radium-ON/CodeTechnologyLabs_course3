@@ -58,7 +58,7 @@ namespace LabirintOperations
             PrintSolutionText(_solution, _mapHeight);
             return (_startX == _exitX && _startY == _exitY);
         }
-        private bool MoveDirectBySolution(int solX, int solY,
+        public bool MoveDirectBySolution(int solX, int solY,
             ref int startX, ref int startY, ref int mapHeight, ref int mapWidth, ref char[,] map)
         {
             if (startX + solX < 0 || startX + solX >= mapWidth)
