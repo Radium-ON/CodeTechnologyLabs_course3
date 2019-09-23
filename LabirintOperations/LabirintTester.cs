@@ -79,7 +79,7 @@ namespace LabirintOperations
             return true;
         }
 
-        private char[,] LoadLabirint(string labirintFilePath, out int height, out int width)
+        public char[,] LoadLabirint(string labirintFilePath, out int height, out int width)
         {
             string[] lines;
             try
