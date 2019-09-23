@@ -13,15 +13,15 @@ namespace LabirintOperations
         private char[,] _labirintMap;
         private int _mapWidth, _mapHeight;
         private int _startX, _startY;//координаты A
-        private int _finishX, _finishY;//финишные координаты
+        private int _exitX, _exitY;//финишные координаты
         private string _solution;
         private int _currentPosSolution;//текущих ход решения
 
         public bool RunTest(string labirintFilePath)
         {
-            LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth);
+            LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startInLabirintPlace, ref _exitInLabirintPlace);
             _startInLabirintPlace = new InLabirintPlace(_startX, _startY);
-            _exitInLabirintPlace = new InLabirintPlace(_finishX, _finishY);
+            _exitInLabirintPlace = new InLabirintPlace(_exitX, _exitY);
             var levelOk = IsLevelCorrect(_startInLabirintPlace, _exitInLabirintPlace, _labirintMap);
             if (levelOk != "")
                 throw new Exception(levelOk);
@@ -56,7 +56,7 @@ namespace LabirintOperations
             }
             PrintStartFinishLabels(_startInLabirintPlace, _exitInLabirintPlace);
             PrintSolutionText(_solution, _mapHeight);
-            return (_startX == _finishX && _startY == _finishY);
+            return (_startX == _exitX && _startY == _exitY);
         }
         private bool MoveDirectBySolution(int solX, int solY,
             ref int startX, ref int startY, ref int mapHeight, ref int mapWidth, ref char[,] map)
@@ -79,7 +79,8 @@ namespace LabirintOperations
             return true;
         }
 
-        public char[,] LoadLabirint(string labirintFilePath, out int height, out int width)
+        public char[,] LoadLabirint(string labirintFilePath, out int height, out int width,
+            ref InLabirintPlace startPlace, ref InLabirintPlace exitPlace)
         {
             string[] lines;
             try
@@ -103,14 +104,14 @@ namespace LabirintOperations
                     {
                         //если A - находим координаты
                         case 'A':
-                            _startX = x;
-                            _startY = y;
+                            startPlace.X = x;
+                            startPlace.Y = y;
                             map[y, x] = ' ';//не рисуем A
                             break;
                         case '.':
-                            _finishX = x;
-                            _finishY = y;
-                            map[x, y] = ' ';
+                            exitPlace.X = x;
+                            exitPlace.Y = y;
+                            map[y, x] = ' ';
                             break;
                     }
                 }
