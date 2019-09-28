@@ -4,13 +4,13 @@ using System.Text;
 
 namespace LabirintOperations
 {
-    public struct InLabirintPlace
+    public struct MapPlace
     {
 
-        public InLabirintPlace(int x, int y)
+        public MapPlace(int x, int y)
         {
-            X = x;
-            Y = y;
+            X = y;//i
+            Y = x;//j
         }
 
         public int X;

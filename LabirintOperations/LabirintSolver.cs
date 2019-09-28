@@ -24,7 +24,7 @@ namespace LabirintOperations
                 Path = path;
             }
 
-            public Chain(InLabirintPlace place, string path)
+            public Chain(MapPlace place, string path)
             {
                 X = place.X;
                 Y = place.Y;
@@ -42,7 +42,7 @@ namespace LabirintOperations
                 new Chain(-1, 0, "4"), new Chain(1, 0, "6"), new Chain(0, -1, "8"), new Chain(0, 1, "2")
             };
         }
-        public string GetLabirintSolution(InLabirintPlace source, InLabirintPlace destination)
+        public string GetLabirintSolution(MapPlace source, MapPlace destination)
         {
             if (source.X==destination.X && source.Y==destination.Y)
             {
@@ -50,7 +50,7 @@ namespace LabirintOperations
             }
 
             var queueChains = new Queue<Chain>();//очередь для поиска в ширину
-            var visitedInLabirintPlaces = new List<InLabirintPlace>();//уже посещённые вершины (ячейки)
+            var visitedInLabirintPlaces = new List<MapPlace>();//уже посещённые вершины (ячейки)
 
             //queueChains.Clear();
             //visitedInLabirintPlaces.Clear();
@@ -61,7 +61,7 @@ namespace LabirintOperations
             chain.Y = source.Y;
             chain.Path = "";
 
-            InLabirintPlace place;//новые координаты
+            MapPlace place;//новые координаты
             queueChains.Enqueue(chain);
 
             while (queueChains.Count > 0)
@@ -87,7 +87,7 @@ namespace LabirintOperations
             return "-";
         }
 
-        private bool InRange(InLabirintPlace place, ref char[,] map)//проверка позиций
+        public bool InRange(MapPlace place, ref char[,] map)//проверка позиций
         {
             if (place.X < 0 || place.X >= _width)
                 return false;
