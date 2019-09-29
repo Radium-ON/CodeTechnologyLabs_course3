@@ -40,8 +40,8 @@ namespace LabirintOperations.Tests
             const string labirintFilePath = @"D:\ia_no\Desktop\labirint3.txt";
             const int baseHeight = 8;
             const int baseWidth = 10;
-            var expectedStartPlace = new MapPlace(4, 2);
-            var expectedExitPlace = new MapPlace(1, 8);
+            var expectedStartPlace = new MapPlace(2, 4);
+            var expectedExitPlace = new MapPlace(8, 1);
             var actualStart = new MapPlace();
             var actualExit = new MapPlace();
 

@@ -46,14 +46,11 @@ namespace LabirintOperations
         {
             if (source.X==destination.X && source.Y==destination.Y)
             {
-                return "";
+                return "Точка начала совпадает с точкой выхода";
             }
 
             var queueChains = new Queue<Chain>();//очередь для поиска в ширину
             var visitedInLabirintPlaces = new List<MapPlace>();//уже посещённые вершины (ячейки)
-
-            //queueChains.Clear();
-            //visitedInLabirintPlaces.Clear();
 
             //начальная позиция игрока
             Chain chain;
@@ -79,7 +76,7 @@ namespace LabirintOperations
                     //отобразили, куда сдвинулись
                     var stepUser = new Chain(place, chain.Path + side.Path);
                     if (place.Equals(destination))
-                        return stepUser.Path+" ";
+                        return stepUser.Path;
                     queueChains.Enqueue(stepUser);
                 }
 
@@ -93,7 +90,7 @@ namespace LabirintOperations
                 return false;
             if (place.Y < 0 || place.Y >= _height)
                 return false;
-            if (map[place.X, place.Y] != ' ')
+            if (map[place.Y, place.X] != ' ')
                 return false;
             return true;
         }

@@ -9,8 +9,8 @@ namespace LabirintOperations
 
         public MapPlace(int x, int y)
         {
-            X = y;//i
-            Y = x;//j
+            X = x;//i
+            Y = y;//j
         }
 
         public int X;
