@@ -58,6 +58,7 @@ namespace LabirintOperations
             PrintSolutionText(_solution, _mapHeight);
             return (_startX == _exitX && _startY == _exitY);
         }
+
         public bool MoveDirectBySolution(int solX, int solY,
             ref int startX, ref int startY, ref int mapHeight, ref int mapWidth, ref char[,] map)
         {
@@ -186,10 +187,10 @@ namespace LabirintOperations
             return counter;
         }
 
-        private string IsLevelCorrect(MapPlace alpha, MapPlace exit, char[,] map)
+        public string IsLevelCorrect(MapPlace alpha, MapPlace exit, char[,] map)
         {
-            int targetsOnMap = CountMapItems('.', map);
-            int wallOnMap = CountMapItems('#', map);
+            var targetsOnMap = CountMapItems('.', map);
+            var wallOnMap = CountMapItems('#', map);
             if (wallOnMap == 0)
             {
                 return "Уровень пуст!";

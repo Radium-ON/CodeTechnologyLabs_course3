@@ -155,5 +155,45 @@ namespace LabirintOperations.Tests
             CollectionAssert.AreEqual(expectedBool, actualBool);
 
         }
+
+        [TestMethod]
+        public void IsLevelCorrectTest()
+        {
+            //arrange
+            const string labirintFilePath = @"D:\ia_no\Desktop\labirint3.txt";
+            var start = new MapPlace();
+            var exit = new MapPlace();
+            var tester = new LabirintTester();
+            var map = tester.LoadLabirint(labirintFilePath, out var height, out var width, ref start, ref exit);
+            var map_assert2 = new char[,]
+            {
+                {' ',' '},
+            };
+            var map_assert3 = new char[,]
+            {
+                {'#','#','#','#','#','#','#','#','#','#'},
+                {'#',' ',' ',' ',' ','#',' ',' ',' ','#'},
+                {'#','#','#',' ',' ',' ',' ',' ',' ','#'},
+                {'#','#','#',' ',' ','#',' ',' ',' ','#'},
+                {'#',' ',' ',' ','#','#','#',' ','#','#'},
+                {'#','#','#',' ','#','#','#',' ','#','#'},
+                {'#',' ',' ',' ',' ',' ',' ',' ','#','#'},
+                {'#','#','#','#','#','#','#','#','#','#'},
+            };
+            var expected_level_correct = "";
+            var expected_wall_on_map = "Уровень пуст!";
+            var expected_no_start = "На карте должен быть хотя бы один объект игрока!";
+            var expected_no_exit = "На карте должна быть одна цель!";
+            //act
+            var actual_level_correct = tester.IsLevelCorrect(start, exit, map);
+            var actual_wall_on_map = tester.IsLevelCorrect(start, exit, map_assert2);
+            var actual_no_start = tester.IsLevelCorrect(new MapPlace(0,0), exit, map);
+            var actual_no_exit = tester.IsLevelCorrect(start, new MapPlace(0,0), map);
+            //assert
+            Assert.AreEqual(expected_level_correct,actual_level_correct);
+            Assert.AreEqual(expected_wall_on_map,actual_wall_on_map);
+            Assert.AreEqual(expected_no_start,actual_no_start);
+            Assert.AreEqual(expected_no_exit,actual_no_exit);
+        }
     }
 }
