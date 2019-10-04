@@ -32,6 +32,11 @@ namespace LabirintOperations
             get { return _exitMapPlace; }
         }
 
+        public LabirintTester()
+        {
+            
+        }
+
         public LabirintTester(MapPlace startMapPlace, MapPlace exitMapPlace, char[,] labirintMap)
         {
             _startMapPlace = startMapPlace;

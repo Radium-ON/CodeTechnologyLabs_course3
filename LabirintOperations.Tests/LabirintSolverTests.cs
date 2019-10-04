@@ -60,69 +60,69 @@ namespace LabirintOperations.Tests
             Assert.AreEqual(expectedSolution, actualSolution);
         }
 
-        [TestMethod]
-        public void InRangeTest_Move_right_true()
-        {
-            //arrange
-            int startX = 1, startY = 1;
-            int mapHeight = 3, mapWidth = 4;
-            var map = new char[,]
-            {
-                {'#','#','#','#'},
-                {'#','A',' ','#'},
-                {'#','#','#','#'},
-            };
-            var expectedInRange = true;
+        //[TestMethod]
+        //public void InRangeTest_Move_right_true()
+        //{
+        //    //arrange
+        //    int startX = 1, startY = 1;
+        //    int mapHeight = 3, mapWidth = 4;
+        //    var map = new char[,]
+        //    {
+        //        {'#','#','#','#'},
+        //        {'#','A',' ','#'},
+        //        {'#','#','#','#'},
+        //    };
+        //    var expectedInRange = true;
 
-            //act
-            var solver = new LabirintSolver(map);
-            var actualInRange = solver.InRange(new MapPlace(startX+1, startY), ref map);
-            //assert
-            Assert.AreEqual(expectedInRange, actualInRange);
-        }
+        //    //act
+        //    var solver = new LabirintSolver(map);
+        //    var actualInRange = solver.InRange(new MapPlace(startX+1, startY), ref map);
+        //    //assert
+        //    Assert.AreEqual(expectedInRange, actualInRange);
+        //}
 
-        [TestMethod]
-        public void InRangeTest_Move_up_false()
-        {
-            //arrange
-            int startX = 1, startY = 1;
-            int mapHeight = 3, mapWidth = 4;
-            var map = new char[,]
-            {
-                {'#','#','#','#'},
-                {'#','A',' ','#'},
-                {'#','#','#','#'},
-            };
-            var expectedInRange = false;
+        //[TestMethod]
+        //public void InRangeTest_Move_up_false()
+        //{
+        //    //arrange
+        //    int startX = 1, startY = 1;
+        //    int mapHeight = 3, mapWidth = 4;
+        //    var map = new char[,]
+        //    {
+        //        {'#','#','#','#'},
+        //        {'#','A',' ','#'},
+        //        {'#','#','#','#'},
+        //    };
+        //    var expectedInRange = false;
 
-            //act
-            var solver = new LabirintSolver(map);
-            var actualInRange = solver.InRange(new MapPlace(startX, startY+1), ref map);
-            //assert
-            Assert.AreEqual(expectedInRange, actualInRange);
-        }
+        //    //act
+        //    var solver = new LabirintSolver(map);
+        //    var actualInRange = solver.InRange(new MapPlace(startX, startY+1), ref map);
+        //    //assert
+        //    Assert.AreEqual(expectedInRange, actualInRange);
+        //}
 
-        [TestMethod]
-        public void InRangeTest_Move_out_of_range()
-        {
-            //arrange
-            int startX = 1, startY = 1;
-            int mapHeight = 3, mapWidth = 4;
-            var map = new char[,]
-            {
-                {'#','#','#','#'},
-                {'#','A',' ','#'},
-                {'#','#','#','#'},
-            };
-            var expectedInRange = false;
+        //[TestMethod]
+        //public void InRangeTest_Move_out_of_range()
+        //{
+        //    //arrange
+        //    int startX = 1, startY = 1;
+        //    int mapHeight = 3, mapWidth = 4;
+        //    var map = new char[,]
+        //    {
+        //        {'#','#','#','#'},
+        //        {'#','A',' ','#'},
+        //        {'#','#','#','#'},
+        //    };
+        //    var expectedInRange = false;
 
-            //act
-            var solver = new LabirintSolver(map);
-            var actualInRangeX = solver.InRange(new MapPlace(startX + 5, startY), ref map);
-            var actualInRangeY = solver.InRange(new MapPlace(startX, startY + 5), ref map);
-            //assert
-            Assert.AreEqual(expectedInRange, actualInRangeX);
-            Assert.AreEqual(expectedInRange, actualInRangeY);
-        }
+        //    //act
+        //    var solver = new LabirintSolver(map);
+        //    var actualInRangeX = solver.InRange(new MapPlace(startX + 5, startY), ref map);
+        //    var actualInRangeY = solver.InRange(new MapPlace(startX, startY + 5), ref map);
+        //    //assert
+        //    Assert.AreEqual(expectedInRange, actualInRangeX);
+        //    Assert.AreEqual(expectedInRange, actualInRangeY);
+        //}
     }
 }

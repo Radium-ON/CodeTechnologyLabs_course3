@@ -84,7 +84,7 @@ namespace LabirintOperations
             return "-";
         }
 
-        public bool InRange(MapPlace place, ref char[,] map)//проверка позиций
+        private  bool InRange(MapPlace place, ref char[,] map)//проверка позиций
         {
             if (place.X < 0 || place.X >= _width)
                 return false;
