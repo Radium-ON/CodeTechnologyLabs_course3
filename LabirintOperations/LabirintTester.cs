@@ -32,40 +32,58 @@ namespace LabirintOperations
             get { return _exitMapPlace; }
         }
 
-        public LabirintTester()
+        public int MapWidth
         {
-            
+            get { return _mapWidth; }
         }
 
-        public LabirintTester(MapPlace startMapPlace, MapPlace exitMapPlace, char[,] labirintMap)
+        public int MapHeight
+        {
+            get { return _mapHeight; }
+        }
+
+        public char[,] LabirintMap
+        {
+            get { return _labirintMap; }
+        }
+
+        public LabirintTester()
+        {
+
+        }
+
+        public LabirintTester(MapPlace startMapPlace, MapPlace exitMapPlace, string solution)
         {
             _startMapPlace = startMapPlace;
             _exitMapPlace = exitMapPlace;
-            _labirintMap = labirintMap;
-            _mapHeight = labirintMap.GetLength(0);
-            _mapWidth = labirintMap.GetLength(1);
             _startX = startMapPlace.X;
             _startY = startMapPlace.Y;
             _exitX = exitMapPlace.X;
             _exitY = exitMapPlace.Y;
+            _solution = solution;
         }
-
-        public bool RunTest(string labirintFilePath)
+        /// <summary>
+        /// Тестирование пути выхода из лабиринта
+        /// </summary>
+        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <param name="solution">строка пути решения лабиринта</param>
+        /// <returns>True - лабиринт пройден. Иначе False</returns>
+        public bool RunSolutionTest(string labirintFilePath, string solution)
         {
-            LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMapPlace, ref _exitMapPlace);
+            _labirintMap = LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMapPlace, ref _exitMapPlace);
             _startMapPlace = new MapPlace(_startX, _startY);
             _exitMapPlace = new MapPlace(_exitX, _exitY);
-            var levelOk = IsLevelCorrect(StartMapPlace, ExitMapPlace, _labirintMap);
+            var levelOk = IsLevelCorrect(StartMapPlace, ExitMapPlace, LabirintMap);
             if (levelOk != "")
                 throw new Exception(levelOk);
             //LoadSolution(solutionFile);
-            var appleSolver = new LabirintSolver(_labirintMap);
-            _solution = appleSolver.GetLabirintSolution(StartMapPlace, ExitMapPlace);
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
-            PrintLabirint(_mapHeight, _mapWidth, _labirintMap);
-            for (var i = 0; i < Solution.Length - 1; i++)
+            //var appleSolver = new LabirintSolver(LabirintMap);
+            //_solution = appleSolver.GetLabirintSolution(StartMapPlace, ExitMapPlace);
+            //Console.OutputEncoding = System.Text.Encoding.Unicode;
+            //PrintLabirint(MapHeight, MapWidth, LabirintMap);
+            for (var i = 0; i < solution.Length - 1; i++)
             {
-                switch (Solution[i])
+                switch (solution[i])
                 {
                     case '4':
                         if (!MoveDirectBySolution(-1, 0, ref _startX, ref _startY, ref _mapHeight, ref _mapWidth, ref _labirintMap))
@@ -85,14 +103,14 @@ namespace LabirintOperations
                         break;
                     default: return false;//решение неверно
                 }
-                PrintSolutionPath(Solution[i], Solution[i + 1], _startX, _startY);
+                //PrintSolutionPath(solution[i], solution[i + 1], _startX, _startY);
             }
-            PrintStartFinishLabels(StartMapPlace, ExitMapPlace);
-            PrintSolutionText(Solution, _mapHeight);
+            //PrintStartFinishLabels(StartMapPlace, ExitMapPlace);
+            //PrintSolutionText(Solution, MapHeight);
             return (_startX == _exitX && _startY == _exitY);
         }
 
-        public bool MoveDirectBySolution(int solX, int solY,
+        private bool MoveDirectBySolution(int solX, int solY,
             ref int startX, ref int startY, ref int mapHeight, ref int mapWidth, ref char[,] map)
         {
             if (startX + solX < 0 || startX + solX >= mapWidth)
@@ -174,37 +192,6 @@ namespace LabirintOperations
                     Console.Write(direction == next ? '|' : '↑');
                     break;
             }
-        }
-
-        private void PrintLabirint(int height, int width, char[,] map)
-        {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-            for (var i = 0; i < height; i++)
-            {
-                for (var j = 0; j < width; j++)
-                {
-                    Console.Write(map[j, i]);
-                }
-
-                Console.WriteLine();
-            }
-        }
-
-        private void PrintStartFinishLabels(MapPlace alphaPlace, MapPlace finishPlace)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(alphaPlace.X, alphaPlace.Y);
-            Console.Write('S');
-            Console.SetCursorPosition(finishPlace.X, finishPlace.Y);
-            Console.Write('F');
-        }
-
-        private void PrintSolutionText(string solution, int height)
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.SetCursorPosition(0, height + 1);
-            Console.WriteLine(solution);
         }
 
         public int CountMapItems(char c, char[,] map)

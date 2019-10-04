@@ -127,34 +127,34 @@ namespace LabirintOperations.Tests
             Assert.AreEqual(expectedCountA, actualCountA);
         }
 
-        [TestMethod]
-        public void MoveDirectBySolutionTest()
-        {
-            //arrange
-            var solX = new int[] { 0, 0, 1, -1 };
-            var solY = new int[] { -1, 1, 0, 0 };
-            int startX = 1, startY = 1;
-            int mapHeight = 3, mapWidth = 4;
-            var map = new char[,]
-            {
-                {'#','#','#','#'},
-                {'#','A','.','#'},
-                {'#','#','#','#'},
-            };
-            var expectedBool = new bool[] { false, true, false, false }; //двигаться влево, вверх, вниз нельзя, вправо можно
-            //act
-            var tester = new LabirintTester();
-            var actualBool = new bool[4];
-            for (var i = 0; i < solX.Length; i++)
-            {
-                actualBool[i] = tester.MoveDirectBySolution(solX[i], solY[i], ref startX, ref startY, ref mapHeight,
-                    ref mapWidth, ref map);// можно ли двигаться
+        //[TestMethod]
+        //public void MoveDirectBySolutionTest()
+        //{
+        //    //arrange
+        //    var solX = new int[] { 0, 0, 1, -1 };
+        //    var solY = new int[] { -1, 1, 0, 0 };
+        //    int startX = 1, startY = 1;
+        //    int mapHeight = 3, mapWidth = 4;
+        //    var map = new char[,]
+        //    {
+        //        {'#','#','#','#'},
+        //        {'#','A','.','#'},
+        //        {'#','#','#','#'},
+        //    };
+        //    var expectedBool = new bool[] { false, true, false, false }; //двигаться влево, вверх, вниз нельзя, вправо можно
+        //    //act
+        //    var tester = new LabirintTester();
+        //    var actualBool = new bool[4];
+        //    for (var i = 0; i < solX.Length; i++)
+        //    {
+        //        actualBool[i] = tester.MoveDirectBySolution(solX[i], solY[i], ref startX, ref startY, ref mapHeight,
+        //            ref mapWidth, ref map);// можно ли двигаться
 
-            }
-            //assert
-            CollectionAssert.AreEqual(expectedBool, actualBool);
+        //    }
+        //    //assert
+        //    CollectionAssert.AreEqual(expectedBool, actualBool);
 
-        }
+        //}
 
         [TestMethod]
         public void IsLevelCorrectTest()
@@ -194,6 +194,20 @@ namespace LabirintOperations.Tests
             Assert.AreEqual(expected_wall_on_map,actual_wall_on_map);
             Assert.AreEqual(expected_no_start,actual_no_start);
             Assert.AreEqual(expected_no_exit,actual_no_exit);
+        }
+
+        [TestMethod]
+        public void RunSolutionTest_Solution_true()
+        {
+            //arrange
+            var start = new MapPlace(2, 4);
+            var exit = new MapPlace(8, 1);
+            var tester = new LabirintTester(start,exit);
+            var solver = new LabirintSolver();
+            //act
+
+            //assert
+
         }
     }
 }
