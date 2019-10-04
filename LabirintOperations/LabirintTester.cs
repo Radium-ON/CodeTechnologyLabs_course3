@@ -17,22 +17,50 @@ namespace LabirintOperations
         private string _solution;
         private int _currentPosSolution;//текущих ход решения
 
+        public string Solution
+        {
+            get { return _solution; }
+        }
+
+        public MapPlace StartMapPlace
+        {
+            get { return _startMapPlace; }
+        }
+
+        public MapPlace ExitMapPlace
+        {
+            get { return _exitMapPlace; }
+        }
+
+        public LabirintTester(MapPlace startMapPlace, MapPlace exitMapPlace, char[,] labirintMap)
+        {
+            _startMapPlace = startMapPlace;
+            _exitMapPlace = exitMapPlace;
+            _labirintMap = labirintMap;
+            _mapHeight = labirintMap.GetLength(0);
+            _mapWidth = labirintMap.GetLength(1);
+            _startX = startMapPlace.X;
+            _startY = startMapPlace.Y;
+            _exitX = exitMapPlace.X;
+            _exitY = exitMapPlace.Y;
+        }
+
         public bool RunTest(string labirintFilePath)
         {
             LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMapPlace, ref _exitMapPlace);
             _startMapPlace = new MapPlace(_startX, _startY);
             _exitMapPlace = new MapPlace(_exitX, _exitY);
-            var levelOk = IsLevelCorrect(_startMapPlace, _exitMapPlace, _labirintMap);
+            var levelOk = IsLevelCorrect(StartMapPlace, ExitMapPlace, _labirintMap);
             if (levelOk != "")
                 throw new Exception(levelOk);
             //LoadSolution(solutionFile);
             var appleSolver = new LabirintSolver(_labirintMap);
-            _solution = appleSolver.GetLabirintSolution(_startMapPlace, _exitMapPlace);
+            _solution = appleSolver.GetLabirintSolution(StartMapPlace, ExitMapPlace);
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             PrintLabirint(_mapHeight, _mapWidth, _labirintMap);
-            for (var i = 0; i < _solution.Length - 1; i++)
+            for (var i = 0; i < Solution.Length - 1; i++)
             {
-                switch (_solution[i])
+                switch (Solution[i])
                 {
                     case '4':
                         if (!MoveDirectBySolution(-1, 0, ref _startX, ref _startY, ref _mapHeight, ref _mapWidth, ref _labirintMap))
@@ -52,10 +80,10 @@ namespace LabirintOperations
                         break;
                     default: return false;//решение неверно
                 }
-                PrintSolutionPath(_solution[i], _solution[i + 1], _startX, _startY);
+                PrintSolutionPath(Solution[i], Solution[i + 1], _startX, _startY);
             }
-            PrintStartFinishLabels(_startMapPlace, _exitMapPlace);
-            PrintSolutionText(_solution, _mapHeight);
+            PrintStartFinishLabels(StartMapPlace, ExitMapPlace);
+            PrintSolutionText(Solution, _mapHeight);
             return (_startX == _exitX && _startY == _exitY);
         }
 
