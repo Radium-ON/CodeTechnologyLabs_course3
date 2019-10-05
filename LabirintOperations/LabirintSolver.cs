@@ -35,8 +35,8 @@ namespace LabirintOperations
         public LabirintSolver(char[,] labirintMap)//обход направлений в GetLabirintSolution
         {
             this._labirintMap = labirintMap;
-            _width = labirintMap.GetLength(0);
-            _height = labirintMap.GetLength(1);
+            _height = labirintMap.GetLength(0);
+            _width = labirintMap.GetLength(1);
             _directionChains = new List<Chain>
             {
                 new Chain(-1, 0, "4"), new Chain(1, 0, "6"), new Chain(0, -1, "8"), new Chain(0, 1, "2")

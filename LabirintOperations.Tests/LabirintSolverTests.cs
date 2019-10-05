@@ -13,14 +13,12 @@ namespace LabirintOperations.Tests
         {
             //arrange
             var labirintPath = @"D:\ia_no\Desktop\labirintD.txt";
-            int height, width;
-            var startPlace = new MapPlace();
-            var exitPlace = new MapPlace();
-            var map = new LabirintTester().LoadLabirint(labirintPath, out height, out width, ref startPlace, ref exitPlace);
+            
+            var tester = new LabirintTester(labirintPath);
             var expectedSolution = "4424448868";
             //act
-            var solver = new LabirintSolver(map);
-            var actualSolution = solver.GetLabirintSolution(startPlace, exitPlace);
+            var solver = new LabirintSolver(tester.LabirintMap);
+            var actualSolution = solver.GetLabirintSolution(tester.StartMapPlace, tester.ExitMapPlace);
             //assert
             Assert.AreEqual(expectedSolution, actualSolution);
         }
@@ -30,15 +28,13 @@ namespace LabirintOperations.Tests
         {
             //arrange
             var labirintPath = @"D:\ia_no\Desktop\labirintD.txt";
-            int height, width;
-            var startPlace = new MapPlace();
-            var exitPlace = new MapPlace();
-            var map = new LabirintTester().LoadLabirint(labirintPath, out height, out width, ref startPlace, ref exitPlace);
-            map[8, 2] = '#';
+            
+            var tester = new LabirintTester(labirintPath);
+            tester.LabirintMap[8, 2] = '#';
             var expectedSolution = "-";
             //act
-            var solver = new LabirintSolver(map);
-            var actualSolution = solver.GetLabirintSolution(startPlace, exitPlace);
+            var solver = new LabirintSolver(tester.LabirintMap);
+            var actualSolution = solver.GetLabirintSolution(tester.StartMapPlace, tester.ExitMapPlace);
             //assert
             Assert.AreEqual(expectedSolution, actualSolution);
         }
@@ -48,13 +44,11 @@ namespace LabirintOperations.Tests
         {
             //arrange
             var labirintPath = @"D:\ia_no\Desktop\labirintD.txt";
-            int height, width;
             var startPlace = new MapPlace();
-            var exitPlace = new MapPlace();
-            var map = new LabirintTester().LoadLabirint(labirintPath, out height, out width, ref startPlace, ref exitPlace);
+            var tester = new LabirintTester(labirintPath);
             var expectedSolution = "Точка начала совпадает с точкой выхода";
             //act
-            var solver = new LabirintSolver(map);
+            var solver = new LabirintSolver(tester.LabirintMap);
             var actualSolution = solver.GetLabirintSolution(startPlace, startPlace);
             //assert
             Assert.AreEqual(expectedSolution, actualSolution);
