@@ -90,7 +90,6 @@ namespace LabirintOperations
                         break;
                     default: return false;//решение неверно
                 }
-                //PrintSolutionPath(solution[i], solution[i + 1], _startX, _startY);
             }
 
             return (_startX == _exitX && _startY == _exitY);
@@ -156,28 +155,6 @@ namespace LabirintOperations
             }
 
             return map;
-        }
-
-        public void PrintSolutionPath(char direction, char next, int startX, int startY)
-        {
-            //выводим A, меняем цвет
-            Console.SetCursorPosition(startX, startY);
-            Console.ForegroundColor = ConsoleColor.Green;
-            switch (direction)
-            {
-                case '4':
-                    Console.Write(direction == next ? '—' : '<');
-                    break;
-                case '6':
-                    Console.Write(direction == next ? '—' : '>');
-                    break;
-                case '2':
-                    Console.Write(direction == next ? '|' : '↓');
-                    break;
-                case '8':
-                    Console.Write(direction == next ? '|' : '↑');
-                    break;
-            }
         }
 
         public int CountMapItems(char c, char[,] map)
