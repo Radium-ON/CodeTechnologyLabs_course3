@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Text;
 
 namespace LabirintOperations
@@ -8,89 +10,111 @@ namespace LabirintOperations
     {
         int _width, _height;
 
-        List<Chain> _directionChains;//направления движения в координатах
-        char[,] _labirintMap;
+        List<Point> _directionChains;//направления движения в координатах
+        MazeCell[,] _labirintMap;
 
-        struct Chain //путь до ячейки (ребро графа)
+        public class Chain //путь до ячейки (ребро графа)
         {
-            public int X;
-            public int Y;
-            public string Path;
+            public MazeCell CellCurrent { get; set; }
+            //public Chain Previous { get; set; }
+            public Chain Next { get; set; }
+            public List<MazeCell> Path { get; set; } = new List<MazeCell>();
 
-            public Chain(int x, int y, string path)
+            public Chain(MazeCell current, Chain next = null)
             {
-                X = x;
-                Y = y;
-                Path = path;
+                CellCurrent = current;
+                Next = next;
             }
 
-            public Chain(MapPlace place, string path)
+            public static List<MazeCell> Traverse(Chain root)
             {
-                X = place.X;
-                Y = place.Y;
-                Path = path;
+                var stack = new Stack<Chain>();
+                var path = new List<MazeCell>();
+
+                if (root != null) stack.Push(root);
+
+                while (stack.Count > 0)
+                {
+                    var chain = stack.Pop();
+                    path.Add(chain.CellCurrent);
+                    if (chain.Next == null)
+                        return path;
+
+                    stack.Push(chain.Next);
+                }
+                return path;
             }
         }
 
-        public LabirintSolver(char[,] labirintMap)//обход направлений в GetLabirintSolution
+        public LabirintSolver(MazeCell[,] labirintMap)//обход направлений в CreateChainPath
         {
-            this._labirintMap = labirintMap;
+            _labirintMap = labirintMap;
             _height = labirintMap.GetLength(0);
             _width = labirintMap.GetLength(1);
-            _directionChains = new List<Chain>
+            _directionChains = new List<Point>
             {
-                new Chain(-1, 0, "4"), new Chain(1, 0, "6"), new Chain(0, -1, "8"), new Chain(0, 1, "2")
+                new Point(-1,0),
+                new Point( 1, 0),
+                new Point(0, -1),
+                new Point(0, 1)
             };
         }
-        public string GetLabirintSolution(MapPlace source, MapPlace destination)
+
+        public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
         {
-            if (source.X==destination.X && source.Y==destination.Y)
+            return CreateChainPath(source, destination);
+        }
+
+        private List<MazeCell> CreateChainPath(MazeCell source, MazeCell destination)
+        {
+            if (source.X == destination.X && source.Y == destination.Y)
             {
-                return "Точка начала совпадает с точкой выхода";
+                throw new Exception("Точка начала совпадает с точкой выхода");
             }
 
             var queueChains = new Queue<Chain>();//очередь для поиска в ширину
-            var visitedInLabirintPlaces = new List<MapPlace>();//уже посещённые вершины (ячейки)
+            var visitedInLabirintPlaces = new List<MazeCell>();//уже посещённые вершины (ячейки)
+            var stepUser = new Chain(new MazeCell(source.X, source.Y));
 
             //начальная позиция игрока
-            Chain chain;
-            chain.X = source.X;
-            chain.Y = source.Y;
-            chain.Path = "";
-
-            MapPlace place;//новые координаты
-            queueChains.Enqueue(chain);
+            var startChain = new Chain(new MazeCell(source.X, source.Y));
+            //MazeCell place;//новые координаты
+            queueChains.Enqueue(startChain);
 
             while (queueChains.Count > 0)
             {
-                chain = queueChains.Dequeue();
+                var chain = queueChains.Dequeue();
+                //chain.Previous = stepUser;
                 foreach (var side in _directionChains)
                 {
-                    place.X = chain.X + side.X;
-                    place.Y = chain.Y + side.Y;
-                    if (!InRange(place,ref _labirintMap))
-                        continue;
+                    var place = new MazeCell(chain.CellCurrent.X + side.X, chain.CellCurrent.Y + side.Y, CellType.Exit);
                     if (visitedInLabirintPlaces.Contains(place))
                         continue;
+                    if (!InRange(place, _labirintMap))
+                        continue;
                     visitedInLabirintPlaces.Add(place);//добавили координату, куда переместились
+
+                    stepUser = new Chain(place);
+                    var newlist = new List<MazeCell>(chain.Path) { place };
+                    stepUser.Path = new List<MazeCell>(newlist);
                     //отобразили, куда сдвинулись
-                    var stepUser = new Chain(place, chain.Path + side.Path);
+                    //chain.Next = stepUser;
                     if (place.Equals(destination))
                         return stepUser.Path;
                     queueChains.Enqueue(stepUser);
                 }
 
             }
-            return "-";
+            return new List<MazeCell>();
         }
 
-        private  bool InRange(MapPlace place, ref char[,] map)//проверка позиций
+        private bool InRange(MazeCell place, MazeCell[,] map)//проверка позиций
         {
             if (place.X < 0 || place.X >= _width)
                 return false;
             if (place.Y < 0 || place.Y >= _height)
                 return false;
-            if (map[place.Y, place.X] != ' ')
+            if (map[place.Y, place.X].CellType != CellType.None && map[place.Y, place.X].CellType != CellType.Exit)
                 return false;
             return true;
         }
