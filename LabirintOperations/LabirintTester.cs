@@ -143,7 +143,7 @@ namespace LabirintOperations
             {
                 for (var x = 0; x < width; x++)
                 {
-                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 1][x]));
+                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 3][x]));
                     switch (map[y, x].CellType)
                     {
                         //если A - находим координаты
