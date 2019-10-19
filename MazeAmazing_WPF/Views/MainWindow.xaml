@@ -8,9 +8,9 @@
         ContentSource="/Views/TaskOnePage.xaml">
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="ЗАГОЛОВОК РАЗДЕЛА">
+        <mui:LinkGroup DisplayName="MAZE AMAZING">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="подзаголовок" Source="/Views/TaskOnePage.xaml" />
+                <mui:Link DisplayName="поиск пути в лабиринте" Source="/Views/TaskOnePage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="настройки" GroupKey="settings">
