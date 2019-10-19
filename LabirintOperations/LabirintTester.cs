@@ -45,7 +45,7 @@ namespace LabirintOperations
 
         public LabirintTester(string labirintFilePath)
         {
-            _labirintMap = LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMazeCell, ref _exitMazeCell);
+            _labirintMap = LabirintIO.LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMazeCell, ref _exitMazeCell);
             _startX = _startMazeCell.X;
             _startY = _startMazeCell.Y;
             _exitX = _exitMazeCell.X;
@@ -94,72 +94,7 @@ namespace LabirintOperations
             return true;
         }
 
-        public CellType CharToCellType(char x)
-        {
-            //возвращает ячейку в зависимости от считанного символа
-            switch (x)
-            {
-                case ' ': return CellType.None;
-                case '#': return CellType.Wall;
-                case 'S': return CellType.Start;
-                case 'X': return CellType.Exit;
-                default:
-                    return CellType.None;
-            }
-        }
-
-        public char CellTypeToChar(MazeCell cell)
-        {
-            //возвращает символ в зависимости от ячейки
-            switch (cell.CellType)
-            {
-                case CellType.None: return ' ';
-                case CellType.Wall: return '#';
-                case CellType.Start: return 'S';
-                case CellType.Exit: return 'X';
-                default: return ' ';
-
-
-            }
-        }
-
-        private MazeCell[,] LoadLabirint(string labirintFilePath, out int height, out int width,
-            ref MazeCell startPlace, ref MazeCell exitPlace)
-        {
-            string[] lines;
-            try
-            {
-                lines = File.ReadAllLines(labirintFilePath);
-            }
-            catch
-            {
-                throw new Exception("Не удалось считать файл исходных данных!");
-            }
-            var wh = lines[0].Split();
-            height = int.Parse(wh[0]);
-            width = int.Parse(wh[1]);
-            var map = new MazeCell[height, width];
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 1][x]));
-                    switch (map[y, x].CellType)
-                    {
-                        //если A - находим координаты
-                        case CellType.Start:
-                            startPlace = new MazeCell(x, y, CellType.Start);
-                            break;
-                        case CellType.Exit:
-                            exitPlace = new MazeCell(x, y, CellType.Exit);
-                            break;
-                    }
-                }
-            }
-
-            return map;
-        }
-
+        
         private int CountMapItems(CellType type, MazeCell[,] map)
         {
             var counter = 0;
