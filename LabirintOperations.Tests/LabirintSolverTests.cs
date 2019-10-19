@@ -66,29 +66,17 @@ namespace LabirintOperations.Tests
         public void GetLabirintSolutionTest()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt";
-            var labirintPath1 = @"D:\ia_no\Desktop\labirint3.txt";
-            var labirint_out_of_range = @"D:\ia_no\Desktop\test_outOfRange.txt";
-            var tester = new LabirintTester(labirintPath);
-            var tester1 = new LabirintTester(labirintPath1);
-            var tester2 = new LabirintTester(labirint_out_of_range);
+            //var labirintPath = @"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt";
+            var labirintPath = @"D:\ia_no\Desktop\labirint3.txt";
+
+            var map = LabirintIO.LoadLabirint(labirintPath);
+            var startPlace = LabirintIO.GetStartPlace(labirintPath);
+            var exitPlace = LabirintIO.GetExitPlace(labirintPath);
+            
             var expectedSolution = new List<MazeCell>
             {
-                new MazeCell(2,1),
-                new MazeCell(3,1),
-                new MazeCell(4,1),
-                new MazeCell(5,1),
-                new MazeCell(5,2),
-                new MazeCell(6,2),
-                new MazeCell(7,2),
-                new MazeCell(7,1),
-            };
-            var expectedSolution1 = new List<MazeCell>
-            {
-                new MazeCell(2,4),
-                new MazeCell(3,4),
-                new MazeCell(3,3),
-                new MazeCell(4,3),
+                new MazeCell(2,2),
+                new MazeCell(3,2),
                 new MazeCell(4,2),
                 new MazeCell(5,2),
                 new MazeCell(6,2),
@@ -96,35 +84,31 @@ namespace LabirintOperations.Tests
                 new MazeCell(8,2),
                 new MazeCell(8,1),
             };
-            var expectedSolutionOor = new List<MazeCell>();
+
             //act
-            var solver = new LabirintSolver(tester.LabirintMap);
-            var solver1 = new LabirintSolver(tester1.LabirintMap);
-            var solver2 = new LabirintSolver(tester2.LabirintMap);
-            var actualSolution = solver.GetCellsPath(tester.StartMazeCell, tester.ExitMazeCell);
-            var actualSolution1 = solver1.GetCellsPath(tester1.StartMazeCell, tester1.ExitMazeCell);
-            var actualSolution2 = solver2.GetCellsPath(tester2.StartMazeCell, tester2.ExitMazeCell);
+            var solver = new LabirintSolver(map);
+
+            var actualSolution = solver.GetCellsPath(startPlace, exitPlace);
+
             //assert
             CollectionAssert.AreEqual(expectedSolution, actualSolution, new MazeCellComparer(),
                 $"\nExpected:{expectedSolution.Count}\nActual:{actualSolution.Count}\n");
-            CollectionAssert.AreEqual(expectedSolution1, actualSolution1, new MazeCellComparer(),
-                $"\nExpected:{expectedSolution1.Count}\nActual:{actualSolution1.Count}\n");
-            CollectionAssert.AreEqual(expectedSolutionOor, actualSolution2, new MazeCellComparer(),
-                $"\nExpected:{expectedSolutionOor.Count}\nActual:{actualSolution2.Count}\n");
         }
 
         [TestMethod]
-        [Timeout(2000)]
         public void GetLabirintSolutionTest_NoSolution()
         {
             //arrange
             var labirintPath = @"D:\ia_no\Desktop\solver_test_no_solution.txt";
 
-            var tester = new LabirintTester(labirintPath);
+            var map = LabirintIO.LoadLabirint(labirintPath);
+            var startPlace = LabirintIO.GetStartPlace(labirintPath);
+            var exitPlace = LabirintIO.GetExitPlace(labirintPath);
+
             var expectedSolution = new List<MazeCell>();
             //act
-            var solver = new LabirintSolver(tester.LabirintMap);
-            var actualSolution = solver.GetCellsPath(tester.StartMazeCell, tester.ExitMazeCell);
+            var solver = new LabirintSolver(map);
+            var actualSolution = solver.GetCellsPath(startPlace,exitPlace);
             //assert
             CollectionAssert.AreEqual(expectedSolution, actualSolution);
         }
@@ -171,13 +155,14 @@ namespace LabirintOperations.Tests
         {
             //arrange
             var labirintPath = @"D:\ia_no\Desktop\labirintD.txt";
-            var tester = new LabirintTester(labirintPath);
+            var map = LabirintIO.LoadLabirint(labirintPath);
+            var startPlace = LabirintIO.GetStartPlace(labirintPath);
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 
             //act
-            var solver = new LabirintSolver(tester.LabirintMap);
+            var solver = new LabirintSolver(map);
             var ex = Assert.ThrowsException<Exception>(
-                () => solver.GetCellsPath(tester.StartMazeCell, tester.StartMazeCell));
+                () => solver.GetCellsPath(startPlace, startPlace));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);

@@ -7,49 +7,21 @@ namespace LabirintOperations
 {
     public class LabirintTester
     {
-        private MazeCell _startMazeCell = new MazeCell(0, 0);
-        private MazeCell _exitMazeCell = new MazeCell(0, 0);
+        private MazeCell _startMazeCell;
+        private MazeCell _exitMazeCell;
 
         private MazeCell[,] _labirintMap;
+
         private int _mapWidth, _mapHeight;
-        private int _startX, _startY;//координаты A
-        private int _exitX, _exitY;//финишные координаты
-        private int _currentPosSolution;//текущих ход решения
-
-        public string Solution { get; set; }
-
-        public MazeCell StartMazeCell
+        
+        public LabirintTester(MazeCell[,] mazemap, MazeCell start, MazeCell exit)
         {
-            get { return _startMazeCell; }
-        }
+            _labirintMap = mazemap;
+            _startMazeCell = start;
+            _exitMazeCell = exit;
+            _mapHeight = _labirintMap.GetLength(0);
+            _mapWidth = _labirintMap.GetLength(1);
 
-        public MazeCell ExitMazeCell
-        {
-            get { return _exitMazeCell; }
-        }
-
-        public int MapWidth
-        {
-            get { return _mapWidth; }
-        }
-
-        public int MapHeight
-        {
-            get { return _mapHeight; }
-        }
-
-        public MazeCell[,] LabirintMap
-        {
-            get { return _labirintMap; }
-        }
-
-        public LabirintTester(string labirintFilePath)
-        {
-            _labirintMap = LabirintIO.LoadLabirint(labirintFilePath, out _mapHeight, out _mapWidth, ref _startMazeCell, ref _exitMazeCell);
-            _startX = _startMazeCell.X;
-            _startY = _startMazeCell.Y;
-            _exitX = _exitMazeCell.X;
-            _exitY = _exitMazeCell.Y;
         }
 
         /// <summary>
@@ -73,7 +45,7 @@ namespace LabirintOperations
 
             var x = solution[solution.Count - 1].X;
             var y = solution[solution.Count - 1].Y;
-            return LabirintMap[y, x].CellType == ExitMazeCell.CellType;
+            return _labirintMap[y, x].CellType == _exitMazeCell.CellType;
         }
 
         private bool MoveDirectBySolution(MazeCell cell, int mapHeight, int mapWidth, MazeCell[,] map)

@@ -36,7 +36,26 @@ namespace LabirintOperations
             }
         }
 
-        private static int[] ReadLeverHeader(string line)
+        private static string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
+        {
+            if (lineCount <= 0 || certainLine <= 0)
+            {
+                return "Номер строки или число строк неверны";
+            }
+            var listLines = new string[lineCount];
+
+            using (var reader = new StreamReader(filepath))
+            {
+                for (var i = 0; i < lineCount; i++)
+                {
+                    listLines[i] = reader.ReadLine();
+                }
+            }
+
+            return listLines[certainLine - 1];
+        }
+
+        private static int[] ParseParamsLine(string line)
         {
             var parts = line.Split();
             var paramSet = new int[parts.Length];
@@ -47,7 +66,52 @@ namespace LabirintOperations
             return paramSet;
         }
 
-        public static MazeCell[,] LoadLabirint(string labirintFilePath, out int height, out int width, ref MazeCell startPlace, ref MazeCell exitPlace)
+        /// <summary>
+        /// Возвращает высоту и ширину лабиринта
+        /// </summary>
+        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <returns>Высота [0], ширина [1]</returns>
+        public static int[] GetMazeSize(string labirintFilePath)
+        {
+            var paramString = ReadLevelSettingLine(labirintFilePath, 1, 1);
+
+            return ParseParamsLine(paramString);
+        }
+
+        /// <summary>
+        /// Возвращает начальную позицию в лабиринте
+        /// </summary>
+        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <returns>Клетка лабиринта</returns>
+        public static MazeCell GetStartPlace(string labirintFilePath)
+        {
+            var paramString = ReadLevelSettingLine(labirintFilePath, 2, 2);
+
+            var start = ParseParamsLine(paramString);
+
+            return new MazeCell(start[1], start[0], CellType.Start);
+        }
+
+        /// <summary>
+        /// Возвращает точку выхода в лабиринте
+        /// </summary>
+        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <returns>Клетка лабиринта</returns>
+        public static MazeCell GetExitPlace(string labirintFilePath)
+        {
+            var paramString = ReadLevelSettingLine(labirintFilePath, 3, 3);
+
+            var exit = ParseParamsLine(paramString);
+
+            return new MazeCell(exit[1], exit[0], CellType.Exit);
+        }
+
+        /// <summary>
+        /// Загружает матрицу клеток лабиринта из файла
+        /// </summary>
+        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <returns>Матрица клеток</returns>
+        public static MazeCell[,] LoadLabirint(string labirintFilePath)
         {
             string[] lines;
             try
@@ -59,30 +123,18 @@ namespace LabirintOperations
                 throw new Exception("Не удалось считать файл исходных данных!");
             }
 
-            var header = ReadLeverHeader(lines[0]);
-            height = header[0];
-            width = header[1];
+            var size = ParseParamsLine(lines[0]);
+            var height = size[0];
+            var width = size[1];
             var map = new MazeCell[height, width];
             for (var y = 0; y < height; y++)
             {
                 for (var x = 0; x < width; x++)
                 {
-                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 1][x]));
-                    switch (map[y, x].CellType)
-                    {
-                        //если A - находим координаты
-                        case CellType.Start:
-                            startPlace = new MazeCell(x, y, CellType.Start);
-                            break;
-                        case CellType.Exit:
-                            exitPlace = new MazeCell(x, y, CellType.Exit);
-                            break;
-                    }
+                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 3][x]));
                 }
             }
-
             return map;
         }
-
     }
 }
