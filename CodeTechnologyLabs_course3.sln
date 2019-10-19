@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabirintOperations.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeAmazing_ConsoleApp", "MazeAmazing_ConsoleApp\MazeAmazing_ConsoleApp.csproj", "{C611F08C-11D9-4D81-99CB-32116C1908D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeAmazing_WPF", "MazeAmazing_WPF\MazeAmazing_WPF.csproj", "{0B3E21BC-3848-49C9-90F9-3F0CE5DFE303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C611F08C-11D9-4D81-99CB-32116C1908D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C611F08C-11D9-4D81-99CB-32116C1908D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C611F08C-11D9-4D81-99CB-32116C1908D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B3E21BC-3848-49C9-90F9-3F0CE5DFE303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B3E21BC-3848-49C9-90F9-3F0CE5DFE303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B3E21BC-3848-49C9-90F9-3F0CE5DFE303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B3E21BC-3848-49C9-90F9-3F0CE5DFE303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
