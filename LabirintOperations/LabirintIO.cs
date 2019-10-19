@@ -21,7 +21,7 @@ namespace LabirintOperations
             }
         }
 
-        private static char CellTypeToChar(MazeCell cell)
+        public static char CellTypeToChar(MazeCell cell)
         {
             //возвращает символ в зависимости от ячейки
             switch (cell.CellType)
