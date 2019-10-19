@@ -14,11 +14,20 @@ namespace MazeAmazing_ConsoleApp
         private static string solutionFile = @"solutionDebug.txt";
 
 
-        List<MazeCell> _solution;
 
         public LabirintTester Tester { get; set; }
         public LabirintSolver Solver { get; set; }
 
+        public MazeCell[,] MazeMap { get; set; }
+
+        public int MazeHeight => MazeMap.GetLength(0);
+
+        public int MazeWidth => MazeMap.GetLength(1);
+
+        public List<MazeCell> Solution { get; set; }
+
+        public MazeCell StartPlace { get; set; }
+        public MazeCell ExitPlace { get; set; }
 
         static void Main(string[] args)
         {
@@ -36,7 +45,6 @@ namespace MazeAmazing_ConsoleApp
             if (program.Run())
             {
                 Console.WriteLine("Решение найдено");
-                //File.WriteAllText(solutionFile, program._solution);
             }
             else
                 Console.WriteLine("Решение не найдено");
@@ -45,51 +53,55 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            Tester = new LabirintTester(labirintFile);
+            MazeMap = LabirintIO.LoadLabirint(labirintFile);
+            StartPlace = LabirintIO.GetStartPlace(labirintFile);
+            ExitPlace = LabirintIO.GetExitPlace(labirintFile);
 
-            Solver = new LabirintSolver(Tester.LabirintMap);
+            Tester = new LabirintTester(MazeMap, StartPlace, ExitPlace);
 
-            _solution = Solver.GetCellsPath(Tester.StartMazeCell, Tester.ExitMazeCell);
+            Solver = new LabirintSolver(MazeMap);
 
-            //if (Tester.RunSolutionTest(_solution))
-            //{
-            //    Console.OutputEncoding = System.Text.Encoding.Unicode;
-            //    PrintLabirint(Tester.MapHeight, Tester.MapWidth, Tester.LabirintMap);
-            //    for (var i = 0; i < _solution.Length - 1; i++)
-            //    {
-            //        //PrintSolutionPath(_solution[i], _solution[i + 1]);
-            //    }
-            //    PrintStartFinishLabels(Tester.StartMazeCell, Tester.ExitMazeCell);
-            //    PrintSolutionText(_solution, Tester.MapHeight);
-            //}
-            //else
-            //{
-            //    return false;
-            //}
+            Solution = Solver.GetCellsPath(StartPlace, ExitPlace);
 
+            if (Tester.RunSolutionTest(Solution))
+            {
+                Console.OutputEncoding = System.Text.Encoding.Unicode;
+                PrintLabirint(MazeHeight, MazeWidth, MazeMap);
+                for (var i = 0; i < Solution.Count - 1; i++)
+                {
+                    PrintSolutionPath(Solution[i], Solution[i + 1]);
+                }
+                PrintStartFinishLabels(StartPlace, ExitPlace);
+            }
+            else
+            {
+                return false;
+            }
             return true;
         }
-        //TODO координаты точек направлений из матрицы (для отрисовки пути)
-        public void PrintSolutionPath(char direction, char next, int startX, int startY)
+        //'>''<''↓''↑''|'
+        public void PrintSolutionPath(MazeCell current, MazeCell next)
         {
             //выводим A, меняем цвет
-            Console.SetCursorPosition(startX, startY);
+            Console.SetCursorPosition(current.X, current.Y);
             Console.ForegroundColor = ConsoleColor.Green;
-            switch (direction)
+            if (next.X > current.X)
             {
-                case '4':
-                    Console.Write(direction == next ? '—' : '<');
-                    break;
-                case '6':
-                    Console.Write(direction == next ? '—' : '>');
-                    break;
-                case '2':
-                    Console.Write(direction == next ? '|' : '↓');
-                    break;
-                case '8':
-                    Console.Write(direction == next ? '|' : '↑');
-                    break;
+                Console.Write('>');
             }
+            else if (next.X < current.X)
+            {
+                Console.Write('<');
+            }
+            else if (next.Y > current.Y)
+            {
+                Console.Write('↓');
+            }
+            else if (next.Y < current.Y)
+            {
+                Console.Write('↑');
+            }
+
         }
 
         private void PrintLabirint(int height, int width, MazeCell[,] map)
@@ -100,7 +112,7 @@ namespace MazeAmazing_ConsoleApp
             {
                 for (var j = 0; j < width; j++)
                 {
-                    Console.Write(map[i, j]);
+                    Console.Write(LabirintIO.CellTypeToChar(map[i, j]));
                 }
 
                 Console.WriteLine();
@@ -113,14 +125,8 @@ namespace MazeAmazing_ConsoleApp
             Console.SetCursorPosition(alphaPlace.X, alphaPlace.Y);
             Console.Write('S');
             Console.SetCursorPosition(finishPlace.X, finishPlace.Y);
-            Console.Write('F');
-        }
-
-        private void PrintSolutionText(string solution, int height)
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.SetCursorPosition(0, height + 1);
-            Console.WriteLine(solution);
+            Console.Write('X');
+            Console.SetCursorPosition(0, MazeHeight + 3);
         }
     }
 }

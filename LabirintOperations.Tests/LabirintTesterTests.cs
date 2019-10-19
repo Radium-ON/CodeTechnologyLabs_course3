@@ -33,61 +33,6 @@ namespace LabirintOperations.Tests
     [TestClass]
     public class LabirintTesterTests
     {
-        //[TestMethod]
-        //public void CountMapItemsTest()
-        //{
-        //    //arrange
-        //    var type = CellType.Start;
-        //    var expectedCountS = 4;
-        //    //act
-        //    var tester = new LabirintTester(@"D:\ia_no\Desktop\CountMapTest4Start.txt");
-        //    var actualCountS = tester.CountMapItems(CellType.Start, tester.LabirintMap);
-        //    //assert
-        //    Assert.AreEqual(expectedCountS, actualCountS);
-        //}
-
-        //[TestMethod]
-        //public void LoadLabirintTest()
-        //{
-        //    //arrange
-        //    const string labirintFilePath = @"D:\ia_no\Desktop\labirint3.txt";
-        //    const int baseHeight = 8;
-        //    const int baseWidth = 10;
-        //    var expectedStartPlace = new MazeCell(2, 4);
-        //    var expectedExitPlace = new MazeCell(8, 1);
-        //    var actualStart = new MazeCell();
-        //    var actualExit = new MazeCell();
-
-        //    var expectedMap = new char[,]
-        //    {
-        //        {'#','#','#','#','#','#','#','#','#','#'},
-        //        {'#',' ',' ',' ',' ','#',' ',' ',' ','#'},
-        //        {'#','#','#',' ',' ',' ',' ',' ',' ','#'},
-        //        {'#','#','#',' ',' ','#',' ',' ',' ','#'},
-        //        {'#',' ',' ',' ','#','#','#',' ','#','#'},
-        //        {'#','#','#',' ','#','#','#',' ','#','#'},
-        //        {'#',' ',' ',' ',' ',' ',' ',' ','#','#'},
-        //        {'#','#','#','#','#','#','#','#','#','#'},
-        //    };
-
-        //    //act
-        //    var tester = new LabirintTester();
-        //    var actualMap = tester.LoadLabirint(labirintFilePath, out var height, out var width,
-        //        ref actualStart, ref actualExit);
-
-        //    //assert
-        //    Assert.AreEqual(baseWidth, width, "Неверная ширина лабиринта");
-        //    Assert.AreEqual(baseHeight, height, "Неверная высота лабиринта");
-        //    Assert.AreEqual(expectedStartPlace, actualStart,
-        //        "Координаты начала неверны\n" + $"Actual: x={actualStart.X} y={actualStart.Y}\n" +
-        //              $"Expected: x={expectedStartPlace.X} y={expectedStartPlace.Y}");
-        //    Assert.AreEqual(expectedExitPlace, actualExit,
-        //        "Координаты выхода неверны\n" + $"Actual: x={actualExit.X} y={actualExit.Y}\n" +
-        //              $"Expected: x={expectedExitPlace.X} y={expectedExitPlace.Y}");
-        //    CollectionAssert.AreEqual(expectedMap, actualMap, "Матрицы не равны");
-
-        //}
-
         //[DataTestMethod]
         //#region DataRows
         //[DataRow(new char[] { '2', '2', '6', '6', '8', '8', '4', '4' },
@@ -184,19 +129,23 @@ namespace LabirintOperations.Tests
         //}
 
         [DataTestMethod]
+        [DataRow(@"D:\ia_no\Desktop\labirint4.txt", true)]
         [DataRow(@"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt", true)]
         [DataRow(@"D:\ia_no\Desktop\labirint3.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\labirint4.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\output.txt", true)]
         [DataRow(@"D:\ia_no\Desktop\labirint5.txt", false)]
-        //[DataRow(@"D:\ia_no\Desktop\empty_maze.txt", false)]
+        [DataRow(@"D:\ia_no\Desktop\output.txt", true)]
+        [DataRow(@"D:\ia_no\Desktop\test_outOfRange.txt",false)]
         public void RunSolutionTest_Solution_true(string labirintFilePath, bool correct)
         {
+            //arrange
             var expectedPassed = correct;
+            var map = LabirintIO.LoadLabirint(labirintFilePath);
+            var startPlace = LabirintIO.GetStartPlace(labirintFilePath);
+            var exitPlace = LabirintIO.GetExitPlace(labirintFilePath);
             //act
-            var tester = new LabirintTester(labirintFilePath);
-            var solver = new LabirintSolver(tester.LabirintMap);
-            var solution = solver.GetCellsPath(tester.StartMazeCell, tester.ExitMazeCell);
+            var solver = new LabirintSolver(map);
+            var tester = new LabirintTester(map, startPlace, exitPlace);
+            var solution = solver.GetCellsPath(startPlace, exitPlace);
             var actualPassed = tester.RunSolutionTest(solution);
             //assert
             Assert.AreEqual(expectedPassed, actualPassed);
