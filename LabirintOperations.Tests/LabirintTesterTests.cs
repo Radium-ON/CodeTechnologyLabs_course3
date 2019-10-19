@@ -129,12 +129,12 @@ namespace LabirintOperations.Tests
         //}
 
         [DataTestMethod]
-        //[DataRow(@"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt", true)]
+        [DataRow(@"D:\ia_no\Desktop\labirint4.txt", true)]
+        [DataRow(@"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt", true)]
         [DataRow(@"D:\ia_no\Desktop\labirint3.txt", true)]
-        //[DataRow(@"D:\ia_no\Desktop\labirint4.txt", true)]
-        //[DataRow(@"D:\ia_no\Desktop\output.txt", true)]
-        //[DataRow(@"D:\ia_no\Desktop\labirint5.txt", false)]
-        //[DataRow(@"D:\ia_no\Desktop\empty_maze.txt", false)]
+        [DataRow(@"D:\ia_no\Desktop\labirint5.txt", false)]
+        [DataRow(@"D:\ia_no\Desktop\output.txt", true)]
+        [DataRow(@"D:\ia_no\Desktop\test_outOfRange.txt",false)]
         public void RunSolutionTest_Solution_true(string labirintFilePath, bool correct)
         {
             //arrange

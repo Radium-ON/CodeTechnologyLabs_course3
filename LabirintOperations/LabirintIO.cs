@@ -38,10 +38,6 @@ namespace LabirintOperations
 
         private static string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
         {
-            if (lineCount <= 0 || certainLine <= 0)
-            {
-                return "Номер строки или число строк неверны";
-            }
             var listLines = new string[lineCount];
 
             using (var reader = new StreamReader(filepath))
@@ -64,18 +60,6 @@ namespace LabirintOperations
                 int.TryParse(parts[i], out paramSet[i]);
             }
             return paramSet;
-        }
-
-        /// <summary>
-        /// Возвращает высоту и ширину лабиринта
-        /// </summary>
-        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
-        /// <returns>Высота [0], ширина [1]</returns>
-        public static int[] GetMazeSize(string labirintFilePath)
-        {
-            var paramString = ReadLevelSettingLine(labirintFilePath, 1, 1);
-
-            return ParseParamsLine(paramString);
         }
 
         /// <summary>
@@ -123,6 +107,10 @@ namespace LabirintOperations
                 throw new Exception("Не удалось считать файл исходных данных!");
             }
 
+            if (lines.Length == 0)
+            {
+                throw new Exception("Файл не содержит ни одной строки");
+            }
             var size = ParseParamsLine(lines[0]);
             var height = size[0];
             var width = size[1];

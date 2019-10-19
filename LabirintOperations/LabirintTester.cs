@@ -7,12 +7,12 @@ namespace LabirintOperations
 {
     public class LabirintTester
     {
-        private MazeCell _startMazeCell;
-        private MazeCell _exitMazeCell;
+        private readonly MazeCell _startMazeCell;
+        private readonly MazeCell _exitMazeCell;
 
-        private MazeCell[,] _labirintMap;
+        private readonly MazeCell[,] _labirintMap;
 
-        private int _mapWidth, _mapHeight;
+        private readonly int _mapWidth, _mapHeight;
         
         public LabirintTester(MazeCell[,] mazemap, MazeCell start, MazeCell exit)
         {

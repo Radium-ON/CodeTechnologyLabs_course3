@@ -36,5 +36,35 @@ namespace LabirintOperations.Tests
             CollectionAssert.AreEqual(expectedMap, actualMap, "Матрицы не равны");
 
         }
+
+        [TestMethod]
+        public void LoadLabirint_NoLinesInFile()
+        {
+            //arrange
+            var labirintPath = @"D:\ia_no\Desktop\empty_maze.txt";
+            var expectedSolution = "Файл не содержит ни одной строки";
+            //act
+
+            var ex = Assert.ThrowsException<Exception>(
+                () => LabirintIO.LoadLabirint(labirintPath));
+
+            //assert
+            Assert.AreEqual(expectedSolution, ex.Message);
+        }
+
+        [TestMethod]
+        public void LoadLabirint_FileNotExist()
+        {
+            //arrange
+            var labirintPath = @"D:\ia_no\Desktop.txt";
+            var expectedSolution = "Не удалось считать файл исходных данных!";
+            //act
+
+            var ex = Assert.ThrowsException<Exception>(
+                () => LabirintIO.LoadLabirint(labirintPath));
+
+            //assert
+            Assert.AreEqual(expectedSolution, ex.Message);
+        }
     }
 }
