@@ -12,7 +12,7 @@ namespace LabirintOperations.Tests
         public void LoadLabirintTest()
         {
             //arrange
-            const string labirintFilePath = @"D:\ia_no\Desktop\labirint_test1.txt";
+            const string labirintFilePath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint_test1.txt";
 
             var expectedMap = new MazeCell[3, 4];
             expectedMap[0, 0] = new MazeCell(0, 0, CellType.Wall);
@@ -41,7 +41,8 @@ namespace LabirintOperations.Tests
         public void LoadLabirint_NoLinesInFile()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop\empty_maze.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\empty_maze.txt";
+            
             var expectedSolution = "Файл не содержит ни одной строки";
             //act
 
@@ -56,7 +57,7 @@ namespace LabirintOperations.Tests
         public void LoadLabirint_FileNotExist()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop.txt";
+            var labirintPath = @"\TestInput\Desktop.txt";
             var expectedSolution = "Не удалось считать файл исходных данных!";
             //act
 

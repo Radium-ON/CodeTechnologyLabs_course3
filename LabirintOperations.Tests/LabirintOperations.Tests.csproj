@@ -7,6 +7,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestInput\CountMapTest4Start.txt" />
+    <None Remove="TestInput\empty_maze.txt" />
+    <None Remove="TestInput\GetMazeSolutionTextNew.txt" />
+    <None Remove="TestInput\GetMazeSolutionTextNew_solution.txt" />
+    <None Remove="TestInput\lab3solution cells.txt" />
+    <None Remove="TestInput\lab3solution.txt" />
+    <None Remove="TestInput\labirint2.txt" />
+    <None Remove="TestInput\labirint3.txt" />
+    <None Remove="TestInput\labirint4.txt" />
+    <None Remove="TestInput\labirint5.txt" />
+    <None Remove="TestInput\labirintD.txt" />
+    <None Remove="TestInput\labirint_test1.txt" />
+    <None Remove="TestInput\modelov_solution.txt" />
+    <None Remove="TestInput\output.txt" />
+    <None Remove="TestInput\printsolutionpath_test1.txt" />
+    <None Remove="TestInput\solution.txt" />
+    <None Remove="TestInput\solver_test_no_solution.txt" />
+    <None Remove="TestInput\test_outOfRange.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestInput\CountMapTest4Start.txt" />
+    <Content Include="TestInput\empty_maze.txt" />
+    <Content Include="TestInput\GetMazeSolutionTextNew.txt" />
+    <Content Include="TestInput\GetMazeSolutionTextNew_solution.txt" />
+    <Content Include="TestInput\lab3solution cells.txt" />
+    <Content Include="TestInput\lab3solution.txt" />
+    <Content Include="TestInput\labirint2.txt" />
+    <Content Include="TestInput\labirint3.txt" />
+    <Content Include="TestInput\labirint4.txt" />
+    <Content Include="TestInput\labirint5.txt" />
+    <Content Include="TestInput\labirintD.txt" />
+    <Content Include="TestInput\labirint_test1.txt" />
+    <Content Include="TestInput\modelov_solution.txt" />
+    <Content Include="TestInput\output.txt" />
+    <Content Include="TestInput\printsolutionpath_test1.txt" />
+    <Content Include="TestInput\solution.txt" />
+    <Content Include="TestInput\solver_test_no_solution.txt" />
+    <Content Include="TestInput\test_outOfRange.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />

@@ -65,7 +65,7 @@ namespace LabirintOperations.Tests
         public void GetLabirintSolutionTest()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
 
             var map = LabirintIO.LoadLabirint(labirintPath);
             var startPlace = LabirintIO.GetStartPlace(labirintPath);
@@ -97,7 +97,7 @@ namespace LabirintOperations.Tests
         public void GetLabirintSolutionTest_NoSolution()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop\solver_test_no_solution.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\solver_test_no_solution.txt";
 
             var map = LabirintIO.LoadLabirint(labirintPath);
             var startPlace = LabirintIO.GetStartPlace(labirintPath);
@@ -152,7 +152,7 @@ namespace LabirintOperations.Tests
         public void GetLabirintSolutionTest_Source_equal_Destination_place()
         {
             //arrange
-            var labirintPath = @"D:\ia_no\Desktop\labirintD.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirintD.txt";
             var map = LabirintIO.LoadLabirint(labirintPath);
             var startPlace = LabirintIO.GetStartPlace(labirintPath);
             var expectedSolution = "Точка начала совпадает с точкой выхода";

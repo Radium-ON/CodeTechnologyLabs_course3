@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LabirintOperations.Tests
 {
@@ -129,12 +131,14 @@ namespace LabirintOperations.Tests
         //}
 
         [DataTestMethod]
-        [DataRow(@"D:\ia_no\Desktop\labirint4.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\GetMazeSolutionTextNew.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\labirint3.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\labirint5.txt", false)]
-        [DataRow(@"D:\ia_no\Desktop\output.txt", true)]
-        [DataRow(@"D:\ia_no\Desktop\test_outOfRange.txt",false)]
+        #region DataRows
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint4.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\GetMazeSolutionTextNew.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint3.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint5.txt", false)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\output.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\test_outOfRange.txt", false)]
+        #endregion
         public void RunSolutionTest_Solution_true(string labirintFilePath, bool correct)
         {
             //arrange
