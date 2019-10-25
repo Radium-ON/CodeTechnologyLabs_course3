@@ -53,9 +53,9 @@ namespace MazeAmazing_ConsoleApp
             StartPlace = LabirintIO.GetStartPlace(labirintFile);
             ExitPlace = LabirintIO.GetExitPlace(labirintFile);
 
-            Tester = new LabirintTester(Maze.MazeCells, StartPlace, ExitPlace);
+            Tester = new LabirintTester(Maze, StartPlace, ExitPlace);
 
-            Solver = new LabirintSolver(Maze.MazeCells);
+            Solver = new LabirintSolver(Maze);
 
             Solution = Solver.GetCellsPath(StartPlace, ExitPlace);
 

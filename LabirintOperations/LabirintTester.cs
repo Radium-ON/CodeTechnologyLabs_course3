@@ -14,9 +14,9 @@ namespace LabirintOperations
 
         private readonly int _mapWidth, _mapHeight;
         
-        public LabirintTester(MazeCell[,] mazemap, MazeCell start, MazeCell exit)
+        public LabirintTester(Maze labirint, MazeCell start, MazeCell exit)
         {
-            _labirintMap = mazemap;
+            _labirintMap = labirint.MazeCells;
             _startMazeCell = start;
             _exitMazeCell = exit;
             _mapHeight = _labirintMap.GetLength(0);

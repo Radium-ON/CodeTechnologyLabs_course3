@@ -46,11 +46,11 @@ namespace LabirintOperations
             }
         }
 
-        public LabirintSolver(MazeCell[,] labirintMap)//обход направлений в CreateChainPath
+        public LabirintSolver(Maze labirint)//обход направлений в CreateChainPath
         {
-            _labirintMap = labirintMap;
-            _height = labirintMap.GetLength(0);
-            _width = labirintMap.GetLength(1);
+            _labirintMap = labirint.MazeCells;
+            _height = labirint.Height;
+            _width = labirint.Width;
             _directionChains = new List<Point>
             {
                 new Point(-1,0),

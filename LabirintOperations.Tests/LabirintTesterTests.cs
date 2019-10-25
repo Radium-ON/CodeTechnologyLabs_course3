@@ -52,8 +52,8 @@ namespace LabirintOperations.Tests
             var startPlace = LabirintIO.GetStartPlace(labirintFilePath);
             var exitPlace = LabirintIO.GetExitPlace(labirintFilePath);
             //act
-            var solver = new LabirintSolver(map.MazeCells);
-            var tester = new LabirintTester(map.MazeCells, startPlace, exitPlace);
+            var solver = new LabirintSolver(map);
+            var tester = new LabirintTester(map, startPlace, exitPlace);
             var solution = solver.GetCellsPath(startPlace, exitPlace);
             var actualPassed = tester.RunSolutionTest(solution);
             //assert

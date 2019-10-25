@@ -84,7 +84,7 @@ namespace LabirintOperations.Tests
             };
 
             //act
-            var solver = new LabirintSolver(map.MazeCells);
+            var solver = new LabirintSolver(map);
 
             var actualSolution = solver.GetCellsPath(startPlace, exitPlace);
 
@@ -105,7 +105,7 @@ namespace LabirintOperations.Tests
 
             var expectedSolution = new List<MazeCell>();
             //act
-            var solver = new LabirintSolver(map.MazeCells);
+            var solver = new LabirintSolver(map);
             var actualSolution = solver.GetCellsPath(startPlace, exitPlace);
             //assert
             CollectionAssert.AreEqual(expectedSolution, actualSolution);
@@ -158,7 +158,7 @@ namespace LabirintOperations.Tests
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 
             //act
-            var solver = new LabirintSolver(map.MazeCells);
+            var solver = new LabirintSolver(map);
             var ex = Assert.ThrowsException<Exception>(
                 () => solver.GetCellsPath(startPlace, startPlace));
 
