@@ -18,11 +18,7 @@ namespace MazeAmazing_ConsoleApp
         public LabirintTester Tester { get; set; }
         public LabirintSolver Solver { get; set; }
 
-        public MazeCell[,] MazeMap { get; set; }
-
-        public int MazeHeight => MazeMap.GetLength(0);
-
-        public int MazeWidth => MazeMap.GetLength(1);
+        public Maze Maze { get; set; }
 
         public List<MazeCell> Solution { get; set; }
 
@@ -53,20 +49,20 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            MazeMap = LabirintIO.LoadLabirint(labirintFile);
+            Maze = LabirintIO.LoadLabirint(labirintFile);
             StartPlace = LabirintIO.GetStartPlace(labirintFile);
             ExitPlace = LabirintIO.GetExitPlace(labirintFile);
 
-            Tester = new LabirintTester(MazeMap, StartPlace, ExitPlace);
+            Tester = new LabirintTester(Maze.MazeCells, StartPlace, ExitPlace);
 
-            Solver = new LabirintSolver(MazeMap);
+            Solver = new LabirintSolver(Maze.MazeCells);
 
             Solution = Solver.GetCellsPath(StartPlace, ExitPlace);
 
             if (Tester.RunSolutionTest(Solution))
             {
                 Console.OutputEncoding = System.Text.Encoding.Unicode;
-                PrintLabirint(MazeHeight, MazeWidth, MazeMap);
+                PrintLabirint(Maze.Height, Maze.Width, Maze.MazeCells);
                 for (var i = 0; i < Solution.Count - 1; i++)
                 {
                     PrintSolutionPath(Solution[i], Solution[i + 1]);
@@ -126,7 +122,7 @@ namespace MazeAmazing_ConsoleApp
             Console.Write('S');
             Console.SetCursorPosition(finishPlace.X, finishPlace.Y);
             Console.Write('X');
-            Console.SetCursorPosition(0, MazeHeight + 3);
+            Console.SetCursorPosition(0, Maze.Height + 3);
         }
     }
 }

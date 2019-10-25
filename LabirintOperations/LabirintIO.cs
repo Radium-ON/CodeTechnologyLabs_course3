@@ -95,7 +95,7 @@ namespace LabirintOperations
         /// </summary>
         /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public static MazeCell[,] LoadLabirint(string labirintFilePath)
+        public static Maze LoadLabirint(string labirintFilePath)
         {
             string[] lines;
             try
@@ -122,7 +122,7 @@ namespace LabirintOperations
                     map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 3][x]));
                 }
             }
-            return map;
+            return new Maze(map);
         }
     }
 }

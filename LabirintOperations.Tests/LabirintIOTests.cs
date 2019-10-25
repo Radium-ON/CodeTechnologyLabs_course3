@@ -29,7 +29,7 @@ namespace LabirintOperations.Tests
             expectedMap[2, 3] = new MazeCell(3, 2, CellType.Wall);
 
             //act
-            var actualMap = LabirintIO.LoadLabirint(labirintFilePath);
+            var actualMap = LabirintIO.LoadLabirint(labirintFilePath).MazeCells;
             
             //assert
 
