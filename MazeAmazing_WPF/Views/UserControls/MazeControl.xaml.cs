@@ -1,4 +1,5 @@
 ﻿using LabirintOperations;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,12 +20,29 @@ namespace MazeAmazing_WPF.Views.UserControls
         public static readonly DependencyProperty MazeGridProperty =
             DependencyProperty.Register(
                 "MazeGrid", typeof(Maze), typeof(MazeControl),
-                new FrameworkPropertyMetadata()
+                new FrameworkPropertyMetadata
                 {
                     PropertyChangedCallback = OnMazeGridChanged,
                     AffectsArrange = true,
                     AffectsMeasure = true
                 });
+
+        public static readonly DependencyProperty SolutionPathListProperty =
+            DependencyProperty.Register(
+                "SolutionPathList", typeof(List<MazeCell>), typeof(MazeControl),
+                new FrameworkPropertyMetadata
+                {
+                    AffectsArrange = true,
+                    AffectsMeasure = true,
+                });
+
+
+
+        public List<MazeCell> SolutionPathList
+        {
+            get => (List<MazeCell>)GetValue(SolutionPathListProperty);
+            set => SetValue(SolutionPathListProperty, value);
+        }
 
         public Maze MazeGrid
         {
@@ -71,6 +89,33 @@ namespace MazeAmazing_WPF.Views.UserControls
                 }
             }
             return grid;
+        }
+
+        private void UpdateSolutionInstance(Grid grid, List<MazeCell> solution)
+        {
+            foreach (var cell in solution)
+            {
+                var field = new Rectangle
+                {
+                    Height = 40,
+                    Width = 40,
+                    Fill = Brushes.Aquamarine
+                };
+
+                grid.Children.Add(field);
+
+                Grid.SetColumn(field, cell.X);
+                Grid.SetRow(field, cell.Y);
+            }
+
+        }
+
+        private void MazeControl_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (this.Content is Grid grid_maze_view)
+            {
+                UpdateSolutionInstance(grid_maze_view, SolutionPathList);
+            }
         }
     }
 }
