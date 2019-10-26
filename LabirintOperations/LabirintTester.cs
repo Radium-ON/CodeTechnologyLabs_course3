@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace LabirintOperations
@@ -13,7 +14,7 @@ namespace LabirintOperations
         private readonly MazeCell[,] _labirintMap;
 
         private readonly int _mapWidth, _mapHeight;
-        
+
         public LabirintTester(Maze labirint, MazeCell start, MazeCell exit)
         {
             _labirintMap = labirint.MazeCells;
@@ -31,7 +32,7 @@ namespace LabirintOperations
         /// <returns>True - лабиринт пройден. Иначе False</returns>
         public bool RunSolutionTest(List<MazeCell> solution)
         {
-            if (solution.Count==0)
+            if (solution.Count == 0)
                 return false;
             var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _labirintMap);
             if (levelOk != "")
@@ -92,7 +93,7 @@ namespace LabirintOperations
             {
                 return "На карте должен быть хотя бы один объект игрока!";
             }
-            if (exit.X == 0 && exit.Y == 0 || targetsOnMap!=1)
+            if (exit.X == 0 && exit.Y == 0 || targetsOnMap != 1)
             {
                 return "На карте должна быть одна цель!";
             }

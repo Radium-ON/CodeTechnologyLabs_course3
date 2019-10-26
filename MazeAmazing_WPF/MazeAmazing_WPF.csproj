@@ -74,6 +74,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\MazeControlViewModel.cs" />
+    <Compile Include="ViewModels\TaskOnePageViewModel.cs" />
     <Compile Include="Views\UserControls\MazeControl.xaml.cs">
       <DependentUpon>MazeControl.xaml</DependentUpon>
     </Compile>

@@ -5,14 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:uc="clr-namespace:MazeAmazing_WPF.Views.UserControls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-		<StackPanel>
-		
-		</StackPanel>
+            <StackPanel>
+                <uc:MazeControl MazeGrid="{Binding Labirint, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>
