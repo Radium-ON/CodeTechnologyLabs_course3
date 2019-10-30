@@ -10,26 +10,26 @@ namespace MazeAmazing_WPF.ViewModels
         public TaskOnePageViewModel()
         {
             //var path =
-            //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint4.txt";
+            //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint4.txt";
             var path =
                 @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeAmazing_ConsoleApp\bin\Debug\labirintDebug.txt";
-            MazeMap = MazeIO.LoadMazeMapFromFile(path);
-            var finder = new MazePathFinder(MazeMap);
+            Maze = MazeIO.LoadMazeFromFile(path);
+            var finder = new MazePathFinder(Maze);
             var start = MazeIO.GetStartPlaceFromFile(path);
             var exit = MazeIO.GetExitPlaceFromFile(path);
             SolutionList = finder.GetCellsPath(start, exit);
         }
 
         #region Backing Fields
-        private Maze _mazeMap;
+        private Maze _maze;
         private List<MazeCell> _solutionList;
 
         #endregion
 
-        public Maze MazeMap
+        public Maze Maze
         {
-            get => _mazeMap;
-            set => SetProperty(ref _mazeMap, value);
+            get => _maze;
+            set => SetProperty(ref _maze, value);
         }
 
         public List<MazeCell> SolutionList

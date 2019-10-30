@@ -13,7 +13,7 @@
         <ScrollViewer>
             <StackPanel>
                 <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="400" MaxWidth="400">
-                    <uc:MazeControl MazeGrid="{Binding Labirint, UpdateSourceTrigger=PropertyChanged}"
+                    <uc:MazeControl MazeGrid="{Binding Maze, UpdateSourceTrigger=PropertyChanged}"
                         SolutionPathList="{Binding SolutionList, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True"/>
                 </Viewbox>
             </StackPanel>

@@ -13,7 +13,7 @@ namespace MazeOperations.Tests
         public void LoadLabirintTest()
         {
             //arrange
-            const string labirintFilePath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint_test1.txt";
+            const string labirintFilePath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint_test1.txt";
 
             var expectedMap = new MazeCell[3, 4];
             expectedMap[0, 0] = new MazeCell(0, 0, CellType.Wall);
@@ -30,7 +30,7 @@ namespace MazeOperations.Tests
             expectedMap[2, 3] = new MazeCell(3, 2, CellType.Wall);
 
             //act
-            var actualMap = MazeIO.LoadMazeMapFromFile(labirintFilePath).MazeCells;
+            var actualMap = MazeIO.LoadMazeFromFile(labirintFilePath).MazeCells;
             
             //assert
 
@@ -42,13 +42,13 @@ namespace MazeOperations.Tests
         public void LoadLabirint_NoLinesInFile()
         {
             //arrange
-            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\empty_maze.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\empty_maze.txt";
             
             var expectedSolution = "Файл не содержит ни одной строки";
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => MazeIO.LoadMazeMapFromFile(labirintPath));
+                () => MazeIO.LoadMazeFromFile(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);
@@ -63,7 +63,7 @@ namespace MazeOperations.Tests
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => MazeIO.LoadMazeMapFromFile(labirintPath));
+                () => MazeIO.LoadMazeFromFile(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);

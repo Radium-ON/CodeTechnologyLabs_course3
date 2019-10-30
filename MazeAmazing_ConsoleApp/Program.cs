@@ -46,7 +46,7 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            Maze = MazeIO.LoadMazeMapFromFile(_mazeMapFilePath);
+            Maze = MazeIO.LoadMazeFromFile(_mazeMapFilePath);
             StartPlace = MazeIO.GetStartPlaceFromFile(_mazeMapFilePath);
             ExitPlace = MazeIO.GetExitPlaceFromFile(_mazeMapFilePath);
 

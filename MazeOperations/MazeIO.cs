@@ -93,7 +93,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public static Maze LoadMazeMapFromFile(string mazeSetupFilePath)
+        public static Maze LoadMazeFromFile(string mazeSetupFilePath)
         {
             string[] lines;
             try

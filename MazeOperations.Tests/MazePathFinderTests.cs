@@ -66,9 +66,9 @@ namespace MazeOperations.Tests
         public void GetLabirintSolutionTest()
         {
             //arrange
-            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
 
-            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var map = MazeIO.LoadMazeFromFile(labirintPath);
             var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
             var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
 
@@ -99,9 +99,9 @@ namespace MazeOperations.Tests
         public void GetLabirintSolutionTest_NoSolution()
         {
             //arrange
-            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\solver_test_no_solution.txt";
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\solver_test_no_solution.txt";
 
-            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var map = MazeIO.LoadMazeFromFile(labirintPath);
             var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
             var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
 
@@ -154,8 +154,8 @@ namespace MazeOperations.Tests
         public void GetLabirintSolutionTest_Source_equal_Destination_place()
         {
             //arrange
-            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirintD.txt";
-            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirintD.txt";
+            var map = MazeIO.LoadMazeFromFile(labirintPath);
             var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 

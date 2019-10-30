@@ -38,18 +38,18 @@ namespace MazeOperations.Tests
     {
         [DataTestMethod]
         #region DataRows
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint4.txt", true)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\GetMazeSolutionTextNew.txt", true)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint3.txt", true)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint5.txt", false)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\output.txt", true)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\test_outOfRange.txt", false)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint4.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint3.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint5.txt", false)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt", true)]
+        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\test_outOfRange.txt", false)]
         #endregion
         public void RunSolutionTest_Solution_true(string labirintFilePath, bool correct)
         {
             //arrange
             var expectedPassed = correct;
-            var map = MazeIO.LoadMazeMapFromFile(labirintFilePath);
+            var map = MazeIO.LoadMazeFromFile(labirintFilePath);
             var startPlace = MazeIO.GetStartPlaceFromFile(labirintFilePath);
             var exitPlace = MazeIO.GetExitPlaceFromFile(labirintFilePath);
             //act
