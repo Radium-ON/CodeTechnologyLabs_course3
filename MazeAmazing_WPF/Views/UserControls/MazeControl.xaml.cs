@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using MazeOperations;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using MazeOperations;
 
 namespace MazeAmazing_WPF.Views.UserControls
 {
@@ -33,6 +33,7 @@ namespace MazeAmazing_WPF.Views.UserControls
                 "SolutionPathList", typeof(List<MazeCell>), typeof(MazeControl),
                 new FrameworkPropertyMetadata
                 {
+                    PropertyChangedCallback = OnSolutionChanged,
                     AffectsArrange = true,
                     AffectsMeasure = true,
                 });
@@ -58,6 +59,17 @@ namespace MazeAmazing_WPF.Views.UserControls
                 if (d is UserControl c)
                 {
                     c.Content = UpdateGridInstance((Maze)e.NewValue);
+                }
+            }
+        }
+
+        private static void OnSolutionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue != e.NewValue)
+            {
+                if (d is MazeControl c)
+                {
+                    c.UpdateSolutionInstance((Grid)c.Content, (List<MazeCell>)e.NewValue);
                 }
             }
         }
@@ -92,7 +104,7 @@ namespace MazeAmazing_WPF.Views.UserControls
             return grid;
         }
 
-        private static void UpdateSolutionInstance(Panel grid, List<MazeCell> solution)
+        private void UpdateSolutionInstance(Panel grid, List<MazeCell> solution)
         {
             for (var _ = 0; _ < solution.Count(); _++)
             {
@@ -109,14 +121,6 @@ namespace MazeAmazing_WPF.Views.UserControls
                 Grid.SetRow(field, solution[_].Y);
             }
 
-        }
-
-        private void MazeControl_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (this.Content is Grid grid_maze_view)
-            {
-                UpdateSolutionInstance(grid_maze_view, SolutionPathList);
-            }
         }
     }
 }
