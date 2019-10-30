@@ -11,8 +11,10 @@ namespace MazeAmazing_WPF.ViewModels
         {
             //var path =
             //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint4.txt";
+            //var path =
+            //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeAmazing_ConsoleApp\bin\Debug\labirintDebug.txt";
             var path =
-                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeAmazing_ConsoleApp\bin\Debug\labirintDebug.txt";
+                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt";
             Maze = MazeIO.LoadMazeFromFile(path);
             var finder = new MazePathFinder(Maze);
             var start = MazeIO.GetStartPlaceFromFile(path);

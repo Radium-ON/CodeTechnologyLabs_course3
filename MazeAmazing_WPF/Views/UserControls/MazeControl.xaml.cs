@@ -88,8 +88,8 @@ namespace MazeAmazing_WPF.Views.UserControls
                     var cell = maze.MazeCells[row, column];
                     var field = new Rectangle
                     {
-                        Height = 40,
-                        Width = 40,
+                        Height = 10,
+                        Width = 10,
                         Fill = (cell.CellType == CellType.Wall) ? Brushes.Black : Brushes.White
                     };
 
@@ -104,21 +104,17 @@ namespace MazeAmazing_WPF.Views.UserControls
             return grid;
         }
 
-        private void UpdateSolutionInstance(Panel grid, List<MazeCell> solution)
+        private void UpdateSolutionInstance(Grid grid, List<MazeCell> solution)
         {
-            for (var _ = 0; _ < solution.Count(); _++)
+            for (var _ = 0; _ < solution.Count; _++)
             {
-                var field = new Rectangle
+                var rect = grid.Children
+                    .Cast<UIElement>()
+                    .First(e => Grid.GetRow(e) == solution[_].Y && Grid.GetColumn(e) == solution[_].X);
+                if (rect is Rectangle r)
                 {
-                    Height = 40,
-                    Width = 40,
-                    Fill = _ == 0 ? Brushes.Gold : _ == solution.Count() - 1 ? Brushes.Brown : Brushes.Aquamarine
-                };
-
-                grid.Children.Add(field);
-
-                Grid.SetColumn(field, solution[_].X);
-                Grid.SetRow(field, solution[_].Y);
+                    r.Fill = _ == 0 ? Brushes.Lime : _ == solution.Count() - 1 ? Brushes.Red : Brushes.Gold;
+                }
             }
 
         }
