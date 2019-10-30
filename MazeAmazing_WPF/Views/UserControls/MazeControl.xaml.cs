@@ -1,5 +1,6 @@
 ﻿using LabirintOperations;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -91,21 +92,21 @@ namespace MazeAmazing_WPF.Views.UserControls
             return grid;
         }
 
-        private void UpdateSolutionInstance(Grid grid, List<MazeCell> solution)
+        private static void UpdateSolutionInstance(Panel grid, List<MazeCell> solution)
         {
-            foreach (var cell in solution)
+            for (var _ = 0; _ < solution.Count(); _++)
             {
                 var field = new Rectangle
                 {
                     Height = 40,
                     Width = 40,
-                    Fill = Brushes.Aquamarine
+                    Fill = _ == 0 ? Brushes.Gold : _ == solution.Count() - 1 ? Brushes.Brown : Brushes.Aquamarine
                 };
 
                 grid.Children.Add(field);
 
-                Grid.SetColumn(field, cell.X);
-                Grid.SetRow(field, cell.Y);
+                Grid.SetColumn(field, solution[_].X);
+                Grid.SetRow(field, solution[_].Y);
             }
 
         }
