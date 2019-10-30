@@ -68,9 +68,9 @@ namespace MazeOperations.Tests
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
 
-            var map = MazeIO.LoadLabirint(labirintPath);
-            var startPlace = MazeIO.GetStartPlace(labirintPath);
-            var exitPlace = MazeIO.GetExitPlace(labirintPath);
+            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
+            var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
 
             var expectedSolution = new List<MazeCell>
             {
@@ -101,9 +101,9 @@ namespace MazeOperations.Tests
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\solver_test_no_solution.txt";
 
-            var map = MazeIO.LoadLabirint(labirintPath);
-            var startPlace = MazeIO.GetStartPlace(labirintPath);
-            var exitPlace = MazeIO.GetExitPlace(labirintPath);
+            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
+            var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
 
             var expectedSolution = new List<MazeCell>();
             //act
@@ -155,8 +155,8 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirintD.txt";
-            var map = MazeIO.LoadLabirint(labirintPath);
-            var startPlace = MazeIO.GetStartPlace(labirintPath);
+            var map = MazeIO.LoadMazeMapFromFile(labirintPath);
+            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 
             //act

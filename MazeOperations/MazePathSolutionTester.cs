@@ -17,8 +17,8 @@ namespace MazeOperations
             _mazeMap = maze.MazeCells;
             _startMazeCell = start;
             _exitMazeCell = exit;
-            _mapHeight = _mazeMap.GetLength(0);
-            _mapWidth = _mazeMap.GetLength(1);
+            _mapHeight = maze.Height;
+            _mapWidth = maze.Width;
 
         }
 

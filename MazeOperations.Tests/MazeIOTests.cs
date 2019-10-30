@@ -30,7 +30,7 @@ namespace MazeOperations.Tests
             expectedMap[2, 3] = new MazeCell(3, 2, CellType.Wall);
 
             //act
-            var actualMap = MazeIO.LoadLabirint(labirintFilePath).MazeCells;
+            var actualMap = MazeIO.LoadMazeMapFromFile(labirintFilePath).MazeCells;
             
             //assert
 
@@ -48,7 +48,7 @@ namespace MazeOperations.Tests
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => MazeIO.LoadLabirint(labirintPath));
+                () => MazeIO.LoadMazeMapFromFile(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);
@@ -63,7 +63,7 @@ namespace MazeOperations.Tests
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => MazeIO.LoadLabirint(labirintPath));
+                () => MazeIO.LoadMazeMapFromFile(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);

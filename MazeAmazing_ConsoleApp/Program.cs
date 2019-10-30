@@ -7,13 +7,13 @@ namespace MazeAmazing_ConsoleApp
 {
     public class Program
     {
-        private static string labirintFile = @"labirintDebug.txt";
-        private static string solutionFile = @"solutionDebug.txt";
+        private static string _mazeMapFilePath = @"labirintDebug.txt";
+        private static string _solutionFilePath = @"solutionDebug.txt";
 
 
 
         public MazePathSolutionTester Tester { get; set; }
-        public MazePathFinder Solver { get; set; }
+        public MazePathFinder Finder { get; set; }
 
         public Maze Maze { get; set; }
 
@@ -26,12 +26,12 @@ namespace MazeAmazing_ConsoleApp
         {
             if (args.Length != 0)
             {
-                labirintFile = args[0];
+                _mazeMapFilePath = args[0];
                 if (args.Length == 2)
-                    solutionFile = args[1];
-                if (Path.GetExtension(labirintFile) != ".txt")
+                    _solutionFilePath = args[1];
+                if (Path.GetExtension(_mazeMapFilePath) != ".txt")
                     throw new Exception("Файл данных не существует или его расширение неверно!");
-                if (Path.GetExtension(solutionFile) != ".txt")
+                if (Path.GetExtension(_solutionFilePath) != ".txt")
                     throw new Exception("Файл состояния не существует или его расширение неверно!");
             }
             var program = new Program();
@@ -46,20 +46,20 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            Maze = MazeIO.LoadLabirint(labirintFile);
-            StartPlace = MazeIO.GetStartPlace(labirintFile);
-            ExitPlace = MazeIO.GetExitPlace(labirintFile);
+            Maze = MazeIO.LoadMazeMapFromFile(_mazeMapFilePath);
+            StartPlace = MazeIO.GetStartPlaceFromFile(_mazeMapFilePath);
+            ExitPlace = MazeIO.GetExitPlaceFromFile(_mazeMapFilePath);
 
             Tester = new MazePathSolutionTester(Maze, StartPlace, ExitPlace);
 
-            Solver = new MazePathFinder(Maze);
+            Finder = new MazePathFinder(Maze);
 
-            Solution = Solver.GetCellsPath(StartPlace, ExitPlace);
+            Solution = Finder.GetCellsPath(StartPlace, ExitPlace);
 
             if (Tester.RunSolutionTest(Solution))
             {
                 Console.OutputEncoding = System.Text.Encoding.Unicode;
-                PrintLabirint(Maze.Height, Maze.Width, Maze.MazeCells);
+                PrintMazeMap(Maze.Height, Maze.Width, Maze.MazeCells);
                 for (var i = 0; i < Solution.Count - 1; i++)
                 {
                     PrintSolutionPath(Solution[i], Solution[i + 1]);
@@ -97,7 +97,7 @@ namespace MazeAmazing_ConsoleApp
 
         }
 
-        private void PrintLabirint(int height, int width, MazeCell[,] map)
+        private void PrintMazeMap(int height, int width, MazeCell[,] map)
         {
             Console.Clear();
             Console.SetCursorPosition(0, 0);

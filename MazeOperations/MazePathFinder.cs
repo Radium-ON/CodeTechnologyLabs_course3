@@ -89,7 +89,7 @@ namespace MazeOperations
             return null;
         }
 
-        private bool InRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций
+        private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций
         {
             if (place.X < 0 || place.X >= w)
                 return false;
@@ -112,7 +112,7 @@ namespace MazeOperations
 
             foreach (var cell in neighborCells)
             {
-                if (!InRange(cell, map, h, w))
+                if (!StepInRange(cell, map, h, w))
                     continue;
                 // Заполняем данные для точки маршрута.
                 var neighbourNode = new Chain(cell, chain);

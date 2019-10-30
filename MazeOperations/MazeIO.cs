@@ -65,7 +65,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetStartPlace(string mazeSetupFilePath)
+        public static MazeCell GetStartPlaceFromFile(string mazeSetupFilePath)
         {
             var paramString = ReadLevelSettingLine(mazeSetupFilePath, 2, 2);
 
@@ -79,7 +79,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetExitPlace(string mazeSetupFilePath)
+        public static MazeCell GetExitPlaceFromFile(string mazeSetupFilePath)
         {
             var paramString = ReadLevelSettingLine(mazeSetupFilePath, 3, 3);
 
@@ -93,7 +93,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public static Maze LoadLabirint(string mazeSetupFilePath)
+        public static Maze LoadMazeMapFromFile(string mazeSetupFilePath)
         {
             string[] lines;
             try
