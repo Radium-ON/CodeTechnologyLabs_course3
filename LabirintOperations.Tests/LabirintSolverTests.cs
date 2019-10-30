@@ -73,10 +73,11 @@ namespace LabirintOperations.Tests
 
             var expectedSolution = new List<MazeCell>
             {
-                new MazeCell(1,2),
-                new MazeCell(2,2),
-                new MazeCell(3,2),
-                new MazeCell(4,2),
+                new MazeCell(1,1),
+                new MazeCell(2,1),
+                new MazeCell(3,1),
+                new MazeCell(4,1),
+                new MazeCell(5,1),
                 new MazeCell(5,2),
                 new MazeCell(6,2),
                 new MazeCell(7,2),
@@ -115,11 +116,11 @@ namespace LabirintOperations.Tests
         public void TraverseTest()
         {
             //arrange
-            var root = new Chain(
-                new MazeCell(0, 0), next: new Chain(
-                    new MazeCell(1, 1), next: new Chain(
-                        new MazeCell(2, 2), next: new Chain(
-                            new MazeCell(3, 3)))));
+            var exitChain = new Chain(
+                new MazeCell(3, 3), prev: new Chain(
+                    new MazeCell(2, 2), prev: new Chain(
+                        new MazeCell(1, 1), prev: new Chain(
+                            new MazeCell(0, 0)))));
 
             var expectedPath = new List<MazeCell>()
             {
@@ -129,7 +130,7 @@ namespace LabirintOperations.Tests
                 new MazeCell(3,3)
             };
             //act
-            var actualPath = Chain.Traverse(root);
+            var actualPath = Chain.Traverse(exitChain);
             //assert
             CollectionAssert.AreEqual(expectedPath, actualPath, new MazeCellComparer(),
                 $"\nExpected:{expectedPath.Count}\nActual:{actualPath.Count}\n");

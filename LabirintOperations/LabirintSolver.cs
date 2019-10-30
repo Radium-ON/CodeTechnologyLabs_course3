@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,20 +11,17 @@ namespace LabirintOperations
     {
         int _width, _height;
 
-        List<Point> _directionChains;//направления движения в координатах
         MazeCell[,] _labirintMap;
 
         public class Chain //путь до ячейки (ребро графа)
         {
             public MazeCell CellCurrent { get; set; }
-            //public Chain Previous { get; set; }
-            public Chain Next { get; set; }
-            public List<MazeCell> Path { get; set; } = new List<MazeCell>();
+            public Chain Previous { get; set; }
 
-            public Chain(MazeCell current, Chain next = null)
+            public Chain(MazeCell current, Chain prev = null)
             {
                 CellCurrent = current;
-                Next = next;
+                Previous = prev;
             }
 
             public static List<MazeCell> Traverse(Chain root)
@@ -37,35 +35,31 @@ namespace LabirintOperations
                 {
                     var chain = stack.Pop();
                     path.Add(chain.CellCurrent);
-                    if (chain.Next == null)
+                    if (chain.Previous == null)
+                    {
+                        path.Reverse();
                         return path;
+                    }
 
-                    stack.Push(chain.Next);
+                    stack.Push(chain.Previous);
                 }
                 return path;
             }
         }
 
-        public LabirintSolver(Maze labirint)//обход направлений в CreateChainPath
+        public LabirintSolver(Maze labirint)//обход направлений в CreateChainTree
         {
             _labirintMap = labirint.MazeCells;
             _height = labirint.Height;
             _width = labirint.Width;
-            _directionChains = new List<Point>
-            {
-                new Point(-1,0),
-                new Point(0, 1),
-                new Point( 1, 0),
-                new Point(0, -1)
-            };
         }
 
         public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
         {
-            return CreateChainPath(source, destination);
+            return Chain.Traverse(CreateChainTree(source, destination));
         }
 
-        private List<MazeCell> CreateChainPath(MazeCell source, MazeCell destination)
+        private Chain CreateChainTree(MazeCell source, MazeCell destination)
         {
             if (source.X == destination.X && source.Y == destination.Y)
             {
@@ -74,49 +68,61 @@ namespace LabirintOperations
 
             var queueChains = new Queue<Chain>();//очередь для поиска в ширину
             var visitedInLabirintPlaces = new List<MazeCell>();//уже посещённые вершины (ячейки)
-            var stepUser = new Chain(new MazeCell(source.X, source.Y));
 
-            //начальная позиция игрока
+            //начальная позиция
             var startChain = new Chain(new MazeCell(source.X, source.Y));
-            //MazeCell place;//новые координаты
+
             queueChains.Enqueue(startChain);
 
             while (queueChains.Count > 0)
             {
                 var chain = queueChains.Dequeue();
-                //chain.Previous = stepUser;
-                foreach (var side in _directionChains)
+                if (chain.CellCurrent.Equals(destination))
+                    return chain;
+
+                if (visitedInLabirintPlaces.Contains(chain.CellCurrent))
+                    continue;
+                visitedInLabirintPlaces.Add(chain.CellCurrent);
+
+                foreach (var place in GetNeighbours(chain, _labirintMap, _height, _width))
                 {
-                    var place = new MazeCell(chain.CellCurrent.X + side.X, chain.CellCurrent.Y + side.Y, CellType.Exit);
-                    if (visitedInLabirintPlaces.Contains(place))
-                        continue;
-                    if (!InRange(place, _labirintMap))
-                        continue;
-                    visitedInLabirintPlaces.Add(place);//добавили координату, куда переместились
-
-                    stepUser = new Chain(place);
-                    var newlist = new List<MazeCell>(chain.Path) { place };
-                    stepUser.Path = new List<MazeCell>(newlist);
-                    //отобразили, куда сдвинулись
-                    //chain.Next = stepUser;
-                    if (place.Equals(destination))
-                        return stepUser.Path;
-                    queueChains.Enqueue(stepUser);
+                    queueChains.Enqueue(place);
                 }
-
             }
-            return new List<MazeCell>();
+            return null;
         }
 
-        private bool InRange(MazeCell place, MazeCell[,] map)//проверка позиций
+        private bool InRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций
         {
-            if (place.X < 0 || place.X >= _width)
+            if (place.X < 0 || place.X >= w)
                 return false;
-            if (place.Y < 0 || place.Y >= _height)
+            if (place.Y < 0 || place.Y >= h)
                 return false;
             if (map[place.Y, place.X].CellType != CellType.None && map[place.Y, place.X].CellType != CellType.Exit)
                 return false;
             return true;
+        }
+
+        private Collection<Chain> GetNeighbours(Chain chain, MazeCell[,] map, int h, int w)
+        {
+            var result = new Collection<Chain>();
+
+            var neighborCells = new MazeCell[4];
+            neighborCells[0] = new MazeCell(chain.CellCurrent.X + 1, chain.CellCurrent.Y, CellType.Exit);
+            neighborCells[1] = new MazeCell(chain.CellCurrent.X - 1, chain.CellCurrent.Y, CellType.Exit);
+            neighborCells[2] = new MazeCell(chain.CellCurrent.X, chain.CellCurrent.Y + 1, CellType.Exit);
+            neighborCells[3] = new MazeCell(chain.CellCurrent.X, chain.CellCurrent.Y - 1, CellType.Exit);
+
+            foreach (var cell in neighborCells)
+            {
+                if (!InRange(cell, map, h, w))
+                    continue;
+                // Заполняем данные для точки маршрута.
+                var neighbourNode = new Chain(cell, chain);
+
+                result.Add(neighbourNode);
+            }
+            return result;
         }
     }
 }
