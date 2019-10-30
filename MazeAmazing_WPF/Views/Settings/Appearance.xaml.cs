@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using MazeAmazing_WPF.Pages.Settings;
 
 namespace MazeAmazing_WPF.Views.Settings
 {

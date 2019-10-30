@@ -139,9 +139,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LabirintOperations\LabirintOperations.csproj">
+    <ProjectReference Include="..\MazeOperations\MazeOperations.csproj">
       <Project>{9ebd350f-083e-4d16-9cff-35491722ccfe}</Project>
-      <Name>LabirintOperations</Name>
+      <Name>MazeOperations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

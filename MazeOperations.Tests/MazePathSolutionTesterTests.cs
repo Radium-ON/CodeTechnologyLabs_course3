@@ -5,8 +5,9 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using MazeOperations;
 
-namespace LabirintOperations.Tests
+namespace MazeOperations.Tests
 {
     //public class ConsoleOutput : IDisposable
     //{
@@ -33,7 +34,7 @@ namespace LabirintOperations.Tests
     //}
 
     [TestClass]
-    public class LabirintTesterTests
+    public class MazePathSolutionTesterTests
     {
         [DataTestMethod]
         #region DataRows
@@ -48,12 +49,12 @@ namespace LabirintOperations.Tests
         {
             //arrange
             var expectedPassed = correct;
-            var map = LabirintIO.LoadLabirint(labirintFilePath);
-            var startPlace = LabirintIO.GetStartPlace(labirintFilePath);
-            var exitPlace = LabirintIO.GetExitPlace(labirintFilePath);
+            var map = MazeIO.LoadLabirint(labirintFilePath);
+            var startPlace = MazeIO.GetStartPlace(labirintFilePath);
+            var exitPlace = MazeIO.GetExitPlace(labirintFilePath);
             //act
-            var solver = new LabirintSolver(map);
-            var tester = new LabirintTester(map, startPlace, exitPlace);
+            var solver = new MazePathFinder(map);
+            var tester = new MazePathSolutionTester(map, startPlace, exitPlace);
             var solution = solver.GetCellsPath(startPlace, exitPlace);
             var actualPassed = tester.RunSolutionTest(solution);
             //assert

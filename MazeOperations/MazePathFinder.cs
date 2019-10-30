@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 
-namespace LabirintOperations
+namespace MazeOperations
 {
-    public class LabirintSolver
+    public class MazePathFinder
     {
-        int _width, _height;
+        int _mapWidth, _mapHeight;
 
-        MazeCell[,] _labirintMap;
+        MazeCell[,] _mazeMap;
 
         public class Chain //путь до ячейки (ребро графа)
         {
@@ -47,11 +44,11 @@ namespace LabirintOperations
             }
         }
 
-        public LabirintSolver(Maze labirint)//обход направлений в CreateChainTree
+        public MazePathFinder(Maze maze)//обход направлений в CreateChainTree
         {
-            _labirintMap = labirint.MazeCells;
-            _height = labirint.Height;
-            _width = labirint.Width;
+            _mazeMap = maze.MazeCells;
+            _mapHeight = maze.Height;
+            _mapWidth = maze.Width;
         }
 
         public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
@@ -84,7 +81,7 @@ namespace LabirintOperations
                     continue;
                 visitedInLabirintPlaces.Add(chain.CellCurrent);
 
-                foreach (var place in GetNeighbours(chain, _labirintMap, _height, _width))
+                foreach (var place in GetNeighbours(chain, _mazeMap, _mapHeight, _mapWidth))
                 {
                     queueChains.Enqueue(place);
                 }

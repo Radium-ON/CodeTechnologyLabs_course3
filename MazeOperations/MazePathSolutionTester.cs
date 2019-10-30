@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
-namespace LabirintOperations
+namespace MazeOperations
 {
-    public class LabirintTester
+    public class MazePathSolutionTester
     {
         private readonly MazeCell _startMazeCell;
         private readonly MazeCell _exitMazeCell;
 
-        private readonly MazeCell[,] _labirintMap;
+        private readonly MazeCell[,] _mazeMap;
 
         private readonly int _mapWidth, _mapHeight;
 
-        public LabirintTester(Maze labirint, MazeCell start, MazeCell exit)
+        public MazePathSolutionTester(Maze maze, MazeCell start, MazeCell exit)
         {
-            _labirintMap = labirint.MazeCells;
+            _mazeMap = maze.MazeCells;
             _startMazeCell = start;
             _exitMazeCell = exit;
-            _mapHeight = _labirintMap.GetLength(0);
-            _mapWidth = _labirintMap.GetLength(1);
+            _mapHeight = _mazeMap.GetLength(0);
+            _mapWidth = _mazeMap.GetLength(1);
 
         }
 
@@ -34,19 +31,19 @@ namespace LabirintOperations
         {
             if (solution.Count == 0)
                 return false;
-            var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _labirintMap);
+            var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _mazeMap);
             if (levelOk != "")
                 throw new Exception(levelOk);
 
             for (var i = 0; i < solution.Count; i++)
             {
-                if (!MoveDirectBySolution(solution[i], _mapHeight, _mapWidth, _labirintMap))
+                if (!MoveDirectBySolution(solution[i], _mapHeight, _mapWidth, _mazeMap))
                     break;
             }
 
             var x = solution[solution.Count - 1].X;
             var y = solution[solution.Count - 1].Y;
-            return _labirintMap[y, x].CellType == _exitMazeCell.CellType;
+            return _mazeMap[y, x].CellType == _exitMazeCell.CellType;
         }
 
         private bool MoveDirectBySolution(MazeCell cell, int mapHeight, int mapWidth, MazeCell[,] map)

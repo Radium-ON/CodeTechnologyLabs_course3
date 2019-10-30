@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabirintOperations", "LabirintOperations\LabirintOperations.csproj", "{9EBD350F-083E-4D16-9CFF-35491722CCFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeOperations", "MazeOperations\MazeOperations.csproj", "{9EBD350F-083E-4D16-9CFF-35491722CCFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabirintOperations.Tests", "LabirintOperations.Tests\LabirintOperations.Tests.csproj", "{D8BD129A-C121-4BF2-9172-6DFF7F5D621A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeOperations.Tests", "MazeOperations.Tests\MazeOperations.Tests.csproj", "{D8BD129A-C121-4BF2-9172-6DFF7F5D621A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeAmazing_ConsoleApp", "MazeAmazing_ConsoleApp\MazeAmazing_ConsoleApp.csproj", "{C611F08C-11D9-4D81-99CB-32116C1908D1}"
 EndProject

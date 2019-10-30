@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MazeOperations;
 
-namespace LabirintOperations.Tests
+namespace MazeOperations.Tests
 {
     [TestClass]
-    public class LabirintIOTests
+    public class MazeIOTests
     {
         [TestMethod]
         public void LoadLabirintTest()
@@ -29,7 +30,7 @@ namespace LabirintOperations.Tests
             expectedMap[2, 3] = new MazeCell(3, 2, CellType.Wall);
 
             //act
-            var actualMap = LabirintIO.LoadLabirint(labirintFilePath).MazeCells;
+            var actualMap = MazeIO.LoadLabirint(labirintFilePath).MazeCells;
             
             //assert
 
@@ -47,7 +48,7 @@ namespace LabirintOperations.Tests
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => LabirintIO.LoadLabirint(labirintPath));
+                () => MazeIO.LoadLabirint(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);
@@ -62,7 +63,7 @@ namespace LabirintOperations.Tests
             //act
 
             var ex = Assert.ThrowsException<Exception>(
-                () => LabirintIO.LoadLabirint(labirintPath));
+                () => MazeIO.LoadLabirint(labirintPath));
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);

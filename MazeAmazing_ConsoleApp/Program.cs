@@ -1,10 +1,7 @@
-﻿using LabirintOperations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MazeOperations;
 
 namespace MazeAmazing_ConsoleApp
 {
@@ -15,8 +12,8 @@ namespace MazeAmazing_ConsoleApp
 
 
 
-        public LabirintTester Tester { get; set; }
-        public LabirintSolver Solver { get; set; }
+        public MazePathSolutionTester Tester { get; set; }
+        public MazePathFinder Solver { get; set; }
 
         public Maze Maze { get; set; }
 
@@ -49,13 +46,13 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            Maze = LabirintIO.LoadLabirint(labirintFile);
-            StartPlace = LabirintIO.GetStartPlace(labirintFile);
-            ExitPlace = LabirintIO.GetExitPlace(labirintFile);
+            Maze = MazeIO.LoadLabirint(labirintFile);
+            StartPlace = MazeIO.GetStartPlace(labirintFile);
+            ExitPlace = MazeIO.GetExitPlace(labirintFile);
 
-            Tester = new LabirintTester(Maze, StartPlace, ExitPlace);
+            Tester = new MazePathSolutionTester(Maze, StartPlace, ExitPlace);
 
-            Solver = new LabirintSolver(Maze);
+            Solver = new MazePathFinder(Maze);
 
             Solution = Solver.GetCellsPath(StartPlace, ExitPlace);
 
@@ -108,7 +105,7 @@ namespace MazeAmazing_ConsoleApp
             {
                 for (var j = 0; j < width; j++)
                 {
-                    Console.Write(LabirintIO.CellTypeToChar(map[i, j]));
+                    Console.Write(MazeIO.CellTypeToChar(map[i, j]));
                 }
 
                 Console.WriteLine();

@@ -1,9 +1,6 @@
-﻿using LabirintOperations;
-using Prism.Commands;
-using Prism.Mvvm;
-using System;
+﻿using Prism.Mvvm;
 using System.Collections.Generic;
-using System.Linq;
+using MazeOperations;
 
 namespace MazeAmazing_WPF.ViewModels
 {
@@ -16,10 +13,10 @@ namespace MazeAmazing_WPF.ViewModels
             //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\LabirintOperations.Tests\TestInput\labirint4.txt";
             var path =
                 @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeAmazing_ConsoleApp\bin\Debug\labirintDebug.txt";
-            Labirint = LabirintIO.LoadLabirint(path);
-            var solver = new LabirintSolver(Labirint);
-            var start = LabirintIO.GetStartPlace(path);
-            var exit = LabirintIO.GetExitPlace(path);
+            Labirint = MazeIO.LoadLabirint(path);
+            var solver = new MazePathFinder(Labirint);
+            var start = MazeIO.GetStartPlace(path);
+            var exit = MazeIO.GetExitPlace(path);
             SolutionList = solver.GetCellsPath(start, exit);
         }
 

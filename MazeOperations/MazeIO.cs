@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace LabirintOperations
+namespace MazeOperations
 {
-    public static class LabirintIO
+    public static class MazeIO
     {
         private static CellType CharToCellType(char x)
         {
@@ -65,11 +63,11 @@ namespace LabirintOperations
         /// <summary>
         /// Возвращает начальную позицию в лабиринте
         /// </summary>
-        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetStartPlace(string labirintFilePath)
+        public static MazeCell GetStartPlace(string mazeSetupFilePath)
         {
-            var paramString = ReadLevelSettingLine(labirintFilePath, 2, 2);
+            var paramString = ReadLevelSettingLine(mazeSetupFilePath, 2, 2);
 
             var start = ParseParamsLine(paramString);
 
@@ -79,11 +77,11 @@ namespace LabirintOperations
         /// <summary>
         /// Возвращает точку выхода в лабиринте
         /// </summary>
-        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetExitPlace(string labirintFilePath)
+        public static MazeCell GetExitPlace(string mazeSetupFilePath)
         {
-            var paramString = ReadLevelSettingLine(labirintFilePath, 3, 3);
+            var paramString = ReadLevelSettingLine(mazeSetupFilePath, 3, 3);
 
             var exit = ParseParamsLine(paramString);
 
@@ -93,14 +91,14 @@ namespace LabirintOperations
         /// <summary>
         /// Загружает матрицу клеток лабиринта из файла
         /// </summary>
-        /// <param name="labirintFilePath">Путь к файлу лабиринта</param>
+        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public static Maze LoadLabirint(string labirintFilePath)
+        public static Maze LoadLabirint(string mazeSetupFilePath)
         {
             string[] lines;
             try
             {
-                lines = File.ReadAllLines(labirintFilePath);
+                lines = File.ReadAllLines(mazeSetupFilePath);
             }
             catch
             {

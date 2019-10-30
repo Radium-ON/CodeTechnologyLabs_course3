@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LabirintOperations\LabirintOperations.csproj" />
+    <ProjectReference Include="..\MazeOperations\MazeOperations.csproj" />
   </ItemGroup>
 
 </Project>
