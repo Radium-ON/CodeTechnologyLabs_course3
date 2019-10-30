@@ -12,8 +12,10 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel>
-                <uc:MazeControl MazeGrid="{Binding Labirint, UpdateSourceTrigger=PropertyChanged}"
-                                SolutionPathList="{Binding SolutionList, UpdateSourceTrigger=PropertyChanged}"/>
+                <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="400" MaxWidth="400">
+                    <uc:MazeControl MazeGrid="{Binding Labirint, UpdateSourceTrigger=PropertyChanged}"
+                        SolutionPathList="{Binding SolutionList, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True"/>
+                </Viewbox>
             </StackPanel>
         </ScrollViewer>
     </Grid>
