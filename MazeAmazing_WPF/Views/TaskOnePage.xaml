@@ -12,9 +12,13 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel>
-                <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="600" MaxWidth="600">
-                    <uc:MazeControl MazeGrid="{Binding Maze, UpdateSourceTrigger=PropertyChanged}"
-                        SolutionPathList="{Binding SolutionList, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True"/>
+                <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="650" MaxWidth="800">
+                    <uc:MazeControl SnapsToDevicePixels="True"
+                        MazeGrid="{Binding Maze}"
+                        SolutionPathList="{Binding SolutionList}"
+                        StartMazePosition="{Binding StartCellPosition}"
+                        ExitMazePosition="{Binding ExitCellPosition}"
+                        />
                 </Viewbox>
             </StackPanel>
         </ScrollViewer>
