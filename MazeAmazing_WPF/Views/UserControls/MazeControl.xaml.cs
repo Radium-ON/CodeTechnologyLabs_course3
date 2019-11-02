@@ -157,10 +157,9 @@ namespace MazeAmazing_WPF.Views.UserControls
 
                     Grid.SetColumn(field, column);
                     Grid.SetRow(field, row);
-
-                    grid.Name = "grid_maze_view";
                 }
             }
+            grid.Name = "grid_maze_view";
             return grid;
         }
 
