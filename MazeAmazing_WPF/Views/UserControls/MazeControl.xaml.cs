@@ -143,16 +143,9 @@ namespace MazeAmazing_WPF.Views.UserControls
                     {
                         Height = 10,
                         Width = 10,
+                        Fill = (cell.CellType == CellType.Wall) ? Brushes.Black : Brushes.White
                     };
 
-                    if (cell.CellType == CellType.Wall)
-                    {
-                        field.SetResourceReference(Shape.FillProperty, "Accent");
-                    }
-                    else
-                    {
-                        field.Fill = Brushes.White;
-                    }
                     grid.Children.Add(field);
 
                     Grid.SetColumn(field, column);
