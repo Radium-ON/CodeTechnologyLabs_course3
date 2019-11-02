@@ -1,4 +1,6 @@
-﻿namespace MazeOperations
+﻿using System;
+
+namespace MazeOperations
 {
     public class Maze
     {
@@ -10,7 +12,7 @@
 
         public Maze(MazeCell[,] mazeCells)
         {
-            MazeCells = mazeCells;
+            MazeCells = mazeCells ?? throw new ArgumentNullException(nameof(mazeCells));
         }
     }
 }

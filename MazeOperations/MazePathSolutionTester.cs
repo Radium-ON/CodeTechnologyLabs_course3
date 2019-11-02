@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MazeOperations
 {
@@ -14,14 +15,14 @@ namespace MazeOperations
 
         public MazePathSolutionTester(Maze maze, MazeCell start, MazeCell exit)
         {
+            if (maze == null) throw new ArgumentNullException(nameof(maze));
             _mazeMap = maze.MazeCells;
             _startMazeCell = start;
             _exitMazeCell = exit;
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
-
         }
-
+        
         /// <summary>
         /// Тестирование пути выхода из лабиринта
         /// </summary>
@@ -29,6 +30,8 @@ namespace MazeOperations
         /// <returns>True - лабиринт пройден. Иначе False</returns>
         public bool RunSolutionTest(List<MazeCell> solution)
         {
+            if (solution == null) throw new ArgumentNullException(nameof(solution));
+
             if (solution.Count == 0)
                 return false;
             var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _mazeMap);
@@ -45,6 +48,7 @@ namespace MazeOperations
             var y = solution[solution.Count - 1].Y;
             return _mazeMap[y, x].CellType == _exitMazeCell.CellType;
         }
+
 
         private bool MoveDirectBySolution(MazeCell cell, int mapHeight, int mapWidth, MazeCell[,] map)
         {
@@ -67,18 +71,11 @@ namespace MazeOperations
         
         private int CountMapItems(CellType type, MazeCell[,] map)
         {
-            var counter = 0;
-            foreach (var _ in map)
-            {
-                if (_.CellType == type)
-                {
-                    counter++;
-                }
-            }
-            return counter;
+            return map.Cast<MazeCell>().Count(_ => _.CellType == type);
         }
 
-        public string IsLevelCorrect(MazeCell alpha, MazeCell exit, MazeCell[,] map)
+
+        private string IsLevelCorrect(MazeCell alpha, MazeCell exit, MazeCell[,] map)
         {
             var targetsOnMap = CountMapItems(CellType.Exit, map);
             var wallOnMap = CountMapItems(CellType.Wall, map);

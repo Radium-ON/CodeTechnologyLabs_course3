@@ -4,8 +4,16 @@
     {
         public MazeCell(int x, int y, CellType type = CellType.None)
         {
-            X = x;//j
-            Y = y;//i
+            if (x >= 0 && y >= 0)
+            {
+                X = x;//j
+                Y = y;//i
+            }
+            else
+            {
+                X = 0;
+                Y = 0;
+            }
             CellType = type;
         }
 

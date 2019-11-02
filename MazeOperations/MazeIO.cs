@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace MazeOperations
@@ -19,7 +20,7 @@ namespace MazeOperations
             }
         }
 
-        public static char CellTypeToChar(MazeCell cell)
+        private static char CellTypeToChar(MazeCell cell)
         {
             //возвращает символ в зависимости от ячейки
             switch (cell.CellType)
@@ -29,23 +30,28 @@ namespace MazeOperations
                 case CellType.Start: return 'S';
                 case CellType.Exit: return 'X';
                 default: return ' ';
-
-
             }
         }
 
         private static string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
         {
             var listLines = new string[lineCount];
-
-            using (var reader = new StreamReader(filepath))
+            try
             {
-                for (var i = 0; i < lineCount; i++)
+                using (var reader = new StreamReader(filepath))
                 {
-                    listLines[i] = reader.ReadLine();
+                    for (var i = 0; i < lineCount; i++)
+                    {
+                        listLines[i] = reader.ReadLine();
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Source + e.Message);
+                return e.Message;
+            }
+            
             return listLines[certainLine - 1];
         }
 
@@ -55,7 +61,10 @@ namespace MazeOperations
             var paramSet = new int[parts.Length];
             for (var i = 0; i < parts.Length; i++)
             {
-                int.TryParse(parts[i], out paramSet[i]);
+                if (!int.TryParse(parts[i], out paramSet[i]))
+                {
+                    paramSet[i] = 0;
+                }
             }
             return paramSet;
         }

@@ -6,19 +6,20 @@ namespace MazeOperations
 {
     public class MazePathFinder
     {
-        int _mapWidth, _mapHeight;
+        readonly int _mapWidth;
+        readonly int _mapHeight;
 
-        MazeCell[,] _mazeMap;
+        readonly MazeCell[,] _mazeMap;
 
-        public class Chain //путь до ячейки (ребро графа)
+        private class Chain //путь до ячейки (ребро графа)
         {
-            public MazeCell CellCurrent { get; set; }
-            public Chain Previous { get; set; }
+            public MazeCell CurrentCell { get; }
+            public Chain PreviousChain { get; }
 
             public Chain(MazeCell current, Chain prev = null)
             {
-                CellCurrent = current;
-                Previous = prev;
+                CurrentCell = current;
+                PreviousChain = prev;
             }
 
             public static List<MazeCell> Traverse(Chain root)
@@ -31,14 +32,14 @@ namespace MazeOperations
                 while (stack.Count > 0)
                 {
                     var chain = stack.Pop();
-                    path.Add(chain.CellCurrent);
-                    if (chain.Previous == null)
+                    path.Add(chain.CurrentCell);
+                    if (chain.PreviousChain == null)
                     {
                         path.Reverse();
                         return path;
                     }
 
-                    stack.Push(chain.Previous);
+                    stack.Push(chain.PreviousChain);
                 }
                 return path;
             }
@@ -46,6 +47,7 @@ namespace MazeOperations
 
         public MazePathFinder(Maze maze)//обход направлений в CreateChainTree
         {
+            if (maze == null) throw new ArgumentNullException(nameof(maze));
             _mazeMap = maze.MazeCells;
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
@@ -74,12 +76,12 @@ namespace MazeOperations
             while (queueChains.Count > 0)
             {
                 var chain = queueChains.Dequeue();
-                if (chain.CellCurrent.Equals(destination))
+                if (chain.CurrentCell.Equals(destination))
                     return chain;
 
-                if (visitedInLabirintPlaces.Contains(chain.CellCurrent))
+                if (visitedInLabirintPlaces.Contains(chain.CurrentCell))
                     continue;
-                visitedInLabirintPlaces.Add(chain.CellCurrent);
+                visitedInLabirintPlaces.Add(chain.CurrentCell);
 
                 foreach (var place in GetNeighbours(chain, _mazeMap, _mapHeight, _mapWidth))
                 {
@@ -105,10 +107,10 @@ namespace MazeOperations
             var result = new Collection<Chain>();
 
             var neighborCells = new MazeCell[4];
-            neighborCells[0] = new MazeCell(chain.CellCurrent.X + 1, chain.CellCurrent.Y, CellType.Exit);
-            neighborCells[1] = new MazeCell(chain.CellCurrent.X - 1, chain.CellCurrent.Y, CellType.Exit);
-            neighborCells[2] = new MazeCell(chain.CellCurrent.X, chain.CellCurrent.Y + 1, CellType.Exit);
-            neighborCells[3] = new MazeCell(chain.CellCurrent.X, chain.CellCurrent.Y - 1, CellType.Exit);
+            neighborCells[0] = new MazeCell(chain.CurrentCell.X + 1, chain.CurrentCell.Y, CellType.Exit);
+            neighborCells[1] = new MazeCell(chain.CurrentCell.X - 1, chain.CurrentCell.Y, CellType.Exit);
+            neighborCells[2] = new MazeCell(chain.CurrentCell.X, chain.CurrentCell.Y + 1, CellType.Exit);
+            neighborCells[3] = new MazeCell(chain.CurrentCell.X, chain.CurrentCell.Y - 1, CellType.Exit);
 
             foreach (var cell in neighborCells)
             {
