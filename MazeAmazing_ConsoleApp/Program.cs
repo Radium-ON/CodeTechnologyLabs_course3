@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MazeOperations;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using MazeOperations;
 
 namespace MazeAmazing_ConsoleApp
 {
@@ -105,7 +105,7 @@ namespace MazeAmazing_ConsoleApp
             {
                 for (var j = 0; j < width; j++)
                 {
-                    Console.Write(MazeIO.CellTypeToChar(map[i, j]));
+                    Console.Write(CellTypeToChar(map[i, j]));
                 }
 
                 Console.WriteLine();
@@ -120,6 +120,16 @@ namespace MazeAmazing_ConsoleApp
             Console.SetCursorPosition(finishPlace.X, finishPlace.Y);
             Console.Write('X');
             Console.SetCursorPosition(0, Maze.Height + 3);
+        }
+
+        private char CellTypeToChar(MazeCell cell)
+        {
+            switch (cell.CellType)
+            {
+                case CellType.None: return ' ';
+                case CellType.Wall: return '#';
+                default: return ' ';
+            }
         }
     }
 }
