@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace MazeOperations
 {
-    public static class MazeIO
+    public class MazeIO
     {
-        private static CellType CharToCellType(char x)
+        private readonly List<string> _mazeSettingsList;
+
+        public MazeIO(string mazeSetupFilePath)
+        {
+            if (File.Exists(mazeSetupFilePath))
+                _mazeSettingsList = File.ReadAllLines(mazeSetupFilePath).ToList();
+            else
+                File.Create(mazeSetupFilePath);
+        }
+
+        private CellType CharToCellType(char x)
         {
             //возвращает ячейку в зависимости от считанного символа
             switch (x)
@@ -20,7 +32,7 @@ namespace MazeOperations
             }
         }
 
-        private static char CellTypeToChar(MazeCell cell)
+        private char CellTypeToChar(MazeCell cell)
         {
             //возвращает символ в зависимости от ячейки
             switch (cell.CellType)
@@ -33,7 +45,7 @@ namespace MazeOperations
             }
         }
 
-        private static string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
+        private string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
         {
             var listLines = new string[lineCount];
             try
@@ -51,11 +63,11 @@ namespace MazeOperations
                 Trace.WriteLine(e.Source + e.Message);
                 return e.Message;
             }
-            
+
             return listLines[certainLine - 1];
         }
 
-        private static int[] ParseParamsLine(string line)
+        private int[] ParseParamsLine(string line)
         {
             var parts = line.Split();
             var paramSet = new int[parts.Length];
@@ -74,7 +86,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetStartPlaceFromFile(string mazeSetupFilePath)
+        public MazeCell GetStartPlaceFromFile(string mazeSetupFilePath)
         {
             var paramString = ReadLevelSettingLine(mazeSetupFilePath, 2, 2);
 
@@ -88,7 +100,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public static MazeCell GetExitPlaceFromFile(string mazeSetupFilePath)
+        public MazeCell GetExitPlaceFromFile(string mazeSetupFilePath)
         {
             var paramString = ReadLevelSettingLine(mazeSetupFilePath, 3, 3);
 
@@ -102,7 +114,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public static Maze LoadMazeFromFile(string mazeSetupFilePath)
+        public Maze LoadMazeFromFile(string mazeSetupFilePath)
         {
             string[] lines;
             try
