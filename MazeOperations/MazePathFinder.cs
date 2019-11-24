@@ -83,7 +83,7 @@ namespace MazeOperations
                     continue;
                 visitedInLabirintPlaces.Add(chain.CurrentCell);
 
-                foreach (var place in GetNeighbours(chain, _mazeMap, _mapHeight, _mapWidth))
+                foreach (var place in GetProperStepDirections(chain,GetNeighbours(chain),_mazeMap,_mapHeight,_mapWidth))
                 {
                     queueChains.Enqueue(place);
                 }
@@ -102,15 +102,21 @@ namespace MazeOperations
             return true;
         }
 
-        private Collection<Chain> GetNeighbours(Chain chain, MazeCell[,] map, int h, int w)
+        private IEnumerable<MazeCell> GetNeighbours(Chain chain)
         {
-            var result = new Collection<Chain>();
-
             var neighborCells = new MazeCell[4];
+
             neighborCells[0] = new MazeCell(chain.CurrentCell.X + 1, chain.CurrentCell.Y, CellType.Exit);
             neighborCells[1] = new MazeCell(chain.CurrentCell.X - 1, chain.CurrentCell.Y, CellType.Exit);
             neighborCells[2] = new MazeCell(chain.CurrentCell.X, chain.CurrentCell.Y + 1, CellType.Exit);
             neighborCells[3] = new MazeCell(chain.CurrentCell.X, chain.CurrentCell.Y - 1, CellType.Exit);
+
+            return neighborCells;
+        }
+
+        private ICollection<Chain> GetProperStepDirections(Chain chain, IEnumerable<MazeCell> neighborCells, MazeCell[,] map, int h, int w)
+        {
+            var result = new Collection<Chain>();
 
             foreach (var cell in neighborCells)
             {
@@ -121,6 +127,7 @@ namespace MazeOperations
 
                 result.Add(neighbourNode);
             }
+
             return result;
         }
     }
