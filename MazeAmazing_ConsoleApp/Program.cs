@@ -15,6 +15,8 @@ namespace MazeAmazing_ConsoleApp
         public MazePathSolutionTester Tester { get; set; }
         public MazePathFinder Finder { get; set; }
 
+        public MazeIO MazeInputOutput { get; set; }
+
         public Maze Maze { get; set; }
 
         public List<MazeCell> Solution { get; set; }
@@ -46,9 +48,17 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            Maze = MazeIO.LoadMazeFromFile(_mazeMapFilePath);
-            StartPlace = MazeIO.GetStartPlaceFromFile(_mazeMapFilePath);
-            ExitPlace = MazeIO.GetExitPlaceFromFile(_mazeMapFilePath);
+            MazeInputOutput = new MazeIO(_mazeMapFilePath);
+            try
+            {
+                Maze = MazeInputOutput.LoadMazeFromFile();
+                StartPlace = MazeInputOutput.GetStartPlaceFromFile();
+                ExitPlace = MazeInputOutput.GetExitPlaceFromFile();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Tester = new MazePathSolutionTester(Maze, StartPlace, ExitPlace);
 

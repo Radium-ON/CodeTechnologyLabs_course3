@@ -49,9 +49,10 @@ namespace MazeOperations.Tests
         {
             //arrange
             var expectedPassed = correct;
-            var map = MazeIO.LoadMazeFromFile(labirintFilePath);
-            var startPlace = MazeIO.GetStartPlaceFromFile(labirintFilePath);
-            var exitPlace = MazeIO.GetExitPlaceFromFile(labirintFilePath);
+            var io = new MazeIO(labirintFilePath);
+            var map = io.LoadMazeFromFile();
+            var startPlace = io.GetStartPlaceFromFile();
+            var exitPlace = io.GetExitPlaceFromFile();
             //act
             var solver = new MazePathFinder(map);
             var tester = new MazePathSolutionTester(map, startPlace, exitPlace);

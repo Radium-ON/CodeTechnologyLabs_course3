@@ -45,28 +45,6 @@ namespace MazeOperations
             }
         }
 
-        private string ReadLevelSettingLine(string filepath, int lineCount, int certainLine)
-        {
-            var listLines = new string[lineCount];
-            try
-            {
-                using (var reader = new StreamReader(filepath))
-                {
-                    for (var i = 0; i < lineCount; i++)
-                    {
-                        listLines[i] = reader.ReadLine();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.Source + e.Message);
-                return e.Message;
-            }
-
-            return listLines[certainLine - 1];
-        }
-
         private int[] ParseParamsLine(string line)
         {
             var parts = line.Split();
@@ -84,13 +62,10 @@ namespace MazeOperations
         /// <summary>
         /// Возвращает начальную позицию в лабиринте
         /// </summary>
-        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public MazeCell GetStartPlaceFromFile(string mazeSetupFilePath)
+        public MazeCell GetStartPlaceFromFile()
         {
-            var paramString = ReadLevelSettingLine(mazeSetupFilePath, 2, 2);
-
-            var start = ParseParamsLine(paramString);
+            var start = ParseParamsLine(_mazeSettingsList[1]);
 
             return new MazeCell(start[1], start[0], CellType.Start);
         }
@@ -98,13 +73,10 @@ namespace MazeOperations
         /// <summary>
         /// Возвращает точку выхода в лабиринте
         /// </summary>
-        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Клетка лабиринта</returns>
-        public MazeCell GetExitPlaceFromFile(string mazeSetupFilePath)
+        public MazeCell GetExitPlaceFromFile()
         {
-            var paramString = ReadLevelSettingLine(mazeSetupFilePath, 3, 3);
-
-            var exit = ParseParamsLine(paramString);
+            var exit = ParseParamsLine(_mazeSettingsList[2]);
 
             return new MazeCell(exit[1], exit[0], CellType.Exit);
         }
@@ -112,25 +84,14 @@ namespace MazeOperations
         /// <summary>
         /// Загружает матрицу клеток лабиринта из файла
         /// </summary>
-        /// <param name="mazeSetupFilePath">Путь к файлу лабиринта</param>
         /// <returns>Матрица клеток</returns>
-        public Maze LoadMazeFromFile(string mazeSetupFilePath)
+        public Maze LoadMazeFromFile()
         {
-            string[] lines;
-            try
-            {
-                lines = File.ReadAllLines(mazeSetupFilePath);
-            }
-            catch
-            {
-                throw new Exception("Не удалось считать файл исходных данных!");
-            }
-
-            if (lines.Length == 0)
+            if (_mazeSettingsList.Count == 0)
             {
                 throw new Exception("Файл не содержит ни одной строки");
             }
-            var size = ParseParamsLine(lines[0]);
+            var size = ParseParamsLine(_mazeSettingsList[0]);
             var height = size[0];
             var width = size[1];
             var map = new MazeCell[height, width];
@@ -138,7 +99,7 @@ namespace MazeOperations
             {
                 for (var x = 0; x < width; x++)
                 {
-                    map[y, x] = new MazeCell(x, y, CharToCellType(lines[y + 3][x]));
+                    map[y, x] = new MazeCell(x, y, CharToCellType(_mazeSettingsList[y + 3][x]));
                 }
             }
             return new Maze(map);

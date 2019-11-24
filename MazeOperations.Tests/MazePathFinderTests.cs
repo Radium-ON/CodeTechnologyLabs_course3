@@ -67,10 +67,10 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
-
-            var map = MazeIO.LoadMazeFromFile(labirintPath);
-            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
-            var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
+            var io = new MazeIO(labirintPath);
+            var map = io.LoadMazeFromFile();
+            var startPlace = io.GetStartPlaceFromFile();
+            var exitPlace = io.GetExitPlaceFromFile();
 
             var expectedSolution = new List<MazeCell>
             {
@@ -100,10 +100,10 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\solver_test_no_solution.txt";
-
-            var map = MazeIO.LoadMazeFromFile(labirintPath);
-            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
-            var exitPlace = MazeIO.GetExitPlaceFromFile(labirintPath);
+            var io = new MazeIO(labirintPath);
+            var map = io.LoadMazeFromFile();
+            var startPlace = io.GetStartPlaceFromFile();
+            var exitPlace = io.GetExitPlaceFromFile();
 
             var expectedSolution = new List<MazeCell>();
             //act
@@ -118,8 +118,9 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirintD.txt";
-            var map = MazeIO.LoadMazeFromFile(labirintPath);
-            var startPlace = MazeIO.GetStartPlaceFromFile(labirintPath);
+            var io = new MazeIO(labirintPath);
+            var map = io.LoadMazeFromFile();
+            var startPlace = io.GetStartPlaceFromFile();
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 
             //act

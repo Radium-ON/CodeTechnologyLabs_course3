@@ -6,6 +6,7 @@ namespace MazeAmazing_WPF.ViewModels
 {
     public class TaskOnePageViewModel : BindableBase
     {
+        private MazeIO MazeIO { get; set; }
 
         public TaskOnePageViewModel()
         {
@@ -15,10 +16,11 @@ namespace MazeAmazing_WPF.ViewModels
             //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeAmazing_ConsoleApp\bin\Debug\labirintDebug.txt";
             //var path =
             //    @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt";
-            Maze = MazeIO.LoadMazeFromFile(path);
+            MazeIO=new MazeIO(path);
+            Maze = MazeIO.LoadMazeFromFile();
             var finder = new MazePathFinder(Maze);
-            StartCellPosition = MazeIO.GetStartPlaceFromFile(path);
-            ExitCellPosition = MazeIO.GetExitPlaceFromFile(path);
+            StartCellPosition = MazeIO.GetStartPlaceFromFile();
+            ExitCellPosition = MazeIO.GetExitPlaceFromFile();
             SolutionList = finder.GetCellsPath(StartCellPosition, ExitCellPosition);
         }
 
