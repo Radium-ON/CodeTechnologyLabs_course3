@@ -27,7 +27,10 @@ namespace MazeOperations
                 var stack = new Stack<Chain>();
                 var path = new List<MazeCell>();
 
-                if (root != null) stack.Push(root);
+                if (root != null)
+                {
+                    stack.Push(root);
+                }
 
                 while (stack.Count > 0)
                 {
@@ -47,7 +50,11 @@ namespace MazeOperations
 
         public MazePathFinder(Maze maze)//обход направлений в CreateChainTree
         {
-            if (maze == null) throw new ArgumentNullException(nameof(maze));
+            if (maze == null)
+            {
+                throw new ArgumentNullException(nameof(maze));
+            }
+
             _mazeMap = maze.MazeCells;
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
@@ -77,10 +84,15 @@ namespace MazeOperations
             {
                 var chain = queueChains.Dequeue();
                 if (chain.CurrentCell.Equals(destination))
+                {
                     return chain;
+                }
 
                 if (visitedInLabirintPlaces.Contains(chain.CurrentCell))
+                {
                     continue;
+                }
+
                 visitedInLabirintPlaces.Add(chain.CurrentCell);
 
                 foreach (var place in GetProperStepDirections(chain,GetNeighbours(chain),_mazeMap,_mapHeight,_mapWidth))
@@ -94,12 +106,16 @@ namespace MazeOperations
         private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций
         {
             if (place.X < 0 || place.X >= w)
+            {
                 return false;
+            }
+
             if (place.Y < 0 || place.Y >= h)
+            {
                 return false;
-            if (map[place.Y, place.X].CellType != CellType.None && map[place.Y, place.X].CellType != CellType.Exit)
-                return false;
-            return true;
+            }
+
+            return map[place.Y, place.X].CellType == CellType.None || map[place.Y, place.X].CellType == CellType.Exit;
         }
 
         private IEnumerable<MazeCell> GetNeighbours(Chain chain)
@@ -121,7 +137,10 @@ namespace MazeOperations
             foreach (var cell in neighborCells)
             {
                 if (!StepInRange(cell, map, h, w))
+                {
                     continue;
+                }
+
                 // Заполняем данные для точки маршрута.
                 var neighbourNode = new Chain(cell, chain);
 

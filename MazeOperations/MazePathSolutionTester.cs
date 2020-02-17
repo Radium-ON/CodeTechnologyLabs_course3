@@ -15,14 +15,18 @@ namespace MazeOperations
 
         public MazePathSolutionTester(Maze maze, MazeCell start, MazeCell exit)
         {
-            if (maze == null) throw new ArgumentNullException(nameof(maze));
+            if (maze == null)
+            {
+                throw new ArgumentNullException(nameof(maze));
+            }
+
             _mazeMap = maze.MazeCells;
             _startMazeCell = start;
             _exitMazeCell = exit;
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
         }
-        
+
         /// <summary>
         /// Тестирование пути выхода из лабиринта
         /// </summary>
@@ -30,18 +34,25 @@ namespace MazeOperations
         /// <returns>True - лабиринт пройден. Иначе False</returns>
         public bool RunSolutionTest(List<MazeCell> solution)
         {
-            if (solution == null) throw new ArgumentNullException(nameof(solution));
+            if (solution == null)
+            {
+                throw new ArgumentNullException(nameof(solution));
+            }
 
             if (solution.Count == 0)
+            {
                 return false;
+            }
+
             var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _mazeMap);
             if (levelOk != "")
-                throw new Exception(levelOk);
-
-            for (var i = 0; i < solution.Count; i++)
             {
-                if (!MoveDirectBySolution(solution[i], _mapHeight, _mapWidth, _mazeMap))
-                    break;
+                throw new Exception(levelOk);
+            }
+
+            foreach (var step in solution.Where(step => !MoveDirectBySolution(step, _mapHeight, _mapWidth, _mazeMap)))
+            {
+                break;
             }
 
             var x = solution[solution.Count - 1].X;
@@ -53,22 +64,29 @@ namespace MazeOperations
         private bool MoveDirectBySolution(MazeCell cell, int mapHeight, int mapWidth, MazeCell[,] map)
         {
             if (cell.X < 0 || cell.X >= mapWidth)
-                return false;
-            if (cell.Y < 0 || cell.Y >= mapHeight)
-                return false;
-            if (map[cell.Y, cell.X].CellType == CellType.Wall)
-                return false;
-            //если может идти - true
-            if (map[cell.Y, cell.X].CellType == CellType.None ||
-                map[cell.Y, cell.X].CellType == CellType.Exit)
             {
-                return true;
+                return false;
             }
 
-            return true;
+            if (cell.Y < 0 || cell.Y >= mapHeight)
+            {
+                return false;
+            }
+
+            switch (map[cell.Y, cell.X].CellType)
+            {
+                case CellType.Wall:
+                    return false;
+                //если может идти - true
+                case CellType.None:
+                case CellType.Exit:
+                    return true;
+                default:
+                    return true;
+            }
         }
 
-        
+
         private int CountMapItems(CellType type, MazeCell[,] map)
         {
             return map.Cast<MazeCell>().Count(_ => _.CellType == type);
@@ -83,14 +101,17 @@ namespace MazeOperations
             {
                 return "Уровень пуст!";
             }
+
             if (alpha.X == 0 && alpha.Y == 0)
             {
                 return "На карте должен быть хотя бы один объект игрока!";
             }
+
             if (exit.X == 0 && exit.Y == 0 || targetsOnMap != 1)
             {
                 return "На карте должна быть одна цель!";
             }
+
             return "";
         }
     }

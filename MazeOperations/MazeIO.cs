@@ -13,14 +13,19 @@ namespace MazeOperations
         public MazeIO(string mazeSetupFilePath)
         {
             if (File.Exists(mazeSetupFilePath))
+            {
                 _mazeSettingsList = File.ReadAllLines(mazeSetupFilePath).ToList();
+            }
             else
                 File.Create(mazeSetupFilePath);
         }
-
+        /// <summary>
+        /// Возвращает ячейку в зависимости от считанного символа
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private CellType CharToCellType(char x)
         {
-            //возвращает ячейку в зависимости от считанного символа
             switch (x)
             {
                 case ' ': return CellType.None;
@@ -31,10 +36,13 @@ namespace MazeOperations
                     return CellType.None;
             }
         }
-
+        /// <summary>
+        /// Возвращает символ в зависимости от ячейки
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
         private char CellTypeToChar(MazeCell cell)
         {
-            //возвращает символ в зависимости от ячейки
             switch (cell.CellType)
             {
                 case CellType.None: return ' ';
