@@ -30,19 +30,22 @@ namespace MazeAmazing_ConsoleApp
             {
                 _mazeMapFilePath = args[0];
                 if (args.Length == 2)
+                {
                     _solutionFilePath = args[1];
+                }
+
                 if (Path.GetExtension(_mazeMapFilePath) != ".txt")
+                {
                     throw new Exception("Файл данных не существует или его расширение неверно!");
+                }
+
                 if (Path.GetExtension(_solutionFilePath) != ".txt")
+                {
                     throw new Exception("Файл состояния не существует или его расширение неверно!");
+                }
             }
             var program = new Program();
-            if (program.Run())
-            {
-                Console.WriteLine("Решение найдено");
-            }
-            else
-                Console.WriteLine("Решение не найдено");
+            Console.WriteLine(program.Run() ? "Решение найдено" : "Решение не найдено");
             Console.ReadKey(true);
         }
 
