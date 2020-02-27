@@ -69,7 +69,7 @@ namespace MazeOperations
         {
             if (source.X == destination.X && source.Y == destination.Y)
             {
-                throw new Exception("Точка начала совпадает с точкой выхода");
+                throw new StartEqualsFinishException("Точка начала совпадает с точкой выхода");
             }
 
             var queueChains = new Queue<Chain>();//очередь для поиска в ширину

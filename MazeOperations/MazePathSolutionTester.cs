@@ -36,7 +36,9 @@ namespace MazeOperations
         {
             if (solution == null)
             {
-                throw new ArgumentNullException(nameof(solution));
+                throw new SolutionNotExistException(
+                    "Решение лабиринта не было создано или найдено!",
+                    new ArgumentNullException(nameof(solution)));
             }
 
             if (solution.Count == 0)
@@ -47,7 +49,7 @@ namespace MazeOperations
             var levelOk = IsLevelCorrect(_startMazeCell, _exitMazeCell, _mazeMap);
             if (levelOk != "")
             {
-                throw new Exception(levelOk);
+                throw new LevelIsNotCorrectException(levelOk);
             }
 
             foreach (var step in solution.Where(step => !MoveDirectBySolution(step, _mapHeight, _mapWidth, _mazeMap)))

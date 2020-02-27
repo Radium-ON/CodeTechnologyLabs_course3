@@ -97,7 +97,7 @@ namespace MazeOperations
         {
             if (_mazeSettingsList.Count == 0)
             {
-                throw new Exception("Файл не содержит ни одной строки");
+                throw new EmptyDataFileException("Файл не содержит ни одной строки");
             }
             var size = ParseParamsLine(_mazeSettingsList[0]);
             var height = size[0];
