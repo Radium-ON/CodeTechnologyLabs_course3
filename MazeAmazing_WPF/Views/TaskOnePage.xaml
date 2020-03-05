@@ -10,7 +10,19 @@
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
     <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding DialogFilePath, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="0,0,10,0"/>
+            <Button Content="Открыть файл" Command="{Binding OpenCommand}" Grid.Column="1" Margin="30,0,0,0"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
             <StackPanel>
                 <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="650" MaxWidth="800">
                     <uc:MazeControl SnapsToDevicePixels="True"

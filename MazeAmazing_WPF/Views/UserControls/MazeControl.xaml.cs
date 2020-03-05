@@ -92,7 +92,7 @@ namespace MazeAmazing_WPF.Views.UserControls
             {
                 if (d is MazeControl c)
                 {
-                    c.SolutionPathList.Clear();
+                    c.SolutionPathList?.Clear();
                     c.UpdateStartExitInstance((Grid)c.Content, (MazeCell)e.NewValue);
                 }
             }
