@@ -92,7 +92,6 @@ namespace MazeAmazing_WPF.Views.UserControls
             {
                 if (d is MazeControl c)
                 {
-                    c.SolutionPathList?.Clear();
                     c.UpdateStartExitInstance((Grid)c.Content, (MazeCell)e.NewValue);
                 }
             }
@@ -100,6 +99,11 @@ namespace MazeAmazing_WPF.Views.UserControls
 
         #endregion
 
+        public List<MazeCell> SolutionPathList
+        {
+            get => (List<MazeCell>)GetValue(SolutionPathListProperty);
+            set => SetValue(SolutionPathListProperty, value);
+        }
 
         public MazeCell StartMazePosition
         {
@@ -113,11 +117,7 @@ namespace MazeAmazing_WPF.Views.UserControls
             set => SetValue(ExitPositionProperty, value);
         }
 
-        public List<MazeCell> SolutionPathList
-        {
-            get => (List<MazeCell>)GetValue(SolutionPathListProperty);
-            set => SetValue(SolutionPathListProperty, value);
-        }
+
 
         public Maze MazeGrid
         {

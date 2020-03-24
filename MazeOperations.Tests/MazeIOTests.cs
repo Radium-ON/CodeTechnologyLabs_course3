@@ -48,7 +48,7 @@ namespace MazeOperations.Tests
             var expectedSolution = "Файл не содержит ни одной строки";
             //act
             var io = new MazeIO(labirintPath);
-            var ex = Assert.ThrowsException<Exception>(
+            var ex = Assert.ThrowsException<EmptyDataFileException>(
                 () => io.LoadMazeFromFile());
 
             //assert

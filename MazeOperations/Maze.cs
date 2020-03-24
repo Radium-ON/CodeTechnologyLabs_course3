@@ -8,11 +8,17 @@ namespace MazeOperations
 
         public int Width => MazeCells.GetLength(1);
 
-        public MazeCell[,] MazeCells { get; private set; }
+        public MazeCell StartCellPosition { get; }
 
-        public Maze(MazeCell[,] mazeCells)
+        public MazeCell ExitCellPosition { get; }
+
+        public MazeCell[,] MazeCells { get; }
+
+        public Maze(MazeCell[,] mazeCells, MazeCell startCell, MazeCell exitCell)
         {
             MazeCells = mazeCells ?? throw new ArgumentNullException(nameof(mazeCells));
+            StartCellPosition = startCell;
+            ExitCellPosition = exitCell;
         }
     }
 }

@@ -100,7 +100,7 @@ namespace MazeOperations
                     queueChains.Enqueue(place);
                 }
             }
-            return null;
+            throw new SolutionNotExistException("Путь между точками не найден!");
         }
 
         private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций

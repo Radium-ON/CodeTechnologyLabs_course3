@@ -55,8 +55,8 @@ namespace MazeAmazing_ConsoleApp
             try
             {
                 Maze = MazeInputOutput.LoadMazeFromFile();
-                StartPlace = MazeInputOutput.GetStartPlaceFromFile();
-                ExitPlace = MazeInputOutput.GetExitPlaceFromFile();
+                StartPlace = Maze.StartCellPosition;
+                ExitPlace = Maze.ExitCellPosition;
             }
             catch (Exception e)
             {

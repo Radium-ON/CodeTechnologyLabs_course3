@@ -67,27 +67,7 @@ namespace MazeOperations
             return paramSet;
         }
 
-        /// <summary>
-        /// Возвращает начальную позицию в лабиринте
-        /// </summary>
-        /// <returns>Клетка лабиринта</returns>
-        public MazeCell GetStartPlaceFromFile()
-        {
-            var start = ParseParamsLine(_mazeSettingsList[1]);
-
-            return new MazeCell(start[1], start[0], CellType.Start);
-        }
-
-        /// <summary>
-        /// Возвращает точку выхода в лабиринте
-        /// </summary>
-        /// <returns>Клетка лабиринта</returns>
-        public MazeCell GetExitPlaceFromFile()
-        {
-            var exit = ParseParamsLine(_mazeSettingsList[2]);
-
-            return new MazeCell(exit[1], exit[0], CellType.Exit);
-        }
+       
 
         /// <summary>
         /// Загружает матрицу клеток лабиринта из файла
@@ -102,15 +82,29 @@ namespace MazeOperations
             var size = ParseParamsLine(_mazeSettingsList[0]);
             var height = size[0];
             var width = size[1];
+
             var map = new MazeCell[height, width];
+
+            MazeCell start = default, exit = default;
+
             for (var y = 0; y < height; y++)
             {
                 for (var x = 0; x < width; x++)
                 {
-                    map[y, x] = new MazeCell(x, y, CharToCellType(_mazeSettingsList[y + 3][x]));
+                    map[y, x] = new MazeCell(x, y, CharToCellType(_mazeSettingsList[y + 1][x]));
+
+                    switch (map[y, x].CellType)
+                    {
+                        case CellType.Start:
+                            start = map[y, x];
+                            break;
+                        case CellType.Exit:
+                            exit = map[y, x];
+                            break;
+                    }
                 }
             }
-            return new Maze(map);
+            return new Maze(map, start, exit);
         }
     }
 }

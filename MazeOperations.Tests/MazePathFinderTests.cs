@@ -69,8 +69,8 @@ namespace MazeOperations.Tests
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
             var io = new MazeIO(labirintPath);
             var map = io.LoadMazeFromFile();
-            var startPlace = io.GetStartPlaceFromFile();
-            var exitPlace = io.GetExitPlaceFromFile();
+            var startPlace = map.StartCellPosition;
+            var exitPlace = map.ExitCellPosition;
 
             var expectedSolution = new List<MazeCell>
             {
@@ -102,15 +102,14 @@ namespace MazeOperations.Tests
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\solver_test_no_solution.txt";
             var io = new MazeIO(labirintPath);
             var map = io.LoadMazeFromFile();
-            var startPlace = io.GetStartPlaceFromFile();
-            var exitPlace = io.GetExitPlaceFromFile();
+            var startPlace = map.StartCellPosition;
+            var exitPlace = map.ExitCellPosition;
 
             var expectedSolution = new List<MazeCell>();
             //act
             var solver = new MazePathFinder(map);
-            var actualSolution = solver.GetCellsPath(startPlace, exitPlace);
             //assert
-            CollectionAssert.AreEqual(expectedSolution, actualSolution);
+            Assert.ThrowsException<SolutionNotExistException>(()=>solver.GetCellsPath(startPlace, exitPlace));
         }
 
         [TestMethod]
@@ -120,12 +119,12 @@ namespace MazeOperations.Tests
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirintD.txt";
             var io = new MazeIO(labirintPath);
             var map = io.LoadMazeFromFile();
-            var startPlace = io.GetStartPlaceFromFile();
+            var startPlace = map.StartCellPosition;
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 
             //act
             var solver = new MazePathFinder(map);
-            var ex = Assert.ThrowsException<Exception>(
+            var ex = Assert.ThrowsException<StartEqualsFinishException>(
                 () => solver.GetCellsPath(startPlace, startPlace));
 
             //assert
