@@ -36,12 +36,12 @@ namespace MazeAmazing_ConsoleApp
 
                 if (Path.GetExtension(_mazeMapFilePath) != ".txt")
                 {
-                    throw new Exception("Файл данных не существует или его расширение неверно!");
+                    throw new FileNotFoundException("Файл данных не существует или его расширение неверно!");
                 }
 
                 if (Path.GetExtension(_solutionFilePath) != ".txt")
                 {
-                    throw new Exception("Файл состояния не существует или его расширение неверно!");
+                    throw new FileNotFoundException("Файл решения не существует или его расширение неверно!");
                 }
             }
             var program = new Program();
