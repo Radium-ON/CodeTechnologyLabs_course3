@@ -11,7 +11,10 @@ namespace MazeOperations
 
         readonly MazeCell[,] _mazeMap;
 
-        private class Chain //путь до ячейки (ребро графа)
+        /// <summary>
+        /// Содержит путь от начальной позиции до конечной в виде графа вершин
+        /// </summary>
+        private class Chain
         {
             public MazeCell CurrentCell { get; }
             public Chain PreviousChain { get; }
@@ -48,7 +51,7 @@ namespace MazeOperations
             }
         }
 
-        public MazePathFinder(Maze maze)//обход направлений в CreateChainTree
+        public MazePathFinder(Maze maze)
         {
             if (maze == null)
             {
@@ -59,7 +62,12 @@ namespace MazeOperations
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source">Начальная точка пути в лабиринте</param>
+        /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
         public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
         {
             return Chain.Traverse(CreateChainTree(source, destination));
