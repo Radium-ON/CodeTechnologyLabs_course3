@@ -1,0 +1,25 @@
+﻿<mui:ModernWindow x:Class="MazeAmazing_WPF_MVC.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+        Title="Курышев Р. В. БПИ-311" IsTitleVisible="True"
+        MinHeight="300" MinWidth="500" Height="484" Width="600"
+        ContentSource="/Views/MainPage.xaml">
+
+    <mui:ModernWindow.MenuLinkGroups>
+        <mui:LinkGroup DisplayName="ДЕМОТИВАТОР WPF">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="вы чо с WPF делаете" Source="/Views/MainPage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+        <mui:LinkGroup DisplayName="настройки" GroupKey="settings">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="приложение" Source="/Views/SettingsPage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+    </mui:ModernWindow.MenuLinkGroups>
+
+    <mui:ModernWindow.TitleLinks>
+        <mui:Link DisplayName="настройки" Source="/Views/SettingsPage.xaml" />
+    </mui:ModernWindow.TitleLinks>
+</mui:ModernWindow>
