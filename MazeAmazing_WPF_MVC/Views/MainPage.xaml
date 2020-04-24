@@ -12,6 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <mui:ModernProgressRing x:Name="progress_ring" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
         <Grid Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

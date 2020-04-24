@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MazeOperations
 {
     public class MazeIO
     {
-        private readonly List<string> _mazeSettingsList;
+        private List<string> _mazeSettingsList;
+
+        public MazeIO()
+        {
+
+        }
 
         public MazeIO(string mazeSetupFilePath)
         {
@@ -19,6 +26,7 @@ namespace MazeOperations
             else
                 File.Create(mazeSetupFilePath);
         }
+
         /// <summary>
         /// Возвращает ячейку в зависимости от считанного символа
         /// </summary>
@@ -67,7 +75,15 @@ namespace MazeOperations
             return paramSet;
         }
 
-       
+        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath)
+        {
+            if (File.Exists(mazeSetupFilePath))
+            {
+                _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath);
+                //имитация долгой работы
+                await Task.Delay(2000);
+            }
+        }
 
         /// <summary>
         /// Загружает матрицу клеток лабиринта из файла
@@ -105,6 +121,28 @@ namespace MazeOperations
                 }
             }
             return new Maze(map, start, exit);
+        }
+
+        private async Task<List<string>> ReadAllLinesAsync(string filePath)
+        {
+            using var fs = new FileStream(filePath,
+                FileMode.Open, FileAccess.Read, FileShare.Read,
+                bufferSize: 4096, useAsync: true);
+
+            using var sr = new StreamReader(fs, Encoding.UTF8);
+            
+            var content = await sr.ReadToEndAsync();
+
+            return content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+        }
+
+        public async Task<Maze> LoadMazeFromFileAsync()
+        {
+            var task = Task.Run(LoadMazeFromFile);
+
+            var result = await task;
+
+            return result;
         }
     }
 }

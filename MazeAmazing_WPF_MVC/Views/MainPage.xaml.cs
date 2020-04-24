@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,7 +45,7 @@ namespace MazeAmazing_WPF_MVC.Views
             _dialogService = new DefaultDialogService();
 
             DialogFilePath =
-                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint4.txt";
+                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt";
         }
 
         public string DialogFilePath
@@ -56,6 +57,7 @@ namespace MazeAmazing_WPF_MVC.Views
                 OnPropertyChanged("DialogFilePath");
             }
         }
+
         public Maze Maze
         {
             get => _maze;
@@ -105,16 +107,39 @@ namespace MazeAmazing_WPF_MVC.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        private void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
+        
+        /// <summary>
+        /// Ожидается:
+        /// Кнопка гаснет, появляется progress_ring, идёт чтение файла, потом создание объекта Maze.
+        /// Свойство Maze обновляет MazeControl новым лабиринтом, кнопка доступна, прогресс скрыт.
+        /// Фактически: UI поток блокируется на LoadMazeFromFileAsync.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
         {
-            _mazeIO = new MazeIO(DialogFilePath);
-            Maze = _mazeIO.LoadMazeFromFile();
-            var finder = new MazePathFinder(Maze);
-            var startCell = Maze.StartCellPosition;
-            var exitCell = Maze.ExitCellPosition;
-            SolutionList = finder.GetCellsPath(startCell, exitCell);
-            StartCellPosition = startCell;
-            ExitCellPosition = exitCell;
+            if (sender is Button button)
+            {
+                button.IsEnabled = false;
+                _mazeIO = new MazeIO();
+                progress_ring.IsActive = true;
+                //метод работает асинхронно за счёт StreamReader
+                //возвращает результат в объект MazeIO
+                await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath);
+                //Преобразует строки файла в матрицу с ячейками, возвращает Maze
+                //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
+                Maze = await _mazeIO.LoadMazeFromFileAsync();
+
+                var finder = new MazePathFinder(Maze);
+                var startCell = Maze.StartCellPosition;
+                var exitCell = Maze.ExitCellPosition;
+                SolutionList = finder.GetCellsPath(startCell, exitCell);
+                StartCellPosition = startCell;
+                ExitCellPosition = exitCell;
+                button.IsEnabled = true;
+            }
+
+            progress_ring.IsActive = false;
         }
     }
 }
