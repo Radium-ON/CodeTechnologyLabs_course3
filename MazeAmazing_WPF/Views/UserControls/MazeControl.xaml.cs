@@ -133,11 +133,10 @@ namespace MazeAmazing_WPF.Views.UserControls
             for (var row = 0; row < maze.Height; row++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
                 for (var column = 0; column < maze.Width; column++)
                 {
-                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
                     var cell = maze.MazeCells[row, column];
                     var field = new Rectangle
                     {

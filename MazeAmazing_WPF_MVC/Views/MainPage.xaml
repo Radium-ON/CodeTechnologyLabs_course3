@@ -7,34 +7,38 @@
              xmlns:userControls="clr-namespace:MazeAmazing_WPF.Views.UserControls;assembly=MazeAmazing_WPF"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
-    <Grid x:Name="main_grid" Style="{StaticResource ContentRoot}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <mui:ModernProgressRing x:Name="progress_ring" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
-        <Grid Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding DialogFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,10,0"/>
-            <Button Content="Открыть" IsDefault="True" Grid.Column="1" Click="OpenFromPathButton_Click"/>
-            <Button Content="Обзор" Grid.Column="2" Margin="5,0,0,0"/>
-        </Grid>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="900" MaxWidth="1250">
-                    <userControls:MazeControl SnapsToDevicePixels="True" x:Name="maze_control"
+    <Grid>
+        <Border x:Name="border_progress" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource WindowBackground}" Panel.ZIndex="100000">
+            <mui:ModernProgressRing x:Name="progress_ring"/>
+        </Border>
+
+        <Grid x:Name="main_grid" Style="{StaticResource ContentRoot}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="commands_grid" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding DialogFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                <Button Content="Открыть" IsDefault="True" Grid.Column="1" Click="OpenFromPathButton_Click"/>
+                <Button Content="Обзор" Grid.Column="2" Margin="5,0,0,0"/>
+            </Grid>
+            <ScrollViewer Grid.Row="1">
+                <StackPanel>
+                    <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="900" MaxWidth="1250">
+                        <userControls:MazeControl SnapsToDevicePixels="True" x:Name="maze_control"
                                               MazeGrid="{Binding Maze}"
                                               SolutionPathList="{Binding SolutionList}"
                                               StartMazePosition="{Binding StartCellPosition}"
-                                              ExitMazePosition="{Binding ExitCellPosition}"
-                                  
-                    />
-                </Viewbox>
-            </StackPanel>
-        </ScrollViewer>
+                                              ExitMazePosition="{Binding ExitCellPosition}"/>
+                    </Viewbox>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

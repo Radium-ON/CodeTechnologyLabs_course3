@@ -107,7 +107,7 @@ namespace MazeAmazing_WPF_MVC.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        
+
         /// <summary>
         /// Ожидается:
         /// Кнопка гаснет, появляется progress_ring, идёт чтение файла, потом создание объекта Maze.
@@ -122,19 +122,22 @@ namespace MazeAmazing_WPF_MVC.Views
             {
                 button.IsEnabled = false;
                 _mazeIO = new MazeIO();
+                border_progress.Visibility = Visibility.Visible;
                 progress_ring.IsActive = true;
                 //метод работает асинхронно за счёт StreamReader
                 //возвращает результат в объект MazeIO
                 await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath);
                 //Преобразует строки файла в матрицу с ячейками, возвращает Maze
                 //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
-                var msm = await _mazeIO.LoadMazeFromFileAsync();
+                
+                var maze = await _mazeIO.LoadMazeFromFileAsync();
 
-                var finder = new MazePathFinder(msm);
-                var startCell = msm.StartCellPosition;
-                var exitCell = msm.ExitCellPosition;
+                var finder = new MazePathFinder(maze);
+                var startCell = maze.StartCellPosition;
+                var exitCell = maze.ExitCellPosition;
                 var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell);
-                Maze = msm;
+
+                Maze = maze;
                 SolutionList = solutionCellsPath;
                 StartCellPosition = startCell;
                 ExitCellPosition = exitCell;
@@ -142,6 +145,7 @@ namespace MazeAmazing_WPF_MVC.Views
             }
 
             progress_ring.IsActive = false;
+            border_progress.Visibility = Visibility.Collapsed;
         }
     }
 }
