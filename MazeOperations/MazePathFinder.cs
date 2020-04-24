@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MazeOperations
@@ -63,15 +64,28 @@ namespace MazeOperations
             _mapHeight = maze.Height;
             _mapWidth = maze.Width;
         }
+
+        /// <summary>
+        /// Асинхронно возвращает путь между двумя точками в лабиринте и поддерживает отмену операции
+        /// </summary>
+        /// <param name="source">Начальная точка пути в лабиринте</param>
+        /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
+        private List<MazeCell> GetCellsPathAsyncWithCancel(MazeCell source, MazeCell destination, CancellationToken token)
+        {
+            return Chain.Traverse(CreateChainTree(source, destination, token));
+        }
+
         /// <summary>
         /// Возвращает путь между двумя точками в лабиринте
         /// </summary>
         /// <param name="source">Начальная точка пути в лабиринте</param>
         /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <param name="token"></param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
         public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
         {
-            return Chain.Traverse(CreateChainTree(source, destination));
+            return Chain.Traverse(CreateChainTree(source, destination, CancellationToken.None));
         }
         /// <summary>
         /// Асинхронно возвращает путь между двумя точками в лабиринте
@@ -79,13 +93,18 @@ namespace MazeOperations
         /// <param name="source">Начальная точка пути в лабиринте</param>
         /// <param name="destination">Конечная точка пути в лабиринте</param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
-        public Task<List<MazeCell>> GetCellsPathAsync(MazeCell source, MazeCell destination)
+        public Task<List<MazeCell>> GetCellsPathAsync(MazeCell source, MazeCell destination, CancellationToken token)
         {
-            return Task.Run(() => GetCellsPath(source, destination));
+            return Task.Run(() => GetCellsPathAsyncWithCancel(source, destination, token), token);
         }
 
-        private Chain CreateChainTree(MazeCell source, MazeCell destination)
+        private Chain CreateChainTree(MazeCell source, MazeCell destination, CancellationToken token)
         {
+            if (token.IsCancellationRequested)
+            {
+                token.ThrowIfCancellationRequested();
+            }
+
             if (source.X == destination.X && source.Y == destination.Y)
             {
                 throw new StartEqualsFinishException("Точка начала совпадает с точкой выхода");
@@ -101,6 +120,11 @@ namespace MazeOperations
 
             while (queueChains.Count > 0)
             {
+                if (token.IsCancellationRequested)
+                {
+                    token.ThrowIfCancellationRequested();
+                }
+
                 var chain = queueChains.Dequeue();
                 if (chain.CurrentCell.Equals(destination))
                 {
@@ -116,6 +140,11 @@ namespace MazeOperations
 
                 foreach (var place in GetProperStepDirections(chain, GetNeighbours(chain), _mazeMap, _mapHeight, _mapWidth))
                 {
+                    if (token.IsCancellationRequested)
+                    {
+                        token.ThrowIfCancellationRequested();
+                    }
+
                     queueChains.Enqueue(place);
                 }
             }

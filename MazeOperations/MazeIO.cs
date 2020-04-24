@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MazeOperations
@@ -75,11 +76,11 @@ namespace MazeOperations
             return paramSet;
         }
 
-        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath)
+        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath, CancellationToken token)
         {
             if (File.Exists(mazeSetupFilePath))
             {
-                _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath);
+                _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath, token);
             }
         }
 
@@ -88,6 +89,16 @@ namespace MazeOperations
         /// </summary>
         /// <returns>Матрица клеток</returns>
         public Maze LoadMazeFromFile()
+        {
+            return LoadMazeFromFileAsyncWithCancel(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Асинхронный метод загрузки матрицы клеток лабиринта с поддержкой отмены
+        /// </summary>
+        /// <param name="token">Токен отмены задачи</param>
+        /// <returns></returns>
+        private Maze LoadMazeFromFileAsyncWithCancel(CancellationToken token)
         {
             if (_mazeSettingsList.Count == 0)
             {
@@ -103,8 +114,18 @@ namespace MazeOperations
 
             for (var y = 0; y < height; y++)
             {
+                if (token.IsCancellationRequested)
+                {
+                    token.ThrowIfCancellationRequested();
+                }
+
                 for (var x = 0; x < width; x++)
                 {
+                    if (token.IsCancellationRequested)
+                    {
+                        token.ThrowIfCancellationRequested();
+                    }
+
                     map[y, x] = new MazeCell(x, y, CharToCellType(_mazeSettingsList[y + 1][x]));
 
                     switch (map[y, x].CellType)
@@ -121,22 +142,36 @@ namespace MazeOperations
             return new Maze(map, start, exit);
         }
 
-        private async Task<List<string>> ReadAllLinesAsync(string filePath)
+        /// <summary>
+        /// Асихронная версия File.ReadAllLines
+        /// </summary>
+        /// <param name="filePath">Путь к файлу лабиринта</param>
+        /// <param name="token">Токен отмены</param>
+        /// <returns></returns>
+        private async Task<List<string>> ReadAllLinesAsync(string filePath, CancellationToken token)
         {
             using var fs = new FileStream(filePath,
                 FileMode.Open, FileAccess.Read, FileShare.Read,
-                bufferSize: 4096, useAsync: true);
+                4096, true);
 
             using var sr = new StreamReader(fs, Encoding.UTF8);
 
+            if (token.IsCancellationRequested)
+            {
+                token.ThrowIfCancellationRequested();
+            }
             var content = await sr.ReadToEndAsync();
-
             return content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }
 
-        public Task<Maze> LoadMazeFromFileAsync()
+        /// <summary>
+        /// Асинхронно загружает матрицу клеток лабиринта из файла
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Task<Maze> LoadMazeFromFileAsync(CancellationToken token)
         {
-            return Task.Run(LoadMazeFromFile);
+            return Task.Run(() => LoadMazeFromFileAsyncWithCancel(token), token);
         }
     }
 }
