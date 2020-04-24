@@ -128,14 +128,14 @@ namespace MazeAmazing_WPF_MVC.Views
                 await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath);
                 //Преобразует строки файла в матрицу с ячейками, возвращает Maze
                 //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
-                Maze = await _mazeIO.LoadMazeFromFileAsync();
+                var msm = await _mazeIO.LoadMazeFromFileAsync();
 
-                var finder = new MazePathFinder(Maze);
-                var startCell = Maze.StartCellPosition;
-                var exitCell = Maze.ExitCellPosition;
-                SolutionList = finder.GetCellsPath(startCell, exitCell);
-                StartCellPosition = startCell;
-                ExitCellPosition = exitCell;
+//                var finder = new MazePathFinder(Maze);
+//                var startCell = Maze.StartCellPosition;
+//                var exitCell = Maze.ExitCellPosition;
+//                SolutionList = finder.GetCellsPath(startCell, exitCell);
+//                StartCellPosition = startCell;
+//                ExitCellPosition = exitCell;
                 button.IsEnabled = true;
             }
 

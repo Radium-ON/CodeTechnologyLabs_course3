@@ -80,8 +80,6 @@ namespace MazeOperations
             if (File.Exists(mazeSetupFilePath))
             {
                 _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath);
-                //имитация долгой работы
-                await Task.Delay(2000);
             }
         }
 
@@ -130,7 +128,7 @@ namespace MazeOperations
                 bufferSize: 4096, useAsync: true);
 
             using var sr = new StreamReader(fs, Encoding.UTF8);
-            
+
             var content = await sr.ReadToEndAsync();
 
             return content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
@@ -140,9 +138,9 @@ namespace MazeOperations
         {
             var task = Task.Run(LoadMazeFromFile);
 
-            var result = await task;
+            await Task.Delay(2000);
 
-            return result;
+            return await task;
         }
     }
 }
