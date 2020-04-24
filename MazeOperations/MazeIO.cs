@@ -134,13 +134,9 @@ namespace MazeOperations
             return content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }
 
-        public async Task<Maze> LoadMazeFromFileAsync()
+        public Task<Maze> LoadMazeFromFileAsync()
         {
-            var task = Task.Run(LoadMazeFromFile);
-
-            await Task.Delay(2000);
-
-            return await task;
+            return Task.Run(LoadMazeFromFile);
         }
     }
 }

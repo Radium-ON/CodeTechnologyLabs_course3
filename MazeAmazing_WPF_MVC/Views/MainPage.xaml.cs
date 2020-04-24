@@ -130,12 +130,14 @@ namespace MazeAmazing_WPF_MVC.Views
                 //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
                 var msm = await _mazeIO.LoadMazeFromFileAsync();
 
-//                var finder = new MazePathFinder(Maze);
-//                var startCell = Maze.StartCellPosition;
-//                var exitCell = Maze.ExitCellPosition;
-//                SolutionList = finder.GetCellsPath(startCell, exitCell);
-//                StartCellPosition = startCell;
-//                ExitCellPosition = exitCell;
+                var finder = new MazePathFinder(msm);
+                var startCell = msm.StartCellPosition;
+                var exitCell = msm.ExitCellPosition;
+                var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell);
+                Maze = msm;
+                SolutionList = solutionCellsPath;
+                StartCellPosition = startCell;
+                ExitCellPosition = exitCell;
                 button.IsEnabled = true;
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace MazeOperations
 {
@@ -63,7 +64,7 @@ namespace MazeOperations
             _mapWidth = maze.Width;
         }
         /// <summary>
-        /// 
+        /// Возвращает путь между двумя точками в лабиринте
         /// </summary>
         /// <param name="source">Начальная точка пути в лабиринте</param>
         /// <param name="destination">Конечная точка пути в лабиринте</param>
@@ -71,6 +72,16 @@ namespace MazeOperations
         public List<MazeCell> GetCellsPath(MazeCell source, MazeCell destination)
         {
             return Chain.Traverse(CreateChainTree(source, destination));
+        }
+        /// <summary>
+        /// Асинхронно возвращает путь между двумя точками в лабиринте
+        /// </summary>
+        /// <param name="source">Начальная точка пути в лабиринте</param>
+        /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
+        public Task<List<MazeCell>> GetCellsPathAsync(MazeCell source, MazeCell destination)
+        {
+            return Task.Run(() => GetCellsPath(source, destination));
         }
 
         private Chain CreateChainTree(MazeCell source, MazeCell destination)
@@ -103,7 +114,7 @@ namespace MazeOperations
 
                 visitedInLabirintPlaces.Add(chain.CurrentCell);
 
-                foreach (var place in GetProperStepDirections(chain,GetNeighbours(chain),_mazeMap,_mapHeight,_mapWidth))
+                foreach (var place in GetProperStepDirections(chain, GetNeighbours(chain), _mazeMap, _mapHeight, _mapWidth))
                 {
                     queueChains.Enqueue(place);
                 }
