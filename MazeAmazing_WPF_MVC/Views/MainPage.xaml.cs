@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,7 @@ using System.Windows.Shapes;
 using FirstFloor.ModernUI.Windows.Controls;
 using MazeOperations;
 using Services;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace MazeAmazing_WPF_MVC.Views
 {
@@ -28,7 +30,7 @@ namespace MazeAmazing_WPF_MVC.Views
     /// </summary>
     public partial class MainPage : UserControl, INotifyPropertyChanged
     {
-
+        private CancellationTokenSource _cts;
         private string _dialogFilePath;
         private IDialogService _dialogService;
         private MazeIO _mazeIO;
@@ -44,7 +46,7 @@ namespace MazeAmazing_WPF_MVC.Views
             _dialogService = new DefaultDialogService();
 
             DialogFilePath =
-                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint4.txt";
+                @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt";
         }
 
         public string DialogFilePath
@@ -56,6 +58,7 @@ namespace MazeAmazing_WPF_MVC.Views
                 OnPropertyChanged("DialogFilePath");
             }
         }
+
         public Maze Maze
         {
             get => _maze;
@@ -105,16 +108,61 @@ namespace MazeAmazing_WPF_MVC.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        private void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Ожидается:
+        /// Кнопка гаснет, появляется progress_ring, идёт чтение файла, потом создание объекта Maze.
+        /// Свойство Maze обновляет MazeControl новым лабиринтом, кнопка доступна, прогресс скрыт.
+        /// Фактически: UI поток блокируется на LoadMazeFromFileAsync.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
         {
-            _mazeIO = new MazeIO(DialogFilePath);
-            Maze = _mazeIO.CreateMazeMatrix();
-            var finder = new MazePathFinder(Maze);
-            var startCell = Maze.StartCellPosition;
-            var exitCell = Maze.ExitCellPosition;
-            SolutionList = finder.GetCellsPath(startCell, exitCell);
-            StartCellPosition = startCell;
-            ExitCellPosition = exitCell;
+            if (sender is Button button)
+            {
+                button.IsEnabled = false;
+                text_block_cancelled.Visibility = Visibility.Collapsed;
+                border_progress.Visibility = Visibility.Visible;
+                progress_ring.IsActive = true;
+
+                _cts = new CancellationTokenSource();
+                _mazeIO = new MazeIO();
+
+                //метод работает асинхронно за счёт StreamReader
+                //возвращает результат в объект MazeIO
+                try
+                {
+                    await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath, _cts.Token);
+                    //Преобразует строки файла в матрицу с ячейками, возвращает Maze
+                    //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
+
+                    var maze = await _mazeIO.LoadMazeFromFileAsync(_cts.Token);
+
+                    var finder = new MazePathFinder(maze);
+                    var startCell = maze.StartCellPosition;
+                    var exitCell = maze.ExitCellPosition;
+                    var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell, _cts.Token);
+
+                    Maze = maze;
+                    SolutionList = solutionCellsPath;
+                    StartCellPosition = startCell;
+                    ExitCellPosition = exitCell;
+                }
+                catch (OperationCanceledException)
+                {
+                    text_block_cancelled.Visibility = Visibility.Visible;
+                }
+                button.IsEnabled = true;
+            }
+
+            progress_ring.IsActive = false;
+            border_progress.Visibility = Visibility.Collapsed;
+        }
+
+        private void CancelTaskAsyncButton_Click(object sender, RoutedEventArgs e)
+        {
+            _cts.Cancel();
         }
     }
 }
