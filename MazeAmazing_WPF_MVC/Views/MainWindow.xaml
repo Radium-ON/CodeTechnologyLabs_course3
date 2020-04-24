@@ -7,9 +7,9 @@
         ContentSource="/Views/MainPage.xaml">
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="ДЕМОТИВАТОР WPF">
+        <mui:LinkGroup DisplayName="MAZE AMAZING">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="вы чо с WPF делаете" Source="/Views/MainPage.xaml" />
+                <mui:Link DisplayName="firing asyncronously" Source="/Views/MainPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="настройки" GroupKey="settings">
