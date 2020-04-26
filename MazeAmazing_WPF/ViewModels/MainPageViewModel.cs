@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using FirstFloor.ModernUI.Presentation;
 using MazeOperations;
@@ -13,15 +14,15 @@ namespace MazeAmazing_WPF.ViewModels
     public class MainPageViewModel : BindableBase
     {
         public DelegateCommand OpenDialogCommand { get; private set; }
-        public DelegateCommand OpenFromPathCommand { get; private set;}
+        public DelegateCommand OpenFromPathCommand { get; private set; }
 
 
         public MainPageViewModel()
         {
             _dialogService = new DefaultDialogService();
-            
-            OpenDialogCommand = new DelegateCommand(OpenMazeFileDialog);
-            OpenFromPathCommand = new DelegateCommand(OpenFileByPath, CanOpenFileByPath)
+
+            OpenDialogCommand = new DelegateCommand(async () => await OpenMazeFileDialog());
+            OpenFromPathCommand = new DelegateCommand(async () => await OpenFileByPath(), CanOpenFileByPath)
                 .ObservesProperty(() => DialogFilePath);
 
             DialogFilePath =
@@ -35,24 +36,25 @@ namespace MazeAmazing_WPF.ViewModels
             return !string.IsNullOrEmpty(DialogFilePath);
         }
 
-        private void OpenFileByPath()
+        private async Task OpenFileByPath()
         {
-            InfluteMazeControl(DialogFilePath);
+            await InfluteMazeControl(DialogFilePath);
         }
 
 
-        private void OpenMazeFileDialog()
+        private async Task OpenMazeFileDialog()
         {
             if (_dialogService.OpenFileDialog())
             {
                 DialogFilePath = _dialogService.FilePath;
-                InfluteMazeControl(DialogFilePath);
+                await InfluteMazeControl(DialogFilePath);
             }
         }
 
-        private void InfluteMazeControl(string dialogFilePath)
+        private async Task InfluteMazeControl(string dialogFilePath)
         {
-            MazeIO = new MazeIO(dialogFilePath);
+            MazeIO = new MazeIO();
+            await MazeIO.ReadMazeFromFileTaskAsync(dialogFilePath);
             Maze = MazeIO.CreateMazeMatrix();
             var finder = new MazePathFinder(Maze);
             var startCell = Maze.StartCellPosition;

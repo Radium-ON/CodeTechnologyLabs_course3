@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MazeOperations;
 
@@ -30,7 +31,8 @@ namespace MazeOperations.Tests
             expectedMap[2, 3] = new MazeCell(3, 2, CellType.Wall);
 
             //act
-            var io = new MazeIO(labirintFilePath);
+            var io = new MazeIO();
+            io.ReadMazeFromFileTaskAsync(labirintFilePath);
             var actualMap = io.CreateMazeMatrix().MazeCells;
 
             //assert
@@ -47,12 +49,11 @@ namespace MazeOperations.Tests
 
             var expectedSolution = "Файл не содержит ни одной строки";
             //act
-            var io = new MazeIO(labirintPath);
-            var ex = Assert.ThrowsException<EmptyDataFileException>(
-                () => io.CreateMazeMatrix());
-
+            var io = new MazeIO();
+            var task = io.ReadMazeFromFileTaskAsync(labirintPath);
+            
             //assert
-            Assert.AreEqual(expectedSolution, ex.Message);
+            Assert.AreEqual(expectedSolution,task.Exception.InnerException.Message);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace MazeOperations
     {
         private List<string> _mazeSettingsList;
 
-        
+
 
         /// <summary>
         /// Возвращает ячейку в зависимости от считанного символа
@@ -70,16 +70,30 @@ namespace MazeOperations
         }
 
         /// <summary>
-        /// Асинхронно читает файл лабиринта в список массивов <see cref="string"/>
+        /// Асинхронно читает файл лабиринта в список массивов <see cref="string"/> и поддерживает отмену операции
         /// </summary>
         /// <param name="mazeSetupFilePath"></param>
-        /// <param name="token"></param>
+        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns></returns>
         public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath, CancellationToken token)
         {
             if (File.Exists(mazeSetupFilePath))
             {
                 _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath, token);
+            }
+        }
+
+        /// <summary>
+        /// Асинхронно читает файл лабиринта в список массивов <see cref="string"/>
+        /// </summary>
+        /// <param name="mazeSetupFilePath"></param>
+        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
+        /// <returns></returns>
+        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath)
+        {
+            if (File.Exists(mazeSetupFilePath))
+            {
+                _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath, CancellationToken.None);
             }
         }
 
@@ -99,10 +113,6 @@ namespace MazeOperations
         /// <returns></returns>
         private Maze CreateMazeMatrixAsyncWithCancel(CancellationToken token)
         {
-            if (_mazeSettingsList.Count == 0)
-            {
-                throw new EmptyDataFileException("Файл не содержит ни одной строки");
-            }
             var size = ParseParamsLine(_mazeSettingsList[0]);
             var height = size[0];
             var width = size[1];
@@ -150,8 +160,8 @@ namespace MazeOperations
         private async Task<List<string>> ReadAllLinesAsync(string filePath, CancellationToken token)
         {
             using var fs = new FileStream(filePath,
-                FileMode.Open, FileAccess.Read, FileShare.Read,
-                4096, true);
+                 FileMode.Open, FileAccess.Read, FileShare.Read,
+                 4096, true);
 
             using var sr = new StreamReader(fs, Encoding.UTF8);
 
@@ -160,6 +170,12 @@ namespace MazeOperations
                 token.ThrowIfCancellationRequested();
             }
             var content = await sr.ReadToEndAsync();
+
+            if (string.IsNullOrEmpty(content))
+            {
+                throw new EmptyDataFileException("Файл не содержит ни одной строки");
+            }
+
             return content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }
 

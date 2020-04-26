@@ -18,14 +18,15 @@ namespace MazeOperations.Tests
         [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt", true)]
         [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint3.txt", true)]
         //[DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirint5.txt", false)]
-        [DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt", true)]
+        //[DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\output.txt", true)]
         //[DataRow(@"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\test_outOfRange.txt", false)]
         #endregion
         public void RunSolutionTest_Solution_true(string labirintFilePath, bool correct)
         {
             //arrange
             var expectedPassed = correct;
-            var io = new MazeIO(labirintFilePath);
+            var io = new MazeIO();
+            io.ReadMazeFromFileTaskAsync(labirintFilePath);
             var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;

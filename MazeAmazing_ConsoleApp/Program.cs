@@ -51,7 +51,8 @@ namespace MazeAmazing_ConsoleApp
 
         private bool Run()
         {
-            MazeInputOutput = new MazeIO(_mazeMapFilePath);
+            MazeInputOutput = new MazeIO();
+            MazeInputOutput.ReadMazeFromFileTaskAsync(_mazeMapFilePath);
             try
             {
                 Maze = MazeInputOutput.CreateMazeMatrix();

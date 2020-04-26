@@ -137,7 +137,7 @@ namespace MazeAmazing_WPF_MVC.Views
                     //Преобразует строки файла в матрицу с ячейками, возвращает Maze
                     //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
 
-                    var maze = await _mazeIO.LoadMazeFromFileAsync(_cts.Token);
+                    var maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
 
                     var finder = new MazePathFinder(maze);
                     var startCell = maze.StartCellPosition;

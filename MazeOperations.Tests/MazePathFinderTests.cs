@@ -28,7 +28,8 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
-            var io = new MazeIO(labirintPath);
+            var io = new MazeIO();
+            io.ReadMazeFromFileTaskAsync(labirintPath);
             var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;
@@ -61,7 +62,8 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\solver_test_no_solution.txt";
-            var io = new MazeIO(labirintPath);
+            var io = new MazeIO();
+            io.ReadMazeFromFileTaskAsync(labirintPath);
             var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;
@@ -78,7 +80,8 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirintD.txt";
-            var io = new MazeIO(labirintPath);
+            var io = new MazeIO();
+            io.ReadMazeFromFileTaskAsync(labirintPath);
             var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var expectedSolution = "Точка начала совпадает с точкой выхода";
