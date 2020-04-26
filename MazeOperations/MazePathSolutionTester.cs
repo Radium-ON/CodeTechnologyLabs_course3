@@ -94,7 +94,7 @@ namespace MazeOperations
             return map.Cast<MazeCell>().Count(_ => _.CellType == type);
         }
 
-
+        //TODO: обрабатывает ошибки через возвращаемое значение. Следовало бы использовать исключения 
         private string IsLevelCorrect(MazeCell alpha, MazeCell exit, MazeCell[,] map)
         {
             var targetsOnMap = CountMapItems(CellType.Exit, map);

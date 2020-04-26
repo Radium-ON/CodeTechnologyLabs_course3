@@ -9,45 +9,6 @@ using static MazeOperations.MazePathFinder;
 
 namespace MazeOperations.Tests
 {
-    public static class MSTestExtension
-    {
-        public delegate bool CompareFunc<in T>(T obj1, T obj2);
-
-        private class LambdaComparer<T> : IComparer
-        {
-            private readonly CompareFunc<T> _compareFunc;
-
-            public LambdaComparer(CompareFunc<T> compareFunc)
-            {
-                _compareFunc = compareFunc;
-            }
-
-            public int Compare(object x, object y)
-            {
-                if (x == null && y == null)
-                {
-                    return 0;
-                }
-
-                if (!(x is T t1) || !(y is T t2))
-                {
-                    return -1;
-                }
-
-                return _compareFunc(t1, t2) ? 0 : 1;
-            }
-        }
-        public static void AreEqual<T>(this Assert assert, T expected, T actual, CompareFunc<T> compareFunc)
-        {
-            var comparer = new LambdaComparer<T>(compareFunc);
-
-            CollectionAssert.AreEqual(
-                new[] { expected },
-                new[] { actual }, comparer,
-                $"\nExpected: <{expected}>.\nActual: <{actual}>.");
-        }
-    }
-
     [TestClass]
     public class MazePathFinderTests
     {
@@ -68,7 +29,7 @@ namespace MazeOperations.Tests
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\GetMazeSolutionTextNew.txt";
             var io = new MazeIO(labirintPath);
-            var map = io.LoadMazeFromFile();
+            var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;
 
@@ -101,7 +62,7 @@ namespace MazeOperations.Tests
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\solver_test_no_solution.txt";
             var io = new MazeIO(labirintPath);
-            var map = io.LoadMazeFromFile();
+            var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;
 
@@ -109,7 +70,7 @@ namespace MazeOperations.Tests
             //act
             var solver = new MazePathFinder(map);
             //assert
-            Assert.ThrowsException<SolutionNotExistException>(()=>solver.GetCellsPath(startPlace, exitPlace));
+            Assert.ThrowsException<SolutionNotExistException>(() => solver.GetCellsPath(startPlace, exitPlace));
         }
 
         [TestMethod]
@@ -118,7 +79,7 @@ namespace MazeOperations.Tests
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\labirintD.txt";
             var io = new MazeIO(labirintPath);
-            var map = io.LoadMazeFromFile();
+            var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var expectedSolution = "Точка начала совпадает с точкой выхода";
 

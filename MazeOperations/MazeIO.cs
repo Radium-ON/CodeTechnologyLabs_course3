@@ -13,20 +13,7 @@ namespace MazeOperations
     {
         private List<string> _mazeSettingsList;
 
-        public MazeIO()
-        {
-
-        }
-
-        public MazeIO(string mazeSetupFilePath)
-        {
-            if (File.Exists(mazeSetupFilePath))
-            {
-                _mazeSettingsList = File.ReadAllLines(mazeSetupFilePath).ToList();
-            }
-            else
-                File.Create(mazeSetupFilePath);
-        }
+        
 
         /// <summary>
         /// Возвращает ячейку в зависимости от считанного символа
@@ -45,6 +32,7 @@ namespace MazeOperations
                     return CellType.None;
             }
         }
+
         /// <summary>
         /// Возвращает символ в зависимости от ячейки
         /// </summary>
@@ -62,6 +50,11 @@ namespace MazeOperations
             }
         }
 
+        /// <summary>
+        /// Разбивает строку входных данных на числовые параметры. Возвращает целочисленный массив параметров.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         private int[] ParseParamsLine(string line)
         {
             var parts = line.Split();
@@ -76,6 +69,12 @@ namespace MazeOperations
             return paramSet;
         }
 
+        /// <summary>
+        /// Асинхронно читает файл лабиринта в список массивов <see cref="string"/>
+        /// </summary>
+        /// <param name="mazeSetupFilePath"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath, CancellationToken token)
         {
             if (File.Exists(mazeSetupFilePath))
@@ -85,20 +84,20 @@ namespace MazeOperations
         }
 
         /// <summary>
-        /// Загружает матрицу клеток лабиринта из файла
+        /// Создает матрицу клеток лабиринта
         /// </summary>
         /// <returns>Матрица клеток</returns>
-        public Maze LoadMazeFromFile()
+        public Maze CreateMazeMatrix()
         {
-            return LoadMazeFromFileAsyncWithCancel(CancellationToken.None);
+            return CreateMazeMatrixAsyncWithCancel(CancellationToken.None);
         }
 
         /// <summary>
-        /// Асинхронный метод загрузки матрицы клеток лабиринта с поддержкой отмены
+        /// Асинхронный метод, создающий матрицу клеток лабиринта с поддержкой отмены
         /// </summary>
         /// <param name="token">Токен отмены задачи</param>
         /// <returns></returns>
-        private Maze LoadMazeFromFileAsyncWithCancel(CancellationToken token)
+        private Maze CreateMazeMatrixAsyncWithCancel(CancellationToken token)
         {
             if (_mazeSettingsList.Count == 0)
             {
@@ -167,11 +166,11 @@ namespace MazeOperations
         /// <summary>
         /// Асинхронно загружает матрицу клеток лабиринта из файла
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns></returns>
-        public Task<Maze> LoadMazeFromFileAsync(CancellationToken token)
+        public Task<Maze> СreateMazeMatrixAsync(CancellationToken token)
         {
-            return Task.Run(() => LoadMazeFromFileAsyncWithCancel(token), token);
+            return Task.Run(() => CreateMazeMatrixAsyncWithCancel(token), token);
         }
     }
 }

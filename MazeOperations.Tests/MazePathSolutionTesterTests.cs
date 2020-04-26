@@ -9,30 +9,6 @@ using MazeOperations;
 
 namespace MazeOperations.Tests
 {
-    //public class ConsoleOutput : IDisposable
-    //{
-    //    private readonly StringWriter _stringWriter;
-    //    private readonly TextWriter _originalOutput;
-
-    //    public ConsoleOutput()
-    //    {
-    //        _stringWriter = new StringWriter();
-    //        _originalOutput = Console.Out;
-    //        Console.SetOut(_stringWriter);
-    //    }
-
-    //    public string GetOuput()
-    //    {
-    //        return _stringWriter.ToString();
-    //    }
-
-    //    public void Dispose()
-    //    {
-    //        Console.SetOut(_originalOutput);
-    //        _stringWriter.Dispose();
-    //    }
-    //}
-
     [TestClass]
     public class MazePathSolutionTesterTests
     {
@@ -50,7 +26,7 @@ namespace MazeOperations.Tests
             //arrange
             var expectedPassed = correct;
             var io = new MazeIO(labirintFilePath);
-            var map = io.LoadMazeFromFile();
+            var map = io.CreateMazeMatrix();
             var startPlace = map.StartCellPosition;
             var exitPlace = map.ExitCellPosition;
             //act

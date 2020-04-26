@@ -14,7 +14,8 @@ namespace MazeOperations
         readonly MazeCell[,] _mazeMap;
 
         /// <summary>
-        /// Содержит путь от начальной позиции до конечной в виде графа вершин
+        ///Предоставляет статический метод <see cref="Traverse"/> для обхода графа, формирующего путь в лабиринте.
+        ///<para>Экземпляр служит вершиной графа, содержит данные о текущей и предыдущей позиции.</para>
         /// </summary>
         private class Chain
         {
@@ -70,6 +71,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="source">Начальная точка пути в лабиринте</param>
         /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
         private List<MazeCell> GetCellsPathAsyncWithCancel(MazeCell source, MazeCell destination, CancellationToken token)
         {
@@ -87,11 +89,13 @@ namespace MazeOperations
         {
             return Chain.Traverse(CreateChainTree(source, destination, CancellationToken.None));
         }
+
         /// <summary>
         /// Асинхронно возвращает путь между двумя точками в лабиринте
         /// </summary>
         /// <param name="source">Начальная точка пути в лабиринте</param>
         /// <param name="destination">Конечная точка пути в лабиринте</param>
+        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
         public Task<List<MazeCell>> GetCellsPathAsync(MazeCell source, MazeCell destination, CancellationToken token)
         {
@@ -151,7 +155,7 @@ namespace MazeOperations
             throw new SolutionNotExistException("Путь между точками не найден!");
         }
 
-        private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)//проверка позиций
+        private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)
         {
             if (place.X < 0 || place.X >= w)
             {

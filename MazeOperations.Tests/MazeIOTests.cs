@@ -31,8 +31,8 @@ namespace MazeOperations.Tests
 
             //act
             var io = new MazeIO(labirintFilePath);
-            var actualMap = io.LoadMazeFromFile().MazeCells;
-            
+            var actualMap = io.CreateMazeMatrix().MazeCells;
+
             //assert
 
             CollectionAssert.AreEqual(expectedMap, actualMap, "Матрицы не равны");
@@ -44,30 +44,15 @@ namespace MazeOperations.Tests
         {
             //arrange
             var labirintPath = @"C:\Users\ia_no\Source\Repos\CodeTechnologyLabs_course3\MazeOperations.Tests\TestInput\empty_maze.txt";
-            
+
             var expectedSolution = "Файл не содержит ни одной строки";
             //act
             var io = new MazeIO(labirintPath);
             var ex = Assert.ThrowsException<EmptyDataFileException>(
-                () => io.LoadMazeFromFile());
+                () => io.CreateMazeMatrix());
 
             //assert
             Assert.AreEqual(expectedSolution, ex.Message);
         }
-
-        //[TestMethod]
-        //public void LoadLabirint_FileNotExist()
-        //{
-        //    //arrange
-        //    var labirintPath = @"\TestInput\Desktop.txt";
-        //    var expectedSolution = "Не удалось считать файл исходных данных!";
-        //    //act
-        //    var io = new MazeIO(labirintPath);
-        //    var ex = Assert.ThrowsException<Exception>(
-        //        () => io.LoadMazeFromFile());
-
-        //    //assert
-        //    Assert.AreEqual(expectedSolution, ex.Message);
-        //}
     }
 }

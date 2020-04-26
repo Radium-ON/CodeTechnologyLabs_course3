@@ -8,11 +8,12 @@ namespace Services
 {
     public interface IDialogService
     {
-        string FilePath { get; set; }   // путь к выбранному файлу
+        //путь к выбранному файлу
+        string FilePath { get; set; }
 
-        void ShowMessage(string message);   // показ сообщения
+        void ShowMessage(string message);
 
-        bool OpenFileDialog();  // открытие файла
-        bool SaveFileDialog();  // сохранение файла
+        bool OpenFileDialog();
+        bool SaveFileDialog();
     }
 }

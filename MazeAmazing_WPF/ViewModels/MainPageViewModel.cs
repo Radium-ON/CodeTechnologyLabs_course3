@@ -53,7 +53,7 @@ namespace MazeAmazing_WPF.ViewModels
         private void InfluteMazeControl(string dialogFilePath)
         {
             MazeIO = new MazeIO(dialogFilePath);
-            Maze = MazeIO.LoadMazeFromFile();
+            Maze = MazeIO.CreateMazeMatrix();
             var finder = new MazePathFinder(Maze);
             var startCell = Maze.StartCellPosition;
             var exitCell = Maze.ExitCellPosition;

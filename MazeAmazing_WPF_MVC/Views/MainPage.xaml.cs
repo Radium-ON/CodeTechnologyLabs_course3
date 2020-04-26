@@ -108,7 +108,7 @@ namespace MazeAmazing_WPF_MVC.Views
         private void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
         {
             _mazeIO = new MazeIO(DialogFilePath);
-            Maze = _mazeIO.LoadMazeFromFile();
+            Maze = _mazeIO.CreateMazeMatrix();
             var finder = new MazePathFinder(Maze);
             var startCell = Maze.StartCellPosition;
             var exitCell = Maze.ExitCellPosition;

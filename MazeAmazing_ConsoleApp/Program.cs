@@ -54,7 +54,7 @@ namespace MazeAmazing_ConsoleApp
             MazeInputOutput = new MazeIO(_mazeMapFilePath);
             try
             {
-                Maze = MazeInputOutput.LoadMazeFromFile();
+                Maze = MazeInputOutput.CreateMazeMatrix();
                 StartPlace = Maze.StartCellPosition;
                 ExitPlace = Maze.ExitCellPosition;
             }
