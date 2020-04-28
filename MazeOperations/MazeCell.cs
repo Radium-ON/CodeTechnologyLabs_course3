@@ -25,7 +25,7 @@
 
         public override string ToString()
         {
-            return $"XY({X};{Y}), Type={CellType}";
+            return $"{CellType} ({X};{Y})";
         }
 
         #endregion

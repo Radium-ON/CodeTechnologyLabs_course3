@@ -130,11 +130,19 @@ namespace MazeAmazing_WPF.Views.UserControls
         private static Grid UpdateGridInstance(Maze maze)
         {
             var grid = new Grid();
+            //создание строк
             for (var row = 0; row < maze.Height; row++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            }
+            //создание столбцов
+            for (var column = 0; column < maze.Width; column++)
+            {
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
+            }
+            //заполнение сетки цветными квадратами
+            for (var row = 0; row < maze.Height; row++)
+            {
                 for (var column = 0; column < maze.Width; column++)
                 {
                     var cell = maze.MazeCells[row, column];
@@ -152,12 +160,14 @@ namespace MazeAmazing_WPF.Views.UserControls
                     {
                         field.Fill = Brushes.White;
                     }
+
                     grid.Children.Add(field);
 
                     Grid.SetColumn(field, column);
                     Grid.SetRow(field, row);
                 }
             }
+
             grid.Name = "grid_maze_view";
             return grid;
         }

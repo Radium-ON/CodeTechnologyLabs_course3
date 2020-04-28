@@ -122,7 +122,10 @@ namespace MazeAmazing_WPF_MVC.Views
             if (sender is Button button)
             {
                 button.IsEnabled = false;
+
                 text_block_cancelled.Visibility = Visibility.Collapsed;
+                text_block_exception.Visibility = Visibility.Collapsed;
+
                 border_progress.Visibility = Visibility.Visible;
                 progress_ring.IsActive = true;
 
@@ -149,9 +152,18 @@ namespace MazeAmazing_WPF_MVC.Views
                     StartCellPosition = startCell;
                     ExitCellPosition = exitCell;
                 }
-                catch (OperationCanceledException)
+                catch (Exception x)
                 {
-                    text_block_cancelled.Visibility = Visibility.Visible;
+                    if (x is OperationCanceledException)
+                    {
+                        text_block_cancelled.Visibility = Visibility.Visible;
+                    }
+                    else if(x is SolutionNotExistException)
+                    {
+                        MessageBox.Show(x.Message);
+                        text_block_exception.Text = x.Message;
+                        text_block_exception.Visibility = Visibility.Visible;
+                    }
                 }
                 button.IsEnabled = true;
             }

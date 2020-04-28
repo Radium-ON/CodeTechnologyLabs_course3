@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -152,7 +153,7 @@ namespace MazeOperations
                     queueChains.Enqueue(place);
                 }
             }
-            throw new SolutionNotExistException("Путь между точками не найден!");
+            throw new SolutionNotExistException($"Путь между точками {source.ToString()} и {destination.ToString()} не найден!\nПоследняя посещенная вершина: {visitedInLabirintPlaces.Last().ToString()}");
         }
 
         private bool StepInRange(MazeCell place, MazeCell[,] map, int h, int w)

@@ -30,6 +30,7 @@
                     <Button Content="Обзор" Margin="5,0,0,0"/>
                     <Button Content="Отмена" Margin="5,0,0,0" Click="CancelTaskAsyncButton_Click"/>
                     <TextBlock x:Name="text_block_cancelled" Visibility="Collapsed">Операция отменена</TextBlock>
+                    <TextBlock x:Name="text_block_exception" Visibility="Collapsed" TextWrapping="Wrap"/>
                 </WrapPanel>
             </Grid>
             <ScrollViewer Grid.Row="1">
