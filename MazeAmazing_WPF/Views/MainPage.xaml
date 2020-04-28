@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:uc="clr-namespace:MazeAmazing_WPF.Views.UserControls"
+             xmlns:wpfControlLibrary="clr-namespace:Radium_ON.WpfControlLibrary;assembly=Radium-ON.WpfControlLibrary"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
@@ -27,7 +27,7 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel>
                 <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="900" MaxWidth="1250">
-                    <uc:MazeControl SnapsToDevicePixels="True"
+                    <wpfControlLibrary:MazeControl SnapsToDevicePixels="True"
                         MazeGrid="{Binding Maze}"
                         SolutionPathList="{Binding SolutionList}"
                         StartMazePosition="{Binding StartCellPosition}"

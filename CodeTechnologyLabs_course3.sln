@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeAmazing_WPF_MVC", "MazeAmazing_WPF_MVC\MazeAmazing_WPF_MVC.csproj", "{021F81E8-7A73-4A6E-AC4D-75BA9CEE71D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radium-ON.WpfControlLibrary", "Radium-ON.WpfControlLibrary\Radium-ON.WpfControlLibrary.csproj", "{0F6FCD5A-5DB6-4DDD-9881-3E7A36A2F0B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{021F81E8-7A73-4A6E-AC4D-75BA9CEE71D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{021F81E8-7A73-4A6E-AC4D-75BA9CEE71D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{021F81E8-7A73-4A6E-AC4D-75BA9CEE71D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6FCD5A-5DB6-4DDD-9881-3E7A36A2F0B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6FCD5A-5DB6-4DDD-9881-3E7A36A2F0B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6FCD5A-5DB6-4DDD-9881-3E7A36A2F0B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6FCD5A-5DB6-4DDD-9881-3E7A36A2F0B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

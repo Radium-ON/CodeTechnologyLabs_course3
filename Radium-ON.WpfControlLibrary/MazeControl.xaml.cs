@@ -1,12 +1,12 @@
-﻿using MazeOperations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using MazeOperations;
 
-namespace MazeAmazing_WPF.Views.UserControls
+namespace Radium_ON.WpfControlLibrary
 {
     /// <summary>
     /// Interaction logic for MazeControl

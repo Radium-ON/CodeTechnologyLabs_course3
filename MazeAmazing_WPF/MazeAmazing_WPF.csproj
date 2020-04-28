@@ -91,9 +91,6 @@
     </Compile>
     <Compile Include="ViewModels\MazeControlViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="Views\UserControls\MazeControl.xaml.cs">
-      <DependentUpon>MazeControl.xaml</DependentUpon>
-    </Compile>
     <Page Include="Assets\CustomDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,10 +140,6 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Views\UserControls\MazeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -159,6 +152,10 @@
     <ProjectReference Include="..\MazeOperations\MazeOperations.csproj">
       <Project>{9ebd350f-083e-4d16-9cff-35491722ccfe}</Project>
       <Name>MazeOperations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Radium-ON.WpfControlLibrary\Radium-ON.WpfControlLibrary.csproj">
+      <Project>{0f6fcd5a-5db6-4ddd-9881-3e7a36a2f0b9}</Project>
+      <Name>Radium-ON.WpfControlLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{e45cceb9-2764-44fd-ac6d-033f77b538e2}</Project>

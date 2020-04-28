@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-             xmlns:userControls="clr-namespace:MazeAmazing_WPF.Views.UserControls;assembly=MazeAmazing_WPF"
+             xmlns:wpfControlLibrary="clr-namespace:Radium_ON.WpfControlLibrary;assembly=Radium-ON.WpfControlLibrary"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
     <Grid>
@@ -37,7 +37,7 @@
             <ScrollViewer Grid.Row="1">
                 <StackPanel>
                     <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="900" MaxWidth="1250">
-                        <userControls:MazeControl SnapsToDevicePixels="True" x:Name="maze_control"
+                        <wpfControlLibrary:MazeControl SnapsToDevicePixels="True" x:Name="maze_control"
                                               MazeGrid="{Binding Maze}"
                                               SolutionPathList="{Binding SolutionList}"
                                               StartMazePosition="{Binding StartCellPosition}"
