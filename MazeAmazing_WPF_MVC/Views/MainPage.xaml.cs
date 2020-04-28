@@ -119,54 +119,53 @@ namespace MazeAmazing_WPF_MVC.Views
         /// <param name="e"></param>
         private async void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            btn_open.IsEnabled = false;
+            btn_cancel.IsEnabled = true;
+
+            text_block_cancelled.Visibility = Visibility.Collapsed;
+            text_block_exception.Visibility = Visibility.Collapsed;
+
+            border_progress.Visibility = Visibility.Visible;
+            progress_ring.IsActive = true;
+
+            _cts = new CancellationTokenSource();
+            _mazeIO = new MazeIO();
+
+            //метод работает асинхронно за счёт StreamReader
+            //возвращает результат в объект MazeIO
+            try
             {
-                button.IsEnabled = false;
+                await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath, _cts.Token);
+                //Преобразует строки файла в матрицу с ячейками, возвращает Maze
+                //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
 
-                text_block_cancelled.Visibility = Visibility.Collapsed;
-                text_block_exception.Visibility = Visibility.Collapsed;
+                var maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
 
-                border_progress.Visibility = Visibility.Visible;
-                progress_ring.IsActive = true;
+                var finder = new MazePathFinder(maze);
+                var startCell = maze.StartCellPosition;
+                var exitCell = maze.ExitCellPosition;
+                var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell, _cts.Token);
 
-                _cts = new CancellationTokenSource();
-                _mazeIO = new MazeIO();
-
-                //метод работает асинхронно за счёт StreamReader
-                //возвращает результат в объект MazeIO
-                try
-                {
-                    await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath, _cts.Token);
-                    //Преобразует строки файла в матрицу с ячейками, возвращает Maze
-                    //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
-
-                    var maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
-
-                    var finder = new MazePathFinder(maze);
-                    var startCell = maze.StartCellPosition;
-                    var exitCell = maze.ExitCellPosition;
-                    var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell, _cts.Token);
-
-                    Maze = maze;
-                    SolutionList = solutionCellsPath;
-                    StartCellPosition = startCell;
-                    ExitCellPosition = exitCell;
-                }
-                catch (Exception x)
-                {
-                    if (x is OperationCanceledException)
-                    {
-                        text_block_cancelled.Visibility = Visibility.Visible;
-                    }
-                    else if(x is SolutionNotExistException)
-                    {
-                        MessageBox.Show(x.Message);
-                        text_block_exception.Text = x.Message;
-                        text_block_exception.Visibility = Visibility.Visible;
-                    }
-                }
-                button.IsEnabled = true;
+                Maze = maze;
+                SolutionList = solutionCellsPath;
+                StartCellPosition = startCell;
+                ExitCellPosition = exitCell;
             }
+            catch (Exception x)
+            {
+                if (x is OperationCanceledException)
+                {
+                    text_block_cancelled.Visibility = Visibility.Visible;
+                }
+                else if (x is SolutionNotExistException)
+                {
+                    MessageBox.Show(x.Message);
+                    text_block_exception.Text = x.Message;
+                    text_block_exception.Visibility = Visibility.Visible;
+                }
+            }
+            btn_open.IsEnabled = true;
+            btn_cancel.IsEnabled = false;
 
             progress_ring.IsActive = false;
             border_progress.Visibility = Visibility.Collapsed;

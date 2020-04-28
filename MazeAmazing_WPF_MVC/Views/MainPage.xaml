@@ -26,9 +26,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding DialogFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" TextWrapping="Wrap"/>
                 <WrapPanel Grid.Column="1" MaxWidth="300">
-                    <Button Content="Открыть" IsDefault="True"  Click="OpenFromPathButton_Click"/>
-                    <Button Content="Обзор" Margin="5,0,0,0"/>
-                    <Button Content="Отмена" Margin="5,0,0,0" Click="CancelTaskAsyncButton_Click"/>
+                    <Button Content="Открыть" x:Name="btn_open" IsDefault="True"  Click="OpenFromPathButton_Click"/>
+                    <Button Content="Отмена" x:Name="btn_cancel" Margin="5,0,0,0" Click="CancelTaskAsyncButton_Click" IsEnabled="False"/>
+                    <Button Content="Обзор" Margin="5,0,0,0" Visibility="Hidden"/>
                     <TextBlock x:Name="text_block_cancelled" Visibility="Collapsed">Операция отменена</TextBlock>
                     <TextBlock x:Name="text_block_exception" Visibility="Collapsed" TextWrapping="Wrap"/>
                 </WrapPanel>
