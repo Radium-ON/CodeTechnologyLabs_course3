@@ -129,9 +129,8 @@ namespace MazeAmazing_WPF_MVC.Views
                 StartCellPosition = Maze.StartCellPosition;
                 ExitCellPosition = Maze.ExitCellPosition;
             }
-            catch (OperationCanceledException x)
+            catch (OperationCanceledException)
             {
-
                 text_block_cancelled.Visibility = Visibility.Visible;
             }
 
@@ -156,7 +155,7 @@ namespace MazeAmazing_WPF_MVC.Views
                 var finder = new MazePathFinder(Maze);
                 var startCell = Maze.StartCellPosition;
                 var exitCell = Maze.ExitCellPosition;
-                var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell, _cts.Token);
+                var solutionCellsPath = await finder.GetCellsPathTaskAsync(startCell, exitCell, _cts.Token);
 
                 SolutionList = solutionCellsPath;
                 //чтобы dependency property обновили значение при повторном нажатии кнопок,
@@ -166,9 +165,8 @@ namespace MazeAmazing_WPF_MVC.Views
                 StartCellPosition = startCell;
                 ExitCellPosition = exitCell;
             }
-            catch (OperationCanceledException x)
+            catch (OperationCanceledException)
             {
-
                 text_block_cancelled.Visibility = Visibility.Visible;
             }
 

@@ -74,7 +74,7 @@ namespace MazeOperations
         /// <param name="destination">Конечная точка пути в лабиринте</param>
         /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
-        private List<MazeCell> GetCellsPathAsyncWithCancel(MazeCell source, MazeCell destination, CancellationToken token)
+        private List<MazeCell> GetCellsPathAsync(MazeCell source, MazeCell destination, CancellationToken token)
         {
             return Chain.Traverse(CreateChainTree(source, destination, token));
         }
@@ -98,9 +98,9 @@ namespace MazeOperations
         /// <param name="destination">Конечная точка пути в лабиринте</param>
         /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns>Список координат точек между начальной и конечной точкой лабиринта</returns>
-        public Task<List<MazeCell>> GetCellsPathAsync(MazeCell source, MazeCell destination, CancellationToken token)
+        public Task<List<MazeCell>> GetCellsPathTaskAsync(MazeCell source, MazeCell destination, CancellationToken token)
         {
-            return Task.Run(() => GetCellsPathAsyncWithCancel(source, destination, token), token);
+            return Task.Run(() => GetCellsPathAsync(source, destination, token), token);
         }
 
         private Chain CreateChainTree(MazeCell source, MazeCell destination, CancellationToken token)

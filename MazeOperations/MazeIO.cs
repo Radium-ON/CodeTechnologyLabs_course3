@@ -22,15 +22,14 @@ namespace MazeOperations
         /// <returns></returns>
         private CellType CharToCellType(char x)
         {
-            switch (x)
+            return x switch
             {
-                case ' ': return CellType.None;
-                case '#': return CellType.Wall;
-                case 'S': return CellType.Start;
-                case 'X': return CellType.Exit;
-                default:
-                    return CellType.None;
-            }
+                ' ' => CellType.None,
+                '#' => CellType.Wall,
+                'S' => CellType.Start,
+                'X' => CellType.Exit,
+                _ => CellType.None
+            };
         }
 
         /// <summary>
@@ -40,14 +39,14 @@ namespace MazeOperations
         /// <returns></returns>
         private char CellTypeToChar(MazeCell cell)
         {
-            switch (cell.CellType)
+            return cell.CellType switch
             {
-                case CellType.None: return ' ';
-                case CellType.Wall: return '#';
-                case CellType.Start: return 'S';
-                case CellType.Exit: return 'X';
-                default: return ' ';
-            }
+                CellType.None => ' ',
+                CellType.Wall => '#',
+                CellType.Start => 'S',
+                CellType.Exit => 'X',
+                _ => ' '
+            };
         }
 
         /// <summary>
@@ -75,25 +74,11 @@ namespace MazeOperations
         /// <param name="mazeSetupFilePath"></param>
         /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
         /// <returns></returns>
-        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath, CancellationToken token)
+        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath, CancellationToken token = default)
         {
             if (File.Exists(mazeSetupFilePath))
             {
                 _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath, token);
-            }
-        }
-
-        /// <summary>
-        /// Асинхронно читает файл лабиринта в список массивов <see cref="string"/>
-        /// </summary>
-        /// <param name="mazeSetupFilePath"></param>
-        /// <param name="token">Объект <see cref="CancellationToken"/> для отмены операции.</param>
-        /// <returns></returns>
-        public async Task ReadMazeFromFileTaskAsync(string mazeSetupFilePath)
-        {
-            if (File.Exists(mazeSetupFilePath))
-            {
-                _mazeSettingsList = await ReadAllLinesAsync(mazeSetupFilePath, CancellationToken.None);
             }
         }
 
@@ -103,7 +88,7 @@ namespace MazeOperations
         /// <returns>Матрица клеток</returns>
         public Maze CreateMazeMatrix()
         {
-            return CreateMazeMatrixAsyncWithCancel(CancellationToken.None);
+            return CreateMazeMatrixAsync(CancellationToken.None);
         }
 
         /// <summary>
@@ -111,7 +96,7 @@ namespace MazeOperations
         /// </summary>
         /// <param name="token">Токен отмены задачи</param>
         /// <returns></returns>
-        private Maze CreateMazeMatrixAsyncWithCancel(CancellationToken token)
+        private Maze CreateMazeMatrixAsync(CancellationToken token)
         {
             var size = ParseParamsLine(_mazeSettingsList[0]);
             var height = size[0];
@@ -186,7 +171,7 @@ namespace MazeOperations
         /// <returns></returns>
         public Task<Maze> СreateMazeMatrixAsync(CancellationToken token)
         {
-            return Task.Run(() => CreateMazeMatrixAsyncWithCancel(token), token);
+            return Task.Run(() => CreateMazeMatrixAsync(token), token);
         }
     }
 }
