@@ -43,6 +43,7 @@ namespace MazeAmazing_WPF_MVC.Views
         {
             InitializeComponent();
             main_grid.DataContext = this;
+            //TODO: Принимать сервис через параметр при запуске в App.xaml.cs
             _dialogService = new DefaultDialogService();
 
             DialogFilePath =
@@ -109,36 +110,20 @@ namespace MazeAmazing_WPF_MVC.Views
         }
 
 
-        /// <summary>
-        /// Ожидается:
-        /// Кнопка гаснет, появляется progress_ring, идёт чтение файла, потом создание объекта Maze.
-        /// Свойство Maze обновляет MazeControl новым лабиринтом, кнопка доступна, прогресс скрыт.
-        /// Фактически: UI поток блокируется на LoadMazeFromFileAsync.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private async void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
         {
-            btn_open.IsEnabled = false;
-            btn_cancel.IsEnabled = true;
-
-            text_block_cancelled.Visibility = Visibility.Collapsed;
-            text_block_exception.Visibility = Visibility.Collapsed;
-
-            border_progress.Visibility = Visibility.Visible;
-            progress_ring.IsActive = true;
+            OpenButtonProgressActivate();
 
             _cts = new CancellationTokenSource();
             _mazeIO = new MazeIO();
 
-            //метод работает асинхронно за счёт StreamReader
-            //возвращает результат в объект MazeIO
             try
             {
                 await _mazeIO.ReadMazeFromFileTaskAsync(DialogFilePath, _cts.Token);
+
                 //Преобразует строки файла в матрицу с ячейками, возвращает Maze
                 //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
-
                 var maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
 
                 var finder = new MazePathFinder(maze);
@@ -151,24 +136,41 @@ namespace MazeAmazing_WPF_MVC.Views
                 StartCellPosition = startCell;
                 ExitCellPosition = exitCell;
             }
+            catch (OperationCanceledException x)
+            {
+
+                text_block_cancelled.Visibility = Visibility.Visible;
+            }
+
             catch (Exception x)
             {
-                if (x is OperationCanceledException)
-                {
-                    text_block_cancelled.Visibility = Visibility.Visible;
-                }
-                else if (x is SolutionNotExistException)
-                {
-                    MessageBox.Show(x.Message);
-                    text_block_exception.Text = x.Message;
-                    text_block_exception.Visibility = Visibility.Visible;
-                }
+                MessageBox.Show(x.Message);
+                text_block_exception.Text = x.Message;
+                text_block_exception.Visibility = Visibility.Visible;
             }
+
+            OpenButtonProgressDeactivate();
+        }
+
+        private void OpenButtonProgressDeactivate()
+        {
             btn_open.IsEnabled = true;
             btn_cancel.IsEnabled = false;
 
             progress_ring.IsActive = false;
             border_progress.Visibility = Visibility.Collapsed;
+        }
+
+        private void OpenButtonProgressActivate()
+        {
+            btn_open.IsEnabled = false;
+            btn_cancel.IsEnabled = true;
+
+            text_block_cancelled.Visibility = Visibility.Collapsed;
+            text_block_exception.Visibility = Visibility.Collapsed;
+
+            border_progress.Visibility = Visibility.Visible;
+            progress_ring.IsActive = true;
         }
 
         private void CancelTaskAsyncButton_Click(object sender, RoutedEventArgs e)
