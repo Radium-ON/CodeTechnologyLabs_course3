@@ -111,7 +111,7 @@ namespace MazeAmazing_WPF_MVC.Views
 
 
 
-        private async void OpenFromPathButton_Click(object sender, RoutedEventArgs e)
+        private async void CreateMazeFromFilePathOpenButton_Click(object sender, RoutedEventArgs e)
         {
             OpenButtonProgressActivate();
 
@@ -124,15 +124,45 @@ namespace MazeAmazing_WPF_MVC.Views
 
                 //Преобразует строки файла в матрицу с ячейками, возвращает Maze
                 //Свойство Maze привязано к MazeAmazing_WPF.Views.UserControls.MazeControl
-                var maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
+                Maze = await _mazeIO.СreateMazeMatrixAsync(_cts.Token);
 
-                var finder = new MazePathFinder(maze);
-                var startCell = maze.StartCellPosition;
-                var exitCell = maze.ExitCellPosition;
+                StartCellPosition = Maze.StartCellPosition;
+                ExitCellPosition = Maze.ExitCellPosition;
+            }
+            catch (OperationCanceledException x)
+            {
+
+                text_block_cancelled.Visibility = Visibility.Visible;
+            }
+
+            catch (Exception x)
+            {
+                MessageBox.Show(x.Message);
+                text_block_exception.Text = x.Message;
+                text_block_exception.Visibility = Visibility.Visible;
+            }
+
+            OpenButtonProgressDeactivate();
+        }
+
+        private async void FindPathInMazeButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenButtonProgressActivate();
+
+            _cts = new CancellationTokenSource();
+
+            try
+            {
+                var finder = new MazePathFinder(Maze);
+                var startCell = Maze.StartCellPosition;
+                var exitCell = Maze.ExitCellPosition;
                 var solutionCellsPath = await finder.GetCellsPathAsync(startCell, exitCell, _cts.Token);
 
-                Maze = maze;
                 SolutionList = solutionCellsPath;
+                //чтобы dependency property обновили значение при повторном нажатии кнопок,
+                //пришлось присвоить им пустую структуру.
+                StartCellPosition = new MazeCell();
+                ExitCellPosition = new MazeCell();
                 StartCellPosition = startCell;
                 ExitCellPosition = exitCell;
             }
@@ -150,6 +180,11 @@ namespace MazeAmazing_WPF_MVC.Views
             }
 
             OpenButtonProgressDeactivate();
+        }
+
+        private void CancelTaskAsyncButton_Click(object sender, RoutedEventArgs e)
+        {
+            _cts.Cancel();
         }
 
         private void OpenButtonProgressDeactivate()
@@ -171,11 +206,6 @@ namespace MazeAmazing_WPF_MVC.Views
 
             border_progress.Visibility = Visibility.Visible;
             progress_ring.IsActive = true;
-        }
-
-        private void CancelTaskAsyncButton_Click(object sender, RoutedEventArgs e)
-        {
-            _cts.Cancel();
         }
     }
 }
